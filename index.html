@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Harshit Soni (Felix-au) - Systems Programmer, AI Engineer, and Full-Stack Developer Portfolio">
+  <title>Harshit Soni | Systems & AI Portfolio</title>
+  
+  <!-- Typography & Styling -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Dynamic Glowing Background Gradients -->
+  <div class="glow-bg-container">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+
+  <!-- Header & Navigation -->
+  <header class="main-header">
+    <div class="header-container">
+      <a href="#" class="logo">
+        <span class="logo-accent">&lt;</span>Felix-au<span class="logo-accent"> /&gt;</span>
+      </a>
+      
+      <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <nav class="nav-menu" id="nav-menu">
+        <a href="#hero" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+      <div class="section-container hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">Available for Internships & Projects</div>
+          <h1 class="hero-title">
+            Hi, I'm <span class="name-gradient">Harshit Soni</span>
+          </h1>
+          <h2 class="hero-subtitle">
+            I build <span id="typewriter" class="typing-text"></span><span class="cursor">|</span>
+          </h2>
+          <p class="hero-description">
+            A developer specializing in low-latency systems utility programming, local deep-learning inference, and highly interactive full-stack applications.
+          </p>
+          <div class="hero-ctas">
+            <a href="#projects" class="btn btn-primary">Explore Work</a>
+            <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+          </div>
+        </div>
+        
+        <div class="hero-visual">
+          <div class="profile-frame">
+            <img src="assets/profile.jpg" alt="Harshit Soni Profile" class="profile-image">
+            <div class="glow-border"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+      <div class="section-container">
+        <h2 class="section-heading">About Me</h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+              I am an engineering student and developer focused on <strong>offline-first applications</strong> and <strong>local AI architectures</strong>. I enjoy exploring systems-level Windows integration, writing low-overhead desktop agents, and building web systems that run high-performance algorithms locally or on the edge.
+            </p>
+            <p>
+              My philosophy is centered around creating applications that don't depend on expensive cloud APIs, ensuring user privacy, speed, and reliability. Whether it's capturing and routing WASAPI audio channels, optimizing GGUF models for low-end CPUs, or designing timetabling constraint-satisfaction solvers in React, I focus on performance and visual appeal.
+            </p>
+            <div class="quick-facts">
+              <div class="fact-item">
+                <span class="fact-icon">📍</span>
+                <span>BMU, India</span>
+              </div>
+              <div class="fact-item">
+                <span class="fact-icon">🎓</span>
+                <span>B.Tech in Computer Science</span>
+              </div>
+              <div class="fact-item">
+                <span class="fact-icon">💻</span>
+                <span>Open Source Enthusiast</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="about-stats-card">
+            <h3>Focus Areas</h3>
+            <div class="focus-list">
+              <div class="focus-item">
+                <div class="focus-title">
+                  <span>Systems Utility & FFI</span>
+                  <span>90%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 90%; background: var(--accent-gold);"></div></div>
+              </div>
+              <div class="focus-item">
+                <div class="focus-title">
+                  <span>Local AI & Deep Learning</span>
+                  <span>85%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 85%; background: var(--accent-blue);"></div></div>
+              </div>
+              <div class="focus-item">
+                <div class="focus-title">
+                  <span>Full-Stack Web Dev</span>
+                  <span>95%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 95%; background: var(--accent-purple);"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section">
+      <div class="section-container">
+        <h2 class="section-heading">Skills & Toolkit</h2>
+        
+        <div class="skills-grid">
+          <!-- Languages -->
+          <div class="skill-card">
+            <div class="skill-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+              </svg>
+            </div>
+            <h3>Languages</h3>
+            <ul class="skill-list">
+              <li>Python <span class="tag-level">Advanced</span></li>
+              <li>JavaScript / TS <span class="tag-level">Advanced</span></li>
+              <li>C++ <span class="tag-level">Intermediate</span></li>
+              <li>Java <span class="tag-level">Intermediate</span></li>
+              <li>SQL <span class="tag-level">Intermediate</span></li>
+            </ul>
+          </div>
+
+          <!-- AI & ML -->
+          <div class="skill-card">
+            <div class="skill-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M9.5 2c-1.82 0-3.53.5-5 1.35 2.99.9 5.5 3.26 6.5 6.24.49-.06.99-.09 1.5-.09 5.52 0 10 4.48 10 10 0 .51-.03 1.01-.09 1.5 2.98-1 5.34-3.51 6.24-6.5C31.5 9.03 27 4.5 21.5 4.5c-.51 0-1.01.03-1.5.09-.9-2.98-3.51-5.34-6.5-6.24C13.01 2.03 12.51 2 12 2c-.17 0-.34 0-.5.01V2z"/>
+              </svg>
+            </div>
+            <h3>AI & Deep Learning</h3>
+            <ul class="skill-list">
+              <li>PyTorch & CSRNet</li>
+              <li>llama.cpp (Local GGUF)</li>
+              <li>Faster-Whisper (Local STT)</li>
+              <li>Piper TTS (ONNX Audio)</li>
+              <li>Model Fine-Tuning (QLoRA)</li>
+            </ul>
+          </div>
+
+          <!-- Systems & Desktop -->
+          <div class="skill-card">
+            <div class="skill-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.11-.9-2-2-2H4c-1.11 0-2 .89-2 2v10c0 1.1.89 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/>
+              </svg>
+            </div>
+            <h3>Systems & Desktop</h3>
+            <ul class="skill-list">
+              <li>Windows WASAPI & Pycaw</li>
+              <li>Win32 API (FFI / Koffi)</li>
+              <li>Electron framework</li>
+              <li>Qt & QML (C++ / Python)</li>
+              <li>Desktop Automation</li>
+            </ul>
+          </div>
+
+          <!-- Web Dev -->
+          <div class="skill-card">
+            <div class="skill-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+              </svg>
+            </div>
+            <h3>Full Stack Web</h3>
+            <ul class="skill-list">
+              <li>React 19 & Vite</li>
+              <li>Node.js & Express</li>
+              <li>FastAPI (Python REST)</li>
+              <li>MongoDB Atlas</li>
+              <li>Tailwind CSS & Framer Motion</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+      <div class="section-container">
+        <h2 class="section-heading">Featured Projects</h2>
+        
+        <!-- Filter Tabs -->
+        <div class="project-filters">
+          <button class="filter-btn active" data-filter="all">All Projects</button>
+          <button class="filter-btn" data-filter="ai">AI & ML</button>
+          <button class="filter-btn" data-filter="systems">Systems & Utilities</button>
+          <button class="filter-btn" data-filter="web">Web & Apps</button>
+        </div>
+
+        <!-- Project Grid -->
+        <div class="projects-grid" id="projects-grid">
+          
+          <!-- GriffinX -->
+          <div class="project-card" data-category="ai systems" data-id="griffinx">
+            <div class="project-img-wrapper">
+              <img src="assets/griffinx.jpg" alt="GriffinX Assistant" class="project-img">
+              <div class="project-overlay">
+                <span class="btn-detail">Learn More</span>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-tags">
+                <span class="badge badge-ai">Local AI</span>
+                <span class="badge badge-sys">Systems</span>
+              </div>
+              <h3 class="project-title">GriffinX: Local AI Assistant</h3>
+              <p class="project-desc">
+                Voice-controlled desktop helper that runs 100% offline. Processes push-to-talk, triggers local shell actions, and answers with neural audio.
+              </p>
+            </div>
+          </div>
+
+          <!-- JanGinti -->
+          <div class="project-card" data-category="ai web" data-id="janginti">
+            <div class="project-img-wrapper">
+              <img src="assets/janginti.png" alt="JanGinti Crowd System" class="project-img">
+              <div class="project-overlay">
+                <span class="btn-detail">Learn More</span>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-tags">
+                <span class="badge badge-ai">AI/ML</span>
+                <span class="badge badge-web">Web App</span>
+              </div>
+              <h3 class="project-title">JanGinti: Crowd Pulse Estimator</h3>
+              <p class="project-desc">
+                CSRNet convolutional crowd calculator trained to reduce Western bias using custom-scraped Indian dataset, combined with a canvas simulator.
+              </p>
+            </div>
+          </div>
+
+          <!-- DeskX -->
+          <div class="project-card" data-category="systems" data-id="deskx">
+            <div class="project-img-wrapper">
+              <div class="fallback-card-img" style="background: linear-gradient(135deg, #1f4068, #162447);">
+                <span>DeskX</span>
+              </div>
+              <div class="project-overlay">
+                <span class="btn-detail">Learn More</span>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-tags">
+                <span class="badge badge-sys">Windows Core</span>
+                <span class="badge badge-ui">UI</span>
+              </div>
+              <h3 class="project-title">DeskX: Wallpaper Engine</h3>
+              <p class="project-desc">
+                Electron desktop organizer setting videos, GIFs, and live HTML pages as system wallpaper. Support for multi-monitor layout configurations.
+              </p>
+            </div>
+          </div>
+
+          <!-- CodeMate -->
+          <div class="project-card" data-category="ai systems" data-id="codemate">
+            <div class="project-img-wrapper">
+              <div class="fallback-card-img" style="background: linear-gradient(135deg, #2b2e4a, #e84545);">
+                <span>CodeMate</span>
+              </div>
+              <div class="project-overlay">
+                <span class="btn-detail">Learn More</span>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-tags">
+                <span class="badge badge-ai">QLoRA LLM</span>
+                <span class="badge badge-sys">Desktop</span>
+              </div>
+              <h3 class="project-title">CodeMate: Clipboard Debugger</h3>
+              <p class="project-desc">
+                A localized coding tool that monitors clipboard copies, rendering a PySide6 explanation bubble powered by Qwen2.5-Coder.
+              </p>
+            </div>
+          </div>
+
+          <!-- Sonixx -->
+          <div class="project-card" data-category="systems" data-id="sonixx">
+            <div class="project-img-wrapper">
+              <div class="fallback-card-img" style="background: linear-gradient(135deg, #0f3057, #005f73);">
+                <span>Sonixx</span>
+              </div>
+              <div class="project-overlay">
+                <span class="btn-detail">Learn More</span>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-tags">
+                <span class="badge badge-sys">WASAPI Audio</span>
+              </div>
+              <h3 class="project-title">Sonixx: Virtual Mixer</h3>
+              <p class="project-desc">
+                High-performance audio channel capturer and router. Direct system volume bindings and application mixer configurations.
+              </p>
+            </div>
+          </div>
+
+          <!-- Sahara Homestay -->
+          <div class="project-card" data-category="web" data-id="sahara">
+            <div class="project-img-wrapper">
+              <img src="assets/sahara.png" alt="Sahara Homestay" class="project-img" style="object-fit: contain; padding: 1rem; background: #0f1015;">
+              <div class="project-overlay">
+                <span class="btn-detail">Learn More</span>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-tags">
+                <span class="badge badge-web">MERN Stack</span>
+                <span class="badge badge-ui">CMS</span>
+              </div>
+              <h3 class="project-title">Sahara Homestay Portal</h3>
+              <p class="project-desc">
+                A modern client hospitality hub featuring fully reactive admin dashboard settings, drag-and-drop CMS, and dynamic room configurations.
+              </p>
+            </div>
+          </div>
+
+          <!-- Scheduler -->
+          <div class="project-card" data-category="web" data-id="scheduler">
+            <div class="project-img-wrapper">
+              <div class="fallback-card-img" style="background: linear-gradient(135deg, #1b1a17, #f0a500);">
+                <span>Scheduler</span>
+              </div>
+              <div class="project-overlay">
+                <span class="btn-detail">Learn More</span>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-tags">
+                <span class="badge badge-web">React 19</span>
+                <span class="badge badge-algo">CSP Solver</span>
+              </div>
+              <h3 class="project-title">University Class Scheduler</h3>
+              <p class="project-desc">
+                Highly optimized weekly timetable engine solving multi-layered classroom and faculty slot constraints under 5 seconds.
+              </p>
+            </div>
+          </div>
+
+          <!-- NFA DFA -->
+          <div class="project-card" data-category="web" data-id="nfadfa">
+            <div class="project-img-wrapper">
+              <div class="fallback-card-img" style="background: linear-gradient(135deg, #321f28, #734046);">
+                <span>Automata</span>
+              </div>
+              <div class="project-overlay">
+                <span class="btn-detail">Learn More</span>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-tags">
+                <span class="badge badge-web">Vite</span>
+                <span class="badge badge-algo">Visualizer</span>
+              </div>
+              <h3 class="project-title">NFA to DFA Web Visualizer</h3>
+              <p class="project-desc">
+                Animated canvas node builder illustrating state reduction steps and subset constructions in theory of computation.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+      <div class="section-container">
+        <h2 class="section-heading">Get in Touch</h2>
+        <div class="contact-grid">
+          
+          <div class="contact-info-panel">
+            <h3>Let's create something together</h3>
+            <p>
+              I am open to internships, freelance projects, systems utility scripting, and deep learning engineering opportunities.
+            </p>
+            
+            <div class="contact-details">
+              <div class="contact-detail-item">
+                <span class="icon">📧</span>
+                <div>
+                  <h4>Email</h4>
+                  <a href="mailto:harshit.soni.23cse@bmu.edu.in">harshit.soni.23cse@bmu.edu.in</a>
+                </div>
+              </div>
+              <div class="contact-detail-item">
+                <span class="icon">🐙</span>
+                <div>
+                  <h4>GitHub</h4>
+                  <a href="https://github.com/Felix-au" target="_blank" rel="noopener">github.com/Felix-au</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-form-wrapper">
+            <form id="contact-form" class="contact-form">
+              <div class="form-group">
+                <label for="form-name">Name</label>
+                <input type="text" id="form-name" placeholder="John Doe" required>
+              </div>
+              <div class="form-group">
+                <label for="form-email">Email</label>
+                <input type="email" id="form-email" placeholder="john@example.com" required>
+              </div>
+              <div class="form-group">
+                <label for="form-message">Message</label>
+                <textarea id="form-message" rows="5" placeholder="Let's build a local assistant..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+              <div id="form-feedback" class="form-feedback hidden"></div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="section-container footer-container">
+      <p>&copy; 2026 Harshit Soni (Felix-au). All rights reserved.</p>
+      <div class="footer-links">
+        <a href="https://github.com/Felix-au" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:harshit.soni.23cse@bmu.edu.in">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Project Details Modal -->
+  <div class="modal" id="project-modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content-wrapper">
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+      <div class="modal-body" id="modal-body">
+        <!-- Content injected dynamically via script.js -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
