@@ -432,17 +432,22 @@
 
           <div class="contact-form-wrapper">
             <form id="contact-form" class="contact-form">
+              <!-- Web3Forms Configuration -->
+              <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+              <input type="hidden" name="subject" value="New Contact Form Submission - Portfolio">
+              <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
               <div class="form-group">
                 <label for="form-name">Name</label>
-                <input type="text" id="form-name" placeholder="John Doe" required>
+                <input type="text" id="form-name" name="name" placeholder="John Doe" required>
               </div>
               <div class="form-group">
                 <label for="form-email">Email</label>
-                <input type="email" id="form-email" placeholder="john@example.com" required>
+                <input type="email" id="form-email" name="email" placeholder="john@example.com" required>
               </div>
               <div class="form-group">
                 <label for="form-message">Message</label>
-                <textarea id="form-message" rows="5" placeholder="Let's build a local assistant..." required></textarea>
+                <textarea id="form-message" name="message" rows="5" placeholder="Let's build a local assistant..." required></textarea>
               </div>
               <button type="submit" class="btn btn-primary btn-block">Send Message</button>
               <div id="form-feedback" class="form-feedback hidden"></div>
