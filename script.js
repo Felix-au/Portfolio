@@ -377,13 +377,14 @@ document.addEventListener('keydown', (e) => {
 window.closeModal = closeModal;
 
 // -----------------------------------------
-// Contact Form Handler (Web3Forms API Integration)
+// Contact Form Handler
 // -----------------------------------------
 contactForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
   const name = document.getElementById('form-name').value;
-  const feedbackEl = formFeedback;
+  const email = document.getElementById('form-email').value;
+  const message = document.getElementById('form-message').value;
 
   // Visual submit state
   const submitBtn = contactForm.querySelector('button[type="submit"]');
@@ -391,46 +392,22 @@ contactForm.addEventListener('submit', (e) => {
   submitBtn.disabled = true;
   submitBtn.textContent = "Sending...";
 
-  // Serialize Form Data
-  const formData = new FormData(contactForm);
-  const object = Object.fromEntries(formData);
-  const json = JSON.stringify(object);
-
-  // Send request to Web3Forms API
-  fetch("https://api.web3forms.com/submit", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    },
-    body: json
-  })
-  .then(async (response) => {
-    let res = await response.json();
+  setTimeout(() => {
     submitBtn.disabled = false;
     submitBtn.textContent = originalText;
-    feedbackEl.classList.remove('hidden', 'success', 'error');
 
-    if (response.status === 200) {
-      feedbackEl.classList.add('success');
-      feedbackEl.textContent = `Thank you, ${name}! Your message has been sent successfully.`;
-      contactForm.reset();
-    } else {
-      feedbackEl.classList.add('error');
-      feedbackEl.textContent = res.message || "Something went wrong. Please check your access key.";
-    }
-  })
-  .catch(error => {
-    submitBtn.disabled = false;
-    submitBtn.textContent = originalText;
-    feedbackEl.classList.remove('hidden', 'success', 'error');
-    feedbackEl.classList.add('error');
-    feedbackEl.textContent = "Network error. Please verify your connection and try again.";
-  })
-  .finally(() => {
-    // Auto-hide feedback after 6 seconds
+    // Successful mock validation
+    formFeedback.classList.remove('hidden', 'success', 'error');
+    formFeedback.classList.add('success');
+    formFeedback.textContent = `Thanks, ${name}! Your mock message was sent successfully. (Note: Email endpoints will hook up upon real deployment).`;
+
+    // Clear form
+    contactForm.reset();
+
+    // Auto-hide feedback after 5 seconds
     setTimeout(() => {
-      feedbackEl.classList.add('hidden');
-    }, 6000);
-  });
+      formFeedback.classList.add('hidden');
+    }, 5000);
+
+  }, 1200);
 });
