@@ -1,0 +1,14 @@
+{
+  "name": "felix-au-portfolio",
+  "version": "1.0.0",
+  "description": "Frontend-only portfolio website for Harshit Soni (Felix-au)",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
