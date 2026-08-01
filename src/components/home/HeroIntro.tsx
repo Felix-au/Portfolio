@@ -101,7 +101,7 @@ export const HeroIntro: React.FC = () => {
           </p>
 
           <p>
-            Beyond enterprise systems, I build open-source developer tools and graphics libraries—featuring projects like{' '}
+            Beyond enterprise systems, I build open-source developer tools and graphics libraries, featuring projects like{' '}
             <a href="https://cursorx.felixau.in/" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               CursorX
             </a>
