@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IntroLoader } from './components/loader/IntroLoader';
+import { FlashOverlay } from './components/loader/FlashOverlay';
 import { DisplacementSphere } from './components/background/DisplacementSphere';
 import { Header } from './components/ui/Header';
 import { Footer } from './components/ui/Footer';
@@ -17,7 +18,11 @@ export const App: React.FC = () => {
 
   return (
     <>
-      {loading && <IntroLoader onFinishLoading={() => setLoading(false)} />}
+      {loading ? (
+        <IntroLoader onFinishLoading={() => setLoading(false)} />
+      ) : (
+        <FlashOverlay />
+      )}
 
       <div style={{ minHeight: '100vh', backgroundColor: '#0a0a0f', color: '#fff', position: 'relative' }}>
         {/* 3D WebGL Displacement Sphere Background from bg project */}

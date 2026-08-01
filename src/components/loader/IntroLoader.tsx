@@ -18,17 +18,15 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
 
     timeline
       .add(logoRef.current, {
-        scale: [0.5, 1.8],
-        rotate: [0, 360],
-        opacity: [0, 1],
-        duration: 1200,
-        ease: 'outExpo',
+        scale: 3,
+        duration: 1400,
+        ease: 'inOutQuad',
       })
       .add(logoRef.current, {
-        scale: 0.1,
+        scale: 0,
         opacity: 0,
-        duration: 500,
-        ease: 'outQuart',
+        duration: 400,
+        ease: 'inOutQuart',
       });
   }, [onFinishLoading]);
 
@@ -41,18 +39,17 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 9999,
+        zIndex: 99999,
       }}
     >
       <img
         ref={logoRef}
         src={VectorSvg}
-        alt="Loading vector logo"
+        alt="Loading logo"
         style={{
-          width: 140,
-          height: 140,
+          width: 50,
+          height: 80,
           objectFit: 'contain',
-          filter: 'drop-shadow(0 0 30px rgba(0, 229, 255, 0.85))',
         }}
       />
     </div>
