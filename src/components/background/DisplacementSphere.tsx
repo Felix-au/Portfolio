@@ -12,7 +12,8 @@ import {
   UniformsUtils,
   WebGLRenderer,
 } from 'three';
-import type { Light, IUniform } from 'three';
+import type { IUniform } from 'three';
+import { useTheme } from '../../context/ThemeContext';
 import vertexShader from './displacement-sphere-vertex.glsl?raw';
 import fragmentShader from './displacement-sphere-fragment.glsl?raw';
 
@@ -27,12 +28,14 @@ interface DisplacementSphereProps {
 }
 
 export const DisplacementSphere: React.FC<DisplacementSphereProps> = ({ isVisible = true }) => {
+  const { theme } = useTheme();
   const startRef = useRef(Date.now());
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rendererRef = useRef<WebGLRenderer | null>(null);
   const cameraRef = useRef<PerspectiveCamera | null>(null);
   const sceneRef = useRef<Scene | null>(null);
-  const lightsRef = useRef<Light[]>([]);
+  const dirLightRef = useRef<DirectionalLight | null>(null);
+  const ambientLightRef = useRef<AmbientLight | null>(null);
   const uniformsRef = useRef<{ [uniform: string]: IUniform } | undefined>(undefined);
   const materialRef = useRef<MeshPhongMaterial | null>(null);
   const geometryRef = useRef<SphereGeometry | null>(null);
@@ -40,6 +43,16 @@ export const DisplacementSphere: React.FC<DisplacementSphereProps> = ({ isVisibl
 
   const rotationX = useSpring(0, springConfig);
   const rotationY = useSpring(0, springConfig);
+
+  // Update light intensity dynamically on theme change
+  useEffect(() => {
+    if (dirLightRef.current) {
+      dirLightRef.current.intensity = theme === 'light' ? 1.8 : 2.0;
+    }
+    if (ambientLightRef.current) {
+      ambientLightRef.current.intensity = theme === 'light' ? 2.7 : 0.4;
+    }
+  }, [theme]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -86,11 +99,15 @@ export const DisplacementSphere: React.FC<DisplacementSphereProps> = ({ isVisibl
     sphereRef.current = sphere;
     scene.add(sphere);
 
-    const dirLight = new DirectionalLight(0xffffff, 2.0);
+    const dirLight = new DirectionalLight(0xffffff, theme === 'light' ? 1.8 : 2.0);
     dirLight.position.set(100, 100, 200);
-    const ambientLight = new AmbientLight(0xffffff, 0.6);
-    lightsRef.current = [dirLight, ambientLight];
-    lightsRef.current.forEach((light) => scene.add(light));
+    dirLightRef.current = dirLight;
+
+    const ambientLight = new AmbientLight(0xffffff, theme === 'light' ? 2.7 : 0.4);
+    ambientLightRef.current = ambientLight;
+
+    scene.add(dirLight);
+    scene.add(ambientLight);
 
     let animationFrameId: number;
 
@@ -162,7 +179,7 @@ export const DisplacementSphere: React.FC<DisplacementSphereProps> = ({ isVisibl
       if (materialRef.current) materialRef.current.dispose();
       if (rendererRef.current) rendererRef.current.dispose();
     };
-  }, [rotationX, rotationY]);
+  }, [rotationX, rotationY, theme]);
 
   return (
     <motion.canvas

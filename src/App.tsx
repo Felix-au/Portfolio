@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { IntroLoader } from './components/loader/IntroLoader';
 import { FlashOverlay } from './components/loader/FlashOverlay';
 import { DisplacementSphere } from './components/background/DisplacementSphere';
+import { ThemeToggle } from './components/ui/ThemeToggle';
+import { useTheme } from './context/ThemeContext';
 
 export const App: React.FC = () => {
+  const { theme } = useTheme();
   const [loading, setLoading] = useState(true);
   const [showBg, setShowBg] = useState(false);
 
@@ -19,10 +22,22 @@ export const App: React.FC = () => {
       {loading ? (
         <IntroLoader onFinishLoading={() => setLoading(false)} />
       ) : (
-        <FlashOverlay />
+        <>
+          <FlashOverlay />
+          <ThemeToggle />
+        </>
       )}
 
-      <div style={{ minHeight: '100vh', backgroundColor: '#0a0a0f', color: '#fff', position: 'relative', overflow: 'hidden' }}>
+      <div
+        style={{
+          minHeight: '100vh',
+          backgroundColor: theme === 'dark' ? '#0a0a0f' : '#f4f4f7',
+          color: theme === 'dark' ? '#fff' : '#12121a',
+          position: 'relative',
+          overflow: 'hidden',
+          transition: 'background-color 0.4s ease, color 0.4s ease',
+        }}
+      >
         {/* 3D WebGL Displacement Sphere Background ("flower") */}
         <DisplacementSphere isVisible={showBg} />
       </div>

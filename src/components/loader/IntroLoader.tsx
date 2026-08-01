@@ -1,12 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { createTimeline } from 'animejs';
 import { LogoSvg } from '../icons/LogoSvg';
+import { useTheme } from '../../context/ThemeContext';
 
 interface IntroLoaderProps {
   onFinishLoading: () => void;
 }
 
 export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => {
+  const { theme } = useTheme();
   const logoRef = useRef<SVGSVGElement | null>(null);
 
   useEffect(() => {
@@ -35,11 +37,12 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: '#0a0a0f',
+        backgroundColor: theme === 'dark' ? '#0a0a0f' : '#f4f4f7',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 99999,
+        transition: 'background-color 0.3s ease',
       }}
     >
       <LogoSvg
@@ -47,7 +50,10 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
         style={{
           width: 90,
           height: 90,
-          filter: 'drop-shadow(0 0 25px rgba(0, 229, 255, 0.85))',
+          filter:
+            theme === 'dark'
+              ? 'drop-shadow(0 0 25px rgba(0, 229, 255, 0.85))'
+              : 'drop-shadow(0 0 25px rgba(0, 119, 182, 0.65))',
         }}
       />
     </div>
