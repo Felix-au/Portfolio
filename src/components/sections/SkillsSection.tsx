@@ -132,6 +132,7 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
     ],
   },
   {
+    // Backend gains Nginx (web server) from dissolved Cloud section
     id: 'backend',
     title: 'Backend',
     emojiIcon: '⚙️',
@@ -144,11 +145,13 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
       { name: 'RESTful APIs', icon: <Zap />, color: '#ffb703' },
       { name: 'GraphQL', icon: <SiGraphql />, color: '#e10098' },
       { name: 'WebSockets', icon: <Zap />, color: '#00e5ff' },
+      { name: 'Nginx', icon: <SiNginx />, color: '#009639' },
     ],
   },
   {
-    id: 'aiml',
-    title: 'AI & Machine Learning',
+    // Renamed from "AI & Machine Learning" → "Frameworks"
+    id: 'frameworks',
+    title: 'Frameworks',
     emojiIcon: '🤖',
     items: [
       { name: 'PyTorch', icon: <SiPytorch />, color: '#ee4c2c' },
@@ -160,20 +163,9 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
     ],
   },
   {
-    id: 'systems',
-    title: 'Systems & OS Core',
-    emojiIcon: '🖥️',
-    items: [
-      { name: 'Win32 Koffi FFI', icon: <Cpu />, color: '#00a4ef' },
-      { name: 'WASAPI', icon: <Volume2 />, color: '#00e5ff' },
-      { name: 'Pycaw FFI Wrapper', icon: <Sliders />, color: '#3776ab' },
-      { name: 'C++ System Hooks', icon: <Terminal />, color: '#00599c' },
-      { name: 'OpenJFX Containers', icon: <Shield />, color: '#ed8b00' },
-    ],
-  },
-  {
+    // Databases & Storage gains cloud platforms from dissolved Cloud section
     id: 'databases',
-    title: 'Databases & Storage',
+    title: 'Databases & Infrastructure',
     emojiIcon: '🗄️',
     items: [
       { name: 'PostgreSQL', icon: <SiPostgresql />, color: '#4169e1' },
@@ -184,36 +176,34 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
       { name: 'Redis', icon: <SiRedis />, color: '#dc382d' },
       { name: 'Firebase', icon: <SiFirebase />, color: '#ffca28' },
       { name: 'Cloudinary CDN', icon: <Cloud />, color: '#3448c5' },
-    ],
-  },
-  {
-    id: 'cloud',
-    title: 'Cloud & Deployment',
-    emojiIcon: '☁️',
-    items: [
+      { name: 'AWS', icon: <FaAws />, color: '#ff9900' },
+      { name: 'Azure', icon: <Cloud />, color: '#0089d6' },
       { name: 'Vercel', icon: <SiVercel />, color: '#000000' },
       { name: 'Render', icon: <SiRender />, color: '#000000' },
       { name: 'Railway', icon: <SiRailway />, color: '#000000' },
-      { name: 'AWS', icon: <FaAws />, color: '#ff9900' },
-      { name: 'Azure', icon: <Cloud />, color: '#0089d6' },
-      { name: 'Docker', icon: <SiDocker />, color: '#2496ed' },
-      { name: 'Kubernetes', icon: <SiKubernetes />, color: '#326ce5' },
-      { name: 'Nginx', icon: <SiNginx />, color: '#009639' },
-      { name: 'GitHub Actions', icon: <SiGithubactions />, color: '#2088ff' },
     ],
   },
   {
+    // Tools gains Systems & OS Core items + Docker, Kubernetes, GitHub Actions from dissolved Cloud section
     id: 'tools',
-    title: 'Tools & Utilities',
+    title: 'Tools & DevOps',
     emojiIcon: '🛠️',
     items: [
       { name: 'Git', icon: <SiGit />, color: '#f05032' },
       { name: 'GitHub', icon: <SiGithub />, color: '#181717' },
       { name: 'VS Code', icon: <VscVscode />, color: '#007acc' },
+      { name: 'Docker', icon: <SiDocker />, color: '#2496ed' },
+      { name: 'Kubernetes', icon: <SiKubernetes />, color: '#326ce5' },
+      { name: 'GitHub Actions', icon: <SiGithubactions />, color: '#2088ff' },
       { name: 'Electron', icon: <SiElectron />, color: '#47848f' },
       { name: 'Qt / PySide6', icon: <SiQt />, color: '#41cd52' },
       { name: 'Jupyter', icon: <SiJupyter />, color: '#f37626' },
       { name: 'Postman', icon: <SiPostman />, color: '#ff6c37' },
+      { name: 'Win32 Koffi FFI', icon: <Cpu />, color: '#00a4ef' },
+      { name: 'WASAPI', icon: <Volume2 />, color: '#00e5ff' },
+      { name: 'Pycaw FFI Wrapper', icon: <Sliders />, color: '#3776ab' },
+      { name: 'C++ System Hooks', icon: <Terminal />, color: '#00599c' },
+      { name: 'OpenJFX Containers', icon: <Shield />, color: '#ed8b00' },
       { name: 'Launch4J', icon: <Wrench />, color: '#ed8b00' },
     ],
   },
