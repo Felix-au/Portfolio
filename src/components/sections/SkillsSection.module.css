@@ -1,0 +1,515 @@
+.section {
+  min-height: 100vh;
+  padding: 6rem 2rem 5rem;
+  position: relative;
+  z-index: 10;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+[data-theme='light'] .section {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* Section Header & Main Tabs */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--text-color, #ffffff) 0%, var(--accent, #00e5ff) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.sectionSubtitle {
+  font-size: 1.05rem;
+  color: var(--text-light, rgba(255, 255, 255, 0.65));
+  max-width: 600px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+[data-theme='light'] .sectionSubtitle {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.tabNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 6px;
+  border-radius: 40px;
+  margin-top: 1rem;
+  backdrop-filter: blur(12px);
+}
+
+[data-theme='light'] .tabNav {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 30px;
+  border: none;
+  background: transparent;
+  color: var(--text-light, rgba(255, 255, 255, 0.7));
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tabIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.tabBtn:hover {
+  color: var(--text-color, #ffffff);
+}
+
+.activeTab {
+  background: var(--accent, #00e5ff);
+  color: #050814 !important;
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.35);
+}
+
+[data-theme='light'] .activeTab {
+  background: var(--accent, #0096d6);
+  color: #ffffff !important;
+  box-shadow: 0 0 16px rgba(0, 150, 214, 0.35);
+}
+
+/* Skills Layout: Left Col + Right Grid */
+.skillsLayout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Left Column: Core Areas */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.coreCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 1.75rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme='light'] .coreCard {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.coreHeader {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-color, #ffffff);
+  margin: 0 0 1.25rem 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.75rem;
+}
+
+[data-theme='light'] .coreHeader {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+.coreList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.coreItem {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: transform 0.25s ease;
+}
+
+.coreItem:hover {
+  transform: translateX(4px);
+}
+
+.coreIcon {
+  font-size: 1.35rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.coreText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.coreTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent, #00e5ff);
+}
+
+[data-theme='light'] .coreTitle {
+  color: var(--accent, #0096d6);
+}
+
+.coreDesc {
+  font-size: 0.85rem;
+  color: var(--text-light, rgba(255, 255, 255, 0.75));
+  line-height: 1.4;
+}
+
+[data-theme='light'] .coreDesc {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+/* Right Area: 2 Rows of 4 Columns Grid */
+.rightCol {
+  width: 100%;
+}
+
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 1.25rem;
+}
+
+.categoryCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.categoryCard:hover {
+  border-color: rgba(0, 229, 255, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 229, 255, 0.1);
+}
+
+[data-theme='light'] .categoryCard {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .categoryCard:hover {
+  border-color: rgba(0, 150, 214, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 150, 214, 0.1);
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-color, #ffffff);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 0.6rem;
+}
+
+[data-theme='light'] .categoryHeader {
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+.catEmoji {
+  font-size: 1.1rem;
+}
+
+.catTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tech Pill Grid (Animated SVG Icons) */
+.techPillGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.techPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--text-light, rgba(255, 255, 255, 0.85));
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+[data-theme='light'] .techPill {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.techPill:hover {
+  background: rgba(0, 229, 255, 0.12);
+  border-color: var(--accent, #00e5ff);
+  transform: translateY(-2px) scale(1.04);
+  color: var(--text-color, #ffffff);
+  box-shadow: 0 4px 12px rgba(0, 229, 255, 0.2);
+}
+
+[data-theme='light'] .techPill:hover {
+  background: rgba(0, 150, 214, 0.12);
+  border-color: var(--accent, #0096d6);
+  color: #000000;
+  box-shadow: 0 4px 12px rgba(0, 150, 214, 0.2);
+}
+
+.techIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  transition: transform 0.25s ease;
+}
+
+.techPill:hover .techIcon {
+  transform: rotate(6deg) scale(1.2);
+}
+
+.techName {
+  white-space: nowrap;
+}
+
+/* Certifications Tab */
+.certsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.subTabNav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.subTabBtn {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-light, rgba(255, 255, 255, 0.7));
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+[data-theme='light'] .subTabBtn {
+  border-color: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.03);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.activeSubTab {
+  border-color: var(--accent, #00e5ff);
+  background: rgba(0, 229, 255, 0.12);
+  color: var(--text-color, #ffffff) !important;
+}
+
+[data-theme='light'] .activeSubTab {
+  border-color: var(--accent, #0096d6);
+  background: rgba(0, 150, 214, 0.12);
+  color: #000000 !important;
+}
+
+.certGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.certCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+.certCard:hover {
+  border-color: var(--accent, #00e5ff);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 229, 255, 0.15);
+}
+
+[data-theme='light'] .certCard {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.certBadgeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.certBadgeIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--accent, #00e5ff);
+}
+
+.certBadgeIconAlt {
+  width: 24px;
+  height: 24px;
+  color: #ffb703;
+}
+
+.certDate {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-light, rgba(255, 255, 255, 0.5));
+}
+
+.certTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-color, #ffffff);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.certIssuer {
+  font-size: 0.85rem;
+  color: var(--accent, #00e5ff);
+  font-weight: 600;
+}
+
+[data-theme='light'] .certIssuer {
+  color: var(--accent, #0096d6);
+}
+
+.certSkills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.25rem;
+}
+
+.certSkillTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.75rem;
+  color: var(--text-light, rgba(255, 255, 255, 0.8));
+}
+
+[data-theme='light'] .certSkillTag {
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.certLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 0.5rem;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--accent, #00e5ff);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.certLink:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1200px) {
+  .categoryGrid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .skillsLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 5rem 1rem 4rem;
+  }
+  .categoryGrid {
+    grid-template-columns: 1fr;
+  }
+  .sectionTitle {
+    font-size: 2.2rem;
+  }
+  .tabBtn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+}

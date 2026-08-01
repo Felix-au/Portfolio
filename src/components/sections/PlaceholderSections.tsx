@@ -1,4 +1,5 @@
 import React from 'react';
+export { SkillsSection } from './SkillsSection';
 
 interface SectionProps {
   id: string;
@@ -43,10 +44,6 @@ export const ProjectsSection: React.FC = () => (
 
 export const ResumeSection: React.FC = () => (
   <PlaceholderSection id="resume" title="Resume" />
-);
-
-export const SkillsSection: React.FC = () => (
-  <PlaceholderSection id="skills" title="Skills" />
 );
 
 export const ContactSection: React.FC = () => (
