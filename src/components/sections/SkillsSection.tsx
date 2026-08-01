@@ -62,6 +62,9 @@ import {
   Brain,
   Palette,
   Package,
+  GraduationCap,
+  FileCheck,
+  Medal,
 } from 'lucide-react';
 
 import styles from './SkillsSection.module.css';
@@ -223,7 +226,26 @@ const PROFESSIONAL_CERTS: CertificationItem[] = [
   },
 ];
 
-const OTHER_CERTS_BADGES: CertificationItem[] = [
+const OTHER_CERTS: CertificationItem[] = [
+  {
+    id: 'other-1',
+    title: 'CS50x: Introduction to Computer Science',
+    issuer: 'Harvard University / edX',
+    date: '2023',
+    skills: ['C', 'Python', 'SQL', 'Algorithms', 'Data Structures'],
+    link: 'https://cs50.harvard.edu',
+  },
+  {
+    id: 'other-2',
+    title: 'The Complete JavaScript Course',
+    issuer: 'Udemy – Jonas Schmedtmann',
+    date: '2023',
+    skills: ['ES6+', 'Async JS', 'DOM', 'OOP'],
+    link: 'https://udemy.com',
+  },
+];
+
+const BADGES_DATA: CertificationItem[] = [
   {
     id: 'badge-1',
     title: 'Google Cloud Skill Badges & Artifacts',
@@ -281,12 +303,16 @@ function distributeItems(items: TechItem[]): TechItem[][] {
 
 export const SkillsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'skills' | 'certifications'>('skills');
-  const [certSubTab, setCertSubTab] = useState<'prof' | 'other'>('prof');
+  const [certSubTab, setCertSubTab] = useState<'spec' | 'other' | 'badges'>('spec');
   const [sectionVisible, setSectionVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   // One ref per skill card — used to fire the intro glare sweep
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const hasPlayedIntro = useRef(false);
+  // Always-current activeTab value for the IntersectionObserver closure
+  const activeTabRef = useRef(activeTab);
+  activeTabRef.current = activeTab;
+  // Prevents overlapping intro sweeps on rapid scroll
+  const glareInProgress = useRef(false);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -296,25 +322,27 @@ export const SkillsSection: React.FC = () => {
       ([entry]) => {
         setSectionVisible(entry.isIntersecting);
 
-        // On first entry, sweep glare across all cards in random order
-        if (entry.isIntersecting && !hasPlayedIntro.current) {
-          hasPlayedIntro.current = true;
-          const n = SKILL_CATEGORIES.length;
-          const indices = Array.from({ length: n }, (_, i) => i);
-          // Fisher-Yates shuffle
-          for (let i = n - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [indices[i], indices[j]] = [indices[j], indices[i]];
-          }
-          indices.forEach((cardIdx, step) => {
+        // Every time the section enters view while on the skills tab, run the sweep
+        if (entry.isIntersecting && activeTabRef.current === 'skills' && !glareInProgress.current) {
+          glareInProgress.current = true;
+
+          // Randomly pick Group A (0,2,4 = Languages/Backend/Databases)
+          // or Group B (1,3,5 = Frontend/Frameworks/Tools)
+          const groupA = [0, 2, 4];
+          const groupB = [1, 3, 5];
+          const group = Math.random() < 0.5 ? groupA : groupB;
+
+          group.forEach((cardIdx, step) => {
             setTimeout(() => {
               const card = cardRefs.current[cardIdx];
               if (!card) return;
               card.classList.add('glare-intro');
-              // Remove after animation duration (800ms) + small buffer
               setTimeout(() => card.classList.remove('glare-intro'), 900);
             }, step * 300);
           });
+
+          // Release cooldown after full sequence (3 cards × 300ms + 900ms animation)
+          setTimeout(() => { glareInProgress.current = false; }, 3 * 300 + 950);
         }
       },
       { threshold: 0.1 }
@@ -325,7 +353,7 @@ export const SkillsSection: React.FC = () => {
 
   return (
     <section id="skills" className={styles.section} ref={sectionRef}>
-      {/* Vertical Side Rail – only visible when skills section is in view */}
+      {/* Right rail: main tab switcher (Skills / Certifications) */}
       <nav className={`${styles.sideRail} ${sectionVisible ? styles.railVisible : ''}`}>
         <button
           className={`${styles.railBtn} ${activeTab === 'skills' ? styles.railActive : ''}`}
@@ -343,6 +371,36 @@ export const SkillsSection: React.FC = () => {
         >
           <Award className={styles.railIcon} />
           <span className={styles.railLabel}>Certifications & Badges</span>
+        </button>
+      </nav>
+
+      {/* Left rail: cert sub-tabs — visible only on the Certifications tab */}
+      <nav className={`${styles.certRail} ${(sectionVisible && activeTab === 'certifications') ? styles.railVisible : ''}`}>
+        <button
+          className={`${styles.certRailBtn} ${certSubTab === 'spec' ? styles.certRailActive : ''}`}
+          onClick={() => setCertSubTab('spec')}
+          title="Specialization Certificates"
+        >
+          <GraduationCap className={styles.railIcon} />
+          <span className={styles.certRailLabel}>Specialization Certificates</span>
+        </button>
+
+        <button
+          className={`${styles.certRailBtn} ${certSubTab === 'other' ? styles.certRailActive : ''}`}
+          onClick={() => setCertSubTab('other')}
+          title="Other Certificates"
+        >
+          <FileCheck className={styles.railIcon} />
+          <span className={styles.certRailLabel}>Other Certificates</span>
+        </button>
+
+        <button
+          className={`${styles.certRailBtn} ${certSubTab === 'badges' ? styles.certRailActive : ''}`}
+          onClick={() => setCertSubTab('badges')}
+          title="Badges"
+        >
+          <Medal className={styles.railIcon} />
+          <span className={styles.certRailLabel}>Badges</span>
         </button>
       </nav>
 
@@ -405,24 +463,9 @@ export const SkillsSection: React.FC = () => {
         {/* TAB 2: CERTIFICATIONS CONTENT */}
         {activeTab === 'certifications' && (
           <div className={styles.certsContainer}>
-            {/* Certifications Sub-Tabs */}
-            <div className={styles.subTabNav}>
-              <button
-                className={`${styles.subTabBtn} ${certSubTab === 'prof' ? styles.activeSubTab : ''}`}
-                onClick={() => setCertSubTab('prof')}
-              >
-                Professional & Specialization Certificates
-              </button>
-              <button
-                className={`${styles.subTabBtn} ${certSubTab === 'other' ? styles.activeSubTab : ''}`}
-                onClick={() => setCertSubTab('other')}
-              >
-                Other Certificates & Badges
-              </button>
-            </div>
 
-            {/* Sub-Tab 1: Professional Certificates */}
-            {certSubTab === 'prof' && (
+            {/* Sub-Tab: Specialization Certificates */}
+            {certSubTab === 'spec' && (
               <div className={styles.certGrid}>
                 {PROFESSIONAL_CERTS.map((cert) => (
                   <div key={cert.id} className={styles.certCard}>
@@ -430,10 +473,8 @@ export const SkillsSection: React.FC = () => {
                       <Award className={styles.certBadgeIcon} />
                       <span className={styles.certDate}>{cert.date}</span>
                     </div>
-
                     <h4 className={styles.certTitle}>{cert.title}</h4>
                     <div className={styles.certIssuer}>{cert.issuer}</div>
-
                     {cert.skills && (
                       <div className={styles.certSkills}>
                         {cert.skills.map((s, idx) => (
@@ -443,14 +484,8 @@ export const SkillsSection: React.FC = () => {
                         ))}
                       </div>
                     )}
-
                     {cert.link && (
-                      <a
-                        href={cert.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.certLink}
-                      >
+                      <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
                         Verify Credential <ExternalLink size={14} />
                       </a>
                     )}
@@ -459,19 +494,47 @@ export const SkillsSection: React.FC = () => {
               </div>
             )}
 
-            {/* Sub-Tab 2: Other Certificates & Badges */}
+            {/* Sub-Tab: Other Certificates */}
             {certSubTab === 'other' && (
               <div className={styles.certGrid}>
-                {OTHER_CERTS_BADGES.map((badge) => (
+                {OTHER_CERTS.map((cert) => (
+                  <div key={cert.id} className={styles.certCard}>
+                    <div className={styles.certBadgeHeader}>
+                      <FileCheck className={styles.certBadgeIcon} />
+                      <span className={styles.certDate}>{cert.date}</span>
+                    </div>
+                    <h4 className={styles.certTitle}>{cert.title}</h4>
+                    <div className={styles.certIssuer}>{cert.issuer}</div>
+                    {cert.skills && (
+                      <div className={styles.certSkills}>
+                        {cert.skills.map((s, idx) => (
+                          <span key={idx} className={styles.certSkillTag}>
+                            <CheckCircle2 size={12} /> {s}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {cert.link && (
+                      <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
+                        Verify Credential <ExternalLink size={14} />
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Sub-Tab: Badges */}
+            {certSubTab === 'badges' && (
+              <div className={styles.certGrid}>
+                {BADGES_DATA.map((badge) => (
                   <div key={badge.id} className={styles.certCard}>
                     <div className={styles.certBadgeHeader}>
-                      <Award className={styles.certBadgeIconAlt} />
+                      <Medal className={styles.certBadgeIconAlt} />
                       <span className={styles.certDate}>{badge.date}</span>
                     </div>
-
                     <h4 className={styles.certTitle}>{badge.title}</h4>
                     <div className={styles.certIssuer}>{badge.issuer}</div>
-
                     {badge.skills && (
                       <div className={styles.certSkills}>
                         {badge.skills.map((s, idx) => (
@@ -481,10 +544,16 @@ export const SkillsSection: React.FC = () => {
                         ))}
                       </div>
                     )}
+                    {badge.link && (
+                      <a href={badge.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
+                        View Badge <ExternalLink size={14} />
+                      </a>
+                    )}
                   </div>
                 ))}
               </div>
             )}
+
           </div>
         )}
       </div>

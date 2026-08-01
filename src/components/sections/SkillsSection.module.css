@@ -127,6 +127,97 @@
   line-height: 1;
 }
 
+/* ─── Left Cert Sub-Tab Rail ─── */
+/*
+  Mirrors sideRail but sits on the LEFT side, just right of the left navbar.
+  Active indicator is on the LEFT edge (mirrored).
+  Label reads BOTTOM-TO-TOP (opposite of right rail) via rotate(180deg).
+*/
+.certRail {
+  position: fixed;
+  top: 90px;
+  bottom: 32px;
+  left: 54px;
+  width: 48px;
+  z-index: 998;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* railVisible is shared — reused for both rails */
+
+.certRailBtn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 48px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-light, rgba(255, 255, 255, 0.4));
+  border-radius: 12px;
+  transition: color 0.25s ease, background 0.25s ease;
+  position: relative;
+}
+
+.certRailBtn:hover {
+  color: var(--text-color, #ffffff);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='light'] .certRailBtn:hover {
+  color: var(--text-color, #0a0a0a);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.certRailActive {
+  color: var(--accent, #00e5ff) !important;
+}
+
+/* Active indicator on the LEFT edge (mirrored from right rail) */
+.certRailActive::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  height: 70%;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: var(--accent, #00e5ff);
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+}
+
+[data-theme='light'] .certRailActive {
+  color: var(--accent, #0096d6) !important;
+}
+
+[data-theme='light'] .certRailActive::after {
+  background: var(--accent, #0096d6);
+  box-shadow: 0 0 8px rgba(0, 150, 214, 0.5);
+}
+
+/* Label reads BOTTOM → TOP (opposite of right rail's top → bottom) */
+.certRailLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  line-height: 1;
+}
+
+
 /* Skills Layout (Full width 2x4 Grid) */
 .skillsLayout {
   width: 100%;
