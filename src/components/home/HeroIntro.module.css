@@ -91,20 +91,26 @@
   width: 100%;
   position: relative;
   top: -24px;
-  margin-left: 8rem; /* Entire text block pushed right */
+  margin-left: 16rem; /* Pushed significantly further right as requested */
+}
+
+@media (max-width: 1400px) {
+  .text {
+    margin-left: 12rem;
+  }
 }
 
 @media (max-width: 1200px) {
   .text {
     max-width: 880px;
-    margin-left: 5rem;
+    margin-left: 8rem;
   }
 }
 
 @media (max-width: 1024px) {
   .text {
     max-width: 720px;
-    margin-left: 2.5rem;
+    margin-left: 4rem;
   }
 }
 
