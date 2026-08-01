@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import { createTimeline } from 'animejs';
 
 interface IntroLoaderProps {
   onFinishLoading: () => void;
@@ -11,25 +11,23 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
   useEffect(() => {
     if (!logoRef.current) return;
 
-    const timeline = anime.timeline({
-      complete: () => onFinishLoading(),
+    const timeline = createTimeline({
+      onComplete: () => onFinishLoading(),
     });
 
     timeline
-      .add({
-        targets: logoRef.current,
+      .add(logoRef.current, {
         scale: [0.5, 1.8],
         rotate: [0, 360],
         opacity: [0, 1],
         duration: 1200,
-        easing: 'easeInOutExpo',
+        ease: 'outExpo',
       })
-      .add({
-        targets: logoRef.current,
+      .add(logoRef.current, {
         scale: 0.1,
         opacity: 0,
         duration: 500,
-        easing: 'easeInOutQuart',
+        ease: 'outQuart',
       });
   }, [onFinishLoading]);
 
