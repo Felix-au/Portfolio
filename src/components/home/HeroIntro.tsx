@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { DecoderText } from '../ui/DecoderText';
 import profile from '../../config/profile';
 import styles from './HeroIntro.module.css';
 
 export const HeroIntro: React.FC = () => {
   const [disciplineIndex, setDisciplineIndex] = useState(0);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -20,50 +25,29 @@ export const HeroIntro: React.FC = () => {
   return (
     <section className={styles.intro}>
       <header className={styles.text}>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className={styles.name}
-        >
-          <DecoderText text={profile.name} delay={300} />
-        </motion.h1>
+        <h1 className={styles.name} data-visible={visible}>
+          <DecoderText text={profile.name} delay={500} />
+        </h1>
 
-        <div className={styles.title}>
+        <h2 className={styles.title}>
           <div className={styles.row}>
-            <motion.span
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className={styles.word}
-            >
+            <span className={styles.word} style={{ '--delay': '200ms' } as React.CSSProperties}>
               {profile.role}
-            </motion.span>
-
-            <motion.span
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.8, ease: 'easeOut' }}
-              className={styles.line}
-            />
+            </span>
+            <span className={styles.line} />
           </div>
 
-          <div className={styles.row} style={{ marginTop: '0.4rem' }}>
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={currentDiscipline}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.5 }}
-                className={styles.word}
-                data-plus="true"
-              >
-                {currentDiscipline}
-              </motion.span>
-            </AnimatePresence>
+          <div className={styles.row}>
+            <span
+              key={currentDiscipline}
+              className={styles.word}
+              data-plus="true"
+              style={{ '--delay': '200ms' } as React.CSSProperties}
+            >
+              {currentDiscipline}
+            </span>
           </div>
-        </div>
+        </h2>
       </header>
 
       <div className={styles.scrollIndicator} aria-hidden="true" />
