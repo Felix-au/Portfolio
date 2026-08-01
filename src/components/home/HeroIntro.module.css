@@ -375,12 +375,18 @@
   will-change: transform;
 }
 
-.statItem:hover {
+.lineStatsAbove .statItem:hover {
   transform: translateY(-2px);
   color: var(--accent, #00e5ff);
 }
 
-[data-theme='light'] .statItem:hover {
+.lineStatsBelow .statItem:hover {
+  transform: translateY(2px);
+  color: var(--accent, #00e5ff);
+}
+
+[data-theme='light'] .lineStatsAbove .statItem:hover,
+[data-theme='light'] .lineStatsBelow .statItem:hover {
   color: var(--accent, #0096d6);
 }
 
