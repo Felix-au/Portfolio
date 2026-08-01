@@ -6,6 +6,7 @@ import { ThemeToggle } from './components/ui/ThemeToggle';
 import { Navbar } from './components/layout/Navbar';
 import { HeroIntro } from './components/home/HeroIntro';
 import { useTheme } from './context/ThemeContext';
+import { GitHubStatsSection } from './components/sections/GitHubStatsSection';
 import {
   ProjectsSection,
   ResumeSection,
@@ -55,6 +56,7 @@ export const App: React.FC = () => {
           <>
             <HeroIntro />
             <ProjectsSection />
+            <GitHubStatsSection />
             <ResumeSection />
             <SkillsSection />
             <ContactSection />

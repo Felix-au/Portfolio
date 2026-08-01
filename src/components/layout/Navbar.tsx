@@ -126,7 +126,7 @@ export const Navbar: React.FC = () => {
           {/* LinkedIn */}
           <a
             className={styles.navIconLink}
-            href="https://www.linkedin.com/in/harshit-soni-781a77274/"
+            href="https://www.linkedin.com/in/felixau/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
@@ -181,7 +181,7 @@ export const Navbar: React.FC = () => {
           </a>
           <a
             className={styles.navIconLink}
-            href="https://www.linkedin.com/in/harshit-soni-781a77274/"
+            href="https://www.linkedin.com/in/felixau/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
