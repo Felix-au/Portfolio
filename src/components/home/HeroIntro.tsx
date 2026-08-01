@@ -44,7 +44,7 @@ export const HeroIntro: React.FC = () => {
             <span className={styles.line} />
           </div>
 
-          <div className={styles.row}>
+          <div className={styles.subRoleRow}>
             <span
               key={`${theme}-${currentDiscipline}`}
               className={styles.word}
