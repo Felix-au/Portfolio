@@ -7,6 +7,7 @@ import styles from './HeroIntro.module.css';
 export const HeroIntro: React.FC = () => {
   const { theme } = useTheme();
   const [disciplineIndex, setDisciplineIndex] = useState(0);
+  const [prevDisciplineIndex, setPrevDisciplineIndex] = useState<number | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -17,17 +18,25 @@ export const HeroIntro: React.FC = () => {
 
   useEffect(() => {
     setDisciplineIndex(0);
+    setPrevDisciplineIndex(null);
   }, [theme]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setDisciplineIndex((prev) => (prev + 1) % profile.disciplines.length);
+      setDisciplineIndex((prev) => {
+        setPrevDisciplineIndex(prev);
+        return (prev + 1) % profile.disciplines.length;
+      });
     }, 5000);
 
     return () => clearInterval(interval);
   }, [theme]);
 
   const currentDiscipline = profile.disciplines[disciplineIndex];
+  const previousDiscipline =
+    prevDisciplineIndex !== null && prevDisciplineIndex !== disciplineIndex
+      ? profile.disciplines[prevDisciplineIndex]
+      : null;
 
   return (
     <section className={styles.intro}>
@@ -45,11 +54,23 @@ export const HeroIntro: React.FC = () => {
           </div>
 
           <div className={styles.subRoleRow}>
+            {previousDiscipline && (
+              <span
+                key={`prev-${theme}-${previousDiscipline}`}
+                className={styles.word}
+                data-plus="true"
+                data-status="exiting"
+              >
+                {previousDiscipline}
+              </span>
+            )}
+
             <span
               key={`${theme}-${currentDiscipline}`}
               className={styles.word}
               data-plus="true"
-              style={{ '--delay': '1100ms' } as React.CSSProperties}
+              data-status="entering"
+              style={{ '--delay': prevDisciplineIndex === null ? '1100ms' : '0ms' } as React.CSSProperties}
             >
               {currentDiscipline}
             </span>
