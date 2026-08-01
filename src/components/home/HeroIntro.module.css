@@ -397,3 +397,103 @@
     margin-top: 1.25rem;
   }
 }
+
+.githubBadgeStrip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: 1.5rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-color, #ffffff);
+  text-decoration: none !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+
+[data-theme='light'] .githubBadgeStrip {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.githubBadgeStrip:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent, #00e5ff);
+  box-shadow: 0 4px 20px rgba(0, 229, 255, 0.2);
+  background: rgba(0, 229, 255, 0.08);
+}
+
+[data-theme='light'] .githubBadgeStrip:hover {
+  border-color: var(--accent, #0096d6);
+  box-shadow: 0 4px 20px rgba(0, 150, 214, 0.2);
+  background: rgba(0, 150, 214, 0.08);
+}
+
+.badgeItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.badgeIcon {
+  font-size: 0.9rem;
+}
+
+.badgeValue {
+  font-weight: 700;
+  color: var(--accent, #00e5ff);
+}
+
+[data-theme='light'] .badgeValue {
+  color: var(--accent, #0096d6);
+}
+
+.badgeDot {
+  opacity: 0.35;
+  font-size: 0.75rem;
+}
+
+.badgePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(0, 229, 255, 0.15);
+  color: var(--accent, #00e5ff);
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+[data-theme='light'] .badgePill {
+  background: rgba(0, 150, 214, 0.15);
+  color: var(--accent, #0096d6);
+}
+
+@media (max-width: 1024px) {
+  .githubBadgeStrip {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.65rem;
+    gap: 0.45rem;
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 696px) {
+  .githubBadgeStrip {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+}

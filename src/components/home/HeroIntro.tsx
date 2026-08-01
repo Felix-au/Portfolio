@@ -2,17 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { DecoderText } from '../ui/DecoderText';
 import profile from '../../config/profile';
 import { useTheme } from '../../context/ThemeContext';
+import { fetchGitHubStats, type GitHubStatsData } from '../../services/githubStats';
 import styles from './HeroIntro.module.css';
 
 export const HeroIntro: React.FC = () => {
   const { theme } = useTheme();
   const [disciplineIndex, setDisciplineIndex] = useState(0);
   const [prevDisciplineIndex, setPrevDisciplineIndex] = useState<number | null>(null);
+  const [stats, setStats] = useState<GitHubStatsData | null>(null);
 
   useEffect(() => {
     setDisciplineIndex(0);
     setPrevDisciplineIndex(null);
   }, [theme]);
+
+  useEffect(() => {
+    fetchGitHubStats('Felix-au').then(setStats);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,7 +49,55 @@ export const HeroIntro: React.FC = () => {
             <span className={styles.word} style={{ '--delay': '200ms' } as React.CSSProperties}>
               {profile.role}
             </span>
-            <span className={styles.line} />
+
+            {/* Inline GitHub Quick-Stats Impact Badge Strip */}
+            <a
+              href="#github-stats"
+              className={styles.githubBadgeStrip}
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('github-stats')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              title="View Full GitHub Activity & Statistics"
+            >
+              <span className={styles.badgeItem}>
+                <span className={styles.badgeIcon}>⭐</span>
+                <span className={styles.badgeValue}>{stats ? stats.totalStars : 669}</span> Stars
+              </span>
+              <span className={styles.badgeDot}>•</span>
+              <span className={styles.badgeItem}>
+                <span className={styles.badgeIcon}>🔨</span>
+                <span className={styles.badgeValue}>{stats ? `${(stats.totalCommits / 1000).toFixed(1)}k+` : '5.9k+'}</span> Commits
+              </span>
+              <span className={styles.badgeDot}>•</span>
+              <span className={styles.badgeItem}>
+                <span className={styles.badgeIcon}>🍴</span>
+                <span className={styles.badgeValue}>{stats ? stats.totalForks : 235}</span> Forks
+              </span>
+              <span className={styles.badgeDot}>•</span>
+              <span className={styles.badgeItem}>
+                <span className={styles.badgeIcon}>🔀</span>
+                <span className={styles.badgeValue}>{stats ? stats.totalPRs : 219}</span> PRs
+              </span>
+              <span className={styles.badgeDot}>•</span>
+              <span className={styles.badgeItem}>
+                <span className={styles.badgeIcon}>👀</span>
+                <span className={styles.badgeValue}>{stats ? stats.totalReviews : 176}</span> Reviews
+              </span>
+              <span className={styles.badgeDot}>•</span>
+              <span className={styles.badgeItem}>
+                <span className={styles.badgeIcon}>🐛</span>
+                <span className={styles.badgeValue}>{stats ? stats.totalIssues : 243}</span> Issues
+              </span>
+              <span className={styles.badgeDot}>•</span>
+              <span className={styles.badgeItem}>
+                <span className={styles.badgeIcon}>👥</span>
+                <span className={styles.badgeValue}>{stats ? stats.followers : 73}</span> Followers
+              </span>
+              <span className={styles.badgePill}>
+                💻 TS • JS • PY
+              </span>
+            </a>
           </div>
 
           <div className={styles.subRoleRow}>
