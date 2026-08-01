@@ -9,12 +9,11 @@
 .glare-hover {
   width: var(--gh-width);
   height: var(--gh-height);
-  background: var(--gh-bg);
+  /* background and border are intentionally omitted here —
+     let the consuming className (e.g. categoryCard) control them */
   border-radius: var(--gh-br);
-  border: 1px solid var(--gh-border);
   overflow: hidden;
   position: relative;
-  /* Use flex so parent card styles (flex-direction, justify, align) work */
   display: flex;
 }
 
