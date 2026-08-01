@@ -290,13 +290,21 @@
   display: none;
 }
 
+.lineWrapper {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  min-width: 280px;
+}
+
 .line {
   content: '';
   height: 2px;
   background: rgba(255, 255, 255, 0.25);
-  width: 120%;
+  width: 100%;
   display: flex;
-  margin-left: 20px;
   transform-origin: left;
   opacity: 0;
   position: relative;
@@ -306,6 +314,89 @@
 
 [data-theme='light'] .line {
   background: rgba(0, 0, 0, 0.2);
+}
+
+.lineStatsAbove {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-light, rgba(255, 255, 255, 0.85));
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  animation: introTextReveal 0.8s ease 1.2s forwards;
+}
+
+.lineStatsBelow {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-light, rgba(255, 255, 255, 0.85));
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  animation: introTextReveal 0.8s ease 1.4s forwards;
+}
+
+[data-theme='light'] .lineStatsAbove,
+[data-theme='light'] .lineStatsBelow {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.statItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.3s ease;
+}
+
+.statItem strong {
+  color: var(--accent, #00e5ff);
+  font-weight: 700;
+}
+
+[data-theme='light'] .statItem strong {
+  color: var(--accent, #0096d6);
+}
+
+.statDot {
+  opacity: 0.4;
+  font-size: 0.7rem;
+}
+
+@media (max-width: 900px) {
+  .lineStatsAbove,
+  .lineStatsBelow {
+    font-size: 0.725rem;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 696px) {
+  .lineWrapper {
+    margin-left: 10px;
+    min-width: 180px;
+  }
+  .lineStatsAbove {
+    bottom: 8px;
+    font-size: 0.65rem;
+    gap: 4px;
+  }
+  .lineStatsBelow {
+    top: 8px;
+    font-size: 0.65rem;
+    gap: 4px;
+  }
 }
 
 .scrollIndicator {
@@ -395,109 +486,5 @@
     font-size: 0.875rem;
     line-height: 1.55;
     margin-top: 1.25rem;
-  }
-}
-
-.lineContainer {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1;
-  margin-left: 20px;
-}
-
-.line {
-  content: '';
-  height: 2px;
-  background: rgba(255, 255, 255, 0.25);
-  width: 100%;
-  display: block;
-  transform-origin: left;
-  animation: introLineReveal 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  animation-delay: 0.8s;
-  transform: scaleX(0);
-}
-
-[data-theme='light'] .line {
-  background: rgba(0, 0, 0, 0.25);
-}
-
-.lineStatsTop,
-.lineStatsBottom {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--text-light, rgba(255, 255, 255, 0.7));
-  letter-spacing: 0;
-  transition: opacity 0.3s ease;
-  white-space: nowrap;
-}
-
-.lineStatsTop {
-  margin-bottom: 0.35rem;
-}
-
-.lineStatsBottom {
-  margin-top: 0.35rem;
-}
-
-[data-theme='light'] .lineStatsTop,
-[data-theme='light'] .lineStatsBottom {
-  color: rgba(0, 0, 0, 0.7);
-}
-
-.statItem {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.accentVal {
-  font-weight: 700;
-  color: var(--accent, #00e5ff);
-}
-
-[data-theme='light'] .accentVal {
-  color: var(--accent, #0096d6);
-}
-
-.statDot {
-  opacity: 0.35;
-  font-size: 0.7rem;
-}
-
-.statPill {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--accent, #00e5ff);
-  opacity: 0.9;
-}
-
-[data-theme='light'] .statPill {
-  color: var(--accent, #0096d6);
-}
-
-@media (max-width: 1024px) {
-  .lineStatsTop,
-  .lineStatsBottom {
-    font-size: 0.75rem;
-    gap: 0.4rem;
-  }
-}
-
-@media (max-width: 696px) {
-  .lineContainer {
-    margin-left: 0;
-    margin-top: 0.75rem;
-    width: 100%;
-  }
-  .lineStatsTop,
-  .lineStatsBottom {
-    overflow-x: auto;
-    width: 100%;
-    -webkit-overflow-scrolling: touch;
   }
 }

@@ -17,7 +17,9 @@ export const HeroIntro: React.FC = () => {
   }, [theme]);
 
   useEffect(() => {
-    fetchGitHubStats('Felix-au').then(setStats);
+    fetchGitHubStats('Felix-au').then((data) => {
+      setStats(data);
+    });
   }, []);
 
   useEffect(() => {
@@ -49,46 +51,42 @@ export const HeroIntro: React.FC = () => {
             <span className={styles.word} style={{ '--delay': '200ms' } as React.CSSProperties}>
               {profile.role}
             </span>
-
-            {/* Restored Line with GitHub Stats Attached Above and Below */}
-            <div className={styles.lineContainer}>
-              {/* Above Line: Stars, Commits, Forks, Followers */}
-              <div className={styles.lineStatsTop}>
-                <span className={styles.statItem}>
-                  ⭐ <strong className={styles.accentVal}>{stats ? stats.totalStars : 669}</strong> Stars
+            <div className={styles.lineWrapper}>
+              {/* Above the line: Stars, Commits, Forks, Followers */}
+              <div className={styles.lineStatsAbove}>
+                <span className={styles.statItem} title="Stars Earned">
+                  ⭐ <strong>{stats ? stats.totalStars : 669}</strong> Stars
                 </span>
                 <span className={styles.statDot}>•</span>
-                <span className={styles.statItem}>
-                  🔨 <strong className={styles.accentVal}>{stats ? `${(stats.totalCommits / 1000).toFixed(1)}k+` : '5.9k+'}</strong> Commits
+                <span className={styles.statItem} title="Lifetime Commits">
+                  🔨 <strong>{stats ? stats.totalCommits.toLocaleString() : '5,907'}</strong> Commits
                 </span>
                 <span className={styles.statDot}>•</span>
-                <span className={styles.statItem}>
-                  🍴 <strong className={styles.accentVal}>{stats ? stats.totalForks : 235}</strong> Forks
+                <span className={styles.statItem} title="Forks Earned">
+                  🍴 <strong>{stats ? stats.totalForks : 235}</strong> Forks
                 </span>
                 <span className={styles.statDot}>•</span>
-                <span className={styles.statItem}>
-                  👥 <strong className={styles.accentVal}>{stats ? stats.followers : 73}</strong> Followers
+                <span className={styles.statItem} title="GitHub Followers">
+                  👥 <strong>73</strong> Followers
                 </span>
               </div>
 
-              {/* The Restored Divider Line */}
+              {/* Undisturbed horizontal line */}
               <span className={styles.line} />
 
-              {/* Below Line: PRs, Reviews, Issues, Language Pill */}
-              <div className={styles.lineStatsBottom}>
-                <span className={styles.statItem}>
-                  🔀 <strong className={styles.accentVal}>{stats ? stats.totalPRs : 219}</strong> PRs
+              {/* Below the line: PRs, Code Reviews, Issues */}
+              <div className={styles.lineStatsBelow}>
+                <span className={styles.statItem} title="Pull Requests Created">
+                  🔀 <strong>{stats ? stats.totalPRs : 219}</strong> PRs
                 </span>
                 <span className={styles.statDot}>•</span>
-                <span className={styles.statItem}>
-                  👀 <strong className={styles.accentVal}>{stats ? stats.totalReviews : 176}</strong> Reviews
+                <span className={styles.statItem} title="Code Reviews Performed">
+                  👀 <strong>{stats ? stats.totalReviews : 176}</strong> Reviews
                 </span>
                 <span className={styles.statDot}>•</span>
-                <span className={styles.statItem}>
-                  🐛 <strong className={styles.accentVal}>{stats ? stats.totalIssues : 243}</strong> Issues
+                <span className={styles.statItem} title="Issues Opened">
+                  🐛 <strong>{stats ? stats.totalIssues : 243}</strong> Issues
                 </span>
-                <span className={styles.statDot}>•</span>
-                <span className={styles.statPill}>💻 TS • JS • PY</span>
               </div>
             </div>
           </div>

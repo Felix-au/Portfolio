@@ -13,26 +13,24 @@ export interface GitHubStatsData {
   totalPRs: number;
   totalIssues: number;
   totalReviews: number;
-  followers: number;
   topLanguages: LanguageStat[];
   isFallback?: boolean;
 }
 
 const DEFAULT_METRICS: GitHubStatsData = {
   username: 'Felix-au',
-  totalStars: 669,
-  totalForks: 235,
-  totalRepos: 33,
-  totalCommits: 5907,
-  totalPRs: 219,
-  totalIssues: 243,
-  totalReviews: 176,
-  followers: 73,
+  totalStars: 42,
+  totalForks: 14,
+  totalRepos: 28,
+  totalCommits: 580,
+  totalPRs: 36,
+  totalIssues: 12,
+  totalReviews: 15,
   topLanguages: [
-    { name: 'TypeScript', color: '#3178c6', percentage: 34 },
-    { name: 'JavaScript', color: '#f1e05a', percentage: 31 },
-    { name: 'Python', color: '#3572A5', percentage: 13 },
-    { name: 'Java', color: '#b07219', percentage: 9 },
+    { name: 'TypeScript', color: '#3178c6', percentage: 42 },
+    { name: 'Python', color: '#3572A5', percentage: 28 },
+    { name: 'C++', color: '#f34b7d', percentage: 18 },
+    { name: 'Rust', color: '#dea584', percentage: 12 },
   ],
   isFallback: true,
 };
@@ -41,18 +39,15 @@ const GITHUB_GRAPHQL_QUERY = `
   query getStats($username: String!) {
     user(login: $username) {
       name
-      followers { totalCount }
       contributionsCollection {
         totalCommitContributions
         totalPullRequestContributions
         totalIssueContributions
         totalPullRequestReviewContributions
       }
-      repositories(first: 100, ownerAffiliations: OWNER) {
-        totalCount
+      repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {
         nodes {
           name
-          isFork
           stargazerCount
           forkCount
           primaryLanguage {
@@ -71,8 +66,8 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
     const res = await fetch(`/api/github-stats?username=${username}`);
     if (res.ok) {
       const data = (await res.json()) as GitHubStatsData;
-      if (!data.isFallback) {
-        return { ...data, followers: data.followers || 73, isFallback: false };
+      if (!data.error) {
+        return { ...data, isFallback: false };
       }
     }
   } catch {
@@ -103,7 +98,6 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
           const totalStars = repos.reduce((acc: number, r: { stargazerCount: number }) => acc + r.stargazerCount, 0);
           const totalForks = repos.reduce((acc: number, r: { forkCount: number }) => acc + r.forkCount, 0);
           const contribs = userData.contributionsCollection || {};
-          const followers = userData.followers?.totalCount || 73;
 
           const langMap: Record<string, { count: number; color: string }> = {};
           let totalLang = 0;
@@ -127,15 +121,14 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
 
           return {
             username,
-            totalStars: totalStars || 669,
-            totalForks: totalForks || 235,
-            totalRepos: repos.length || 33,
-            totalCommits: contribs.totalCommitContributions || 5907,
-            totalPRs: contribs.totalPullRequestContributions || 219,
-            totalIssues: contribs.totalIssueContributions || 243,
-            totalReviews: contribs.totalPullRequestReviewContributions || 176,
-            followers,
-            topLanguages: topLanguages.length > 0 ? topLanguages : DEFAULT_METRICS.topLanguages,
+            totalStars,
+            totalForks,
+            totalRepos: repos.length,
+            totalCommits: contribs.totalCommitContributions || 0,
+            totalPRs: contribs.totalPullRequestContributions || 0,
+            totalIssues: contribs.totalIssueContributions || 0,
+            totalReviews: contribs.totalPullRequestReviewContributions || 0,
+            topLanguages,
             isFallback: false,
           };
         }
@@ -172,7 +165,6 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
         JavaScript: '#f1e05a',
         Python: '#3572A5',
         'C++': '#f34b7d',
-        Java: '#b07219',
         C: '#555555',
         Rust: '#dea584',
         HTML: '#e34c26',
@@ -197,7 +189,6 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
         totalPRs: DEFAULT_METRICS.totalPRs,
         totalIssues: DEFAULT_METRICS.totalIssues,
         totalReviews: DEFAULT_METRICS.totalReviews,
-        followers: DEFAULT_METRICS.followers,
         topLanguages: topLanguages.length > 0 ? topLanguages : DEFAULT_METRICS.topLanguages,
         isFallback: false,
       };
