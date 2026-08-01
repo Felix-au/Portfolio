@@ -5,6 +5,7 @@ import { DisplacementSphere } from './components/background/DisplacementSphere';
 import { ThemeToggle } from './components/ui/ThemeToggle';
 import { Navbar } from './components/layout/Navbar';
 import { HeroIntro } from './components/home/HeroIntro';
+import { useTheme } from './context/ThemeContext';
 import {
   ProjectsSection,
   DetailsSection,
@@ -13,6 +14,7 @@ import {
 } from './components/sections/PlaceholderSections';
 
 export const App: React.FC = () => {
+  const { theme } = useTheme();
   const [loading, setLoading] = useState(true);
   const [showBg, setShowBg] = useState(false);
 
@@ -29,7 +31,7 @@ export const App: React.FC = () => {
         <IntroLoader onFinishLoading={() => setLoading(false)} />
       ) : (
         <>
-          <FlashOverlay />
+          <FlashOverlay key={theme} />
           <ThemeToggle />
           <Navbar />
         </>
