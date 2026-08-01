@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import {
-  SiJava,
   SiPython,
   SiTypescript,
   SiJavascript,
   SiCplusplus,
   SiRust,
   SiHtml5,
-  SiCss3,
+  SiCss,
   SiReact,
   SiNextdotjs,
   SiVite,
@@ -42,14 +41,14 @@ import {
   SiGithubactions,
   SiGit,
   SiGithub,
-  SiVisualstudiocode,
   SiElectron,
   SiQt,
   SiJupyter,
   SiPostman,
 } from 'react-icons/si';
 
-import { FaAws } from 'react-icons/fa6';
+import { FaJava, FaAws } from 'react-icons/fa6';
+import { VscVscode } from 'react-icons/vsc';
 
 import {
   Cpu,
@@ -131,7 +130,7 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
     title: 'Languages',
     emojiIcon: '🔤',
     items: [
-      { name: 'Java', icon: <SiJava />, color: '#ed8b00' },
+      { name: 'Java', icon: <FaJava />, color: '#ed8b00' },
       { name: 'Python', icon: <SiPython />, color: '#3776ab' },
       { name: 'TypeScript', icon: <SiTypescript />, color: '#3178c6' },
       { name: 'JavaScript', icon: <SiJavascript />, color: '#f7df1e' },
@@ -139,7 +138,7 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
       { name: 'Rust', icon: <SiRust />, color: '#000000' },
       { name: 'GLSL', icon: <Code2 />, color: '#5586a4' },
       { name: 'HTML5', icon: <SiHtml5 />, color: '#e34f26' },
-      { name: 'CSS3', icon: <SiCss3 />, color: '#1572b6' },
+      { name: 'CSS3', icon: <SiCss />, color: '#1572b6' },
       { name: 'SQL', icon: <Database />, color: '#336791' },
     ],
   },
@@ -238,7 +237,7 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
     items: [
       { name: 'Git', icon: <SiGit />, color: '#f05032' },
       { name: 'GitHub', icon: <SiGithub />, color: '#181717' },
-      { name: 'VS Code', icon: <SiVisualstudiocode />, color: '#007acc' },
+      { name: 'VS Code', icon: <VscVscode />, color: '#007acc' },
       { name: 'Electron', icon: <SiElectron />, color: '#47848f' },
       { name: 'Qt / PySide6', icon: <SiQt />, color: '#41cd52' },
       { name: 'Jupyter', icon: <SiJupyter />, color: '#f37626' },
