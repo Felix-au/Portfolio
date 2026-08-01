@@ -20,7 +20,7 @@ export const HeroIntro: React.FC = () => {
         setPrevDisciplineIndex(prev);
         return (prev + 1) % profile.disciplines.length;
       });
-    }, 4500);
+    }, 3600);
 
     return () => clearInterval(interval);
   }, [theme]);
