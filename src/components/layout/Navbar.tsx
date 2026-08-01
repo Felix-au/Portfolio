@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LogoSvg } from '../icons/LogoSvg';
 import { LogoLightSvg } from '../icons/LogoLightSvg';
 import { useTheme } from '../../context/ThemeContext';
@@ -19,10 +19,34 @@ export const Navbar: React.FC = () => {
 
   const SelectedLogo = theme === 'light' ? LogoLightSvg : LogoSvg;
 
+  // Active section scroll tracking
+  useEffect(() => {
+    const sectionIds = ['intro', 'projects', 'details', 'articles', 'contact'];
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveHash(`#${id}`);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleNavClick = (href: string) => {
     setActiveHash(href);
     setMenuOpen(false);
-    const element = document.querySelector(href);
+    const id = href.replace('#', '');
+    const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }

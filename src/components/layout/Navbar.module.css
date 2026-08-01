@@ -103,11 +103,11 @@
 }
 
 .navLink {
-  padding: 16px;
+  padding: 16px 20px;
   color: var(--text-light, rgba(255, 255, 255, 0.7));
   font-weight: 500;
   font-size: var(--headerNavFontSize);
-  text-decoration: none;
+  text-decoration: none !important;
   position: relative;
   transition: color 0.3s ease 0.1s;
   line-height: 1;
@@ -120,7 +120,7 @@
   color: rgba(0, 0, 0, 0.65);
 }
 
-/* Hover & Active states change text color to cyan accent and show underline */
+/* Hover & Active states change text color to cyan accent */
 .navLink:hover,
 .navLink:active,
 .navLink[aria-current='page'] {
@@ -133,22 +133,30 @@
   color: var(--accent, #0096d6);
 }
 
+/* Cyan bar indicator on the side of vertical text (never strikethrough!) */
 .navLink::after {
   content: '';
   position: absolute;
-  inset-inline-start: 8px;
-  inset-inline-end: 8px;
-  block-size: 3px;
+  top: 12px;
+  bottom: 12px;
+  right: 4px;
+  left: auto;
+  width: 3px;
+  height: auto;
   background: var(--accent, #00e5ff);
-  transform: scaleY(0) translateZ(0);
+  transform: scaleY(0);
   transform-origin: bottom;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme='light'] .navLink::after {
+  background: var(--accent, #0096d6);
 }
 
 .navLink:hover::after,
 .navLink:active::after,
 .navLink[aria-current='page']::after {
-  transform: scaleY(1) translateZ(0);
+  transform: scaleY(1);
   transform-origin: top;
 }
 
@@ -181,6 +189,11 @@
 .navIconLink:active {
   color: var(--accent, #00e5ff);
   transform: scale(1.15);
+}
+
+[data-theme='light'] .navIconLink:hover,
+[data-theme='light'] .navIconLink:active {
+  color: var(--accent, #0096d6);
 }
 
 .navIcon {
@@ -251,7 +264,7 @@
   width: 100%;
   font-size: 1.375rem;
   text-align: center;
-  text-decoration: none;
+  text-decoration: none !important;
   color: var(--text-color, #ffffff);
   padding: 20px;
   opacity: 0;
@@ -278,20 +291,25 @@
 .mobileNavLink::after {
   content: '';
   position: absolute;
-  top: 50%;
-  right: 48px;
-  left: 48px;
+  bottom: 8px;
+  top: auto;
+  right: 30%;
+  left: 30%;
   height: 3px;
   background: var(--accent, #00e5ff);
-  transform: scaleX(0) translateY(-1px);
+  transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme='light'] .mobileNavLink::after {
+  background: var(--accent, #0096d6);
 }
 
 .mobileNavLink:hover::after,
 .mobileNavLink:active::after,
 .mobileNavLink[aria-current='page']::after {
-  transform: scaleX(1) translateY(-1px);
+  transform: scaleX(1);
   transform-origin: left;
 }
 
