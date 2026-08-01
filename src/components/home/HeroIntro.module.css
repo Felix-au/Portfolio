@@ -84,8 +84,6 @@
   z-index: 10;
   padding: 0 2rem;
   box-sizing: border-box;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 .text {

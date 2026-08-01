@@ -18,8 +18,6 @@ const PlaceholderSection: React.FC<SectionProps> = ({ id, title }) => {
         position: 'relative',
         zIndex: 10,
         borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-        scrollSnapAlign: 'start',
-        scrollSnapStop: 'always',
       }}
     >
       <h2
