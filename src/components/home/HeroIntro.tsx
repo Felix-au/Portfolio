@@ -53,7 +53,7 @@ export const HeroIntro: React.FC = () => {
             </span>
 
             <div className={styles.lineWrapper}>
-              {/* Top Row: Stars, Forks, Watchers, Followers */}
+              {/* Top Row: Stars, Forks, Followers */}
               <div className={styles.lineStatsAbove}>
                 <span className={styles.statItem} title="Stars Earned">
                   ⭐ <strong>{stats ? stats.totalStars : 669}</strong> Stars
@@ -61,10 +61,6 @@ export const HeroIntro: React.FC = () => {
                 <span className={styles.statDot}>•</span>
                 <span className={styles.statItem} title="Forks Earned">
                   🍴 <strong>{stats ? stats.totalForks : 235}</strong> Forks
-                </span>
-                <span className={styles.statDot}>•</span>
-                <span className={styles.statItem} title="Watchers Earned">
-                  👁️ <strong>{stats ? stats.totalWatchers : 124}</strong> Watchers
                 </span>
                 <span className={styles.statDot}>•</span>
                 <span className={styles.statItem} title="GitHub Followers">
@@ -75,10 +71,10 @@ export const HeroIntro: React.FC = () => {
               {/* Undisturbed horizontal line */}
               <span className={styles.line} />
 
-              {/* Bottom Row: Commits, PRs, Reviews, Issues */}
+              {/* Bottom Row: Commits, PRs, Code Reviews */}
               <div className={styles.lineStatsBelow}>
                 <span className={styles.statItem} title="Lifetime Commits">
-                  🔨 <strong>{stats ? stats.totalCommits.toLocaleString() : '5,907'}</strong> Commits
+                  🔨 <strong>{stats ? stats.totalCommits.toLocaleString() : '5,799'}</strong> Commits
                 </span>
                 <span className={styles.statDot}>•</span>
                 <span className={styles.statItem} title="Pull Requests Created">
@@ -87,10 +83,6 @@ export const HeroIntro: React.FC = () => {
                 <span className={styles.statDot}>•</span>
                 <span className={styles.statItem} title="Code Reviews Performed">
                   👀 <strong>{stats ? stats.totalReviews : 176}</strong> Reviews
-                </span>
-                <span className={styles.statDot}>•</span>
-                <span className={styles.statItem} title="Issues Opened">
-                  🐛 <strong>{stats ? stats.totalIssues : 243}</strong> Issues
                 </span>
               </div>
             </div>
