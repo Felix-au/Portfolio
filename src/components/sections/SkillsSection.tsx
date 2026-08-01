@@ -36,7 +36,6 @@ import {
   SiVercel,
   SiRender,
   SiRailway,
-  SiAmazonaws,
   SiDocker,
   SiKubernetes,
   SiNginx,
@@ -49,6 +48,8 @@ import {
   SiJupyter,
   SiPostman,
 } from 'react-icons/si';
+
+import { FaAws } from 'react-icons/fa6';
 
 import {
   Cpu,
@@ -222,7 +223,7 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
       { name: 'Vercel', icon: <SiVercel />, color: '#000000' },
       { name: 'Render', icon: <SiRender />, color: '#000000' },
       { name: 'Railway', icon: <SiRailway />, color: '#000000' },
-      { name: 'AWS', icon: <SiAmazonaws />, color: '#ff9900' },
+      { name: 'AWS', icon: <FaAws />, color: '#ff9900' },
       { name: 'Azure', icon: <Cloud />, color: '#0089d6' },
       { name: 'Docker', icon: <SiDocker />, color: '#2496ed' },
       { name: 'Kubernetes', icon: <SiKubernetes />, color: '#326ce5' },
