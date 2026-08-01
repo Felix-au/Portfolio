@@ -148,11 +148,13 @@
   pointer-events: none;
   transition: opacity 0.3s ease;
   /* Thin vertical spine on the right side of the sub-tabs */
-  border-right: 1px dashed rgba(255, 255, 255, 0.15);
+  border-right: 1px dashed var(--accent, #00e5ff);
+  filter: drop-shadow(0 0 4px rgba(0, 229, 255, 0.4));
 }
 
 [data-theme='light'] .certRail {
-  border-right: 1px dashed rgba(0, 0, 0, 0.15);
+  border-right: 1px dashed var(--accent, #0096d6);
+  filter: drop-shadow(0 0 4px rgba(0, 150, 214, 0.35));
 }
 
 /* Horizontal branch linking sub-tabs to the main Certifications button */
@@ -163,12 +165,12 @@
   top: 75%; /* aligns with Certifications & Badges button */
   width: 12px;
   height: 1px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  border-top: 1px dashed var(--accent, #00e5ff);
   pointer-events: none;
 }
 
 [data-theme='light'] .certRail::after {
-  border-top-color: rgba(0, 0, 0, 0.15);
+  border-top-color: var(--accent, #0096d6);
 }
 
 /* certRail needs its own .railVisible override because .certRail comes AFTER
