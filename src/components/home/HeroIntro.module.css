@@ -195,8 +195,26 @@
   align-items: center;
   position: relative;
   margin-top: 0.08em;
-  margin-left: 1.2rem; /* Pushed right for distinct visual hierarchy */
+  margin-left: 3.2rem; /* Pushed further right as requested */
   min-height: 1.1em;
+}
+
+@media (max-width: 1200px) {
+  .subRoleRow {
+    margin-left: 2.4rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .subRoleRow {
+    margin-left: 1.8rem;
+  }
+}
+
+@media (max-width: 696px) {
+  .subRoleRow {
+    margin-left: 0.8rem;
+  }
 }
 
 .subRoleRow .word {
