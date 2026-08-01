@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import GlareHover from '../ui/GlareHover';
-import SpotlightCard from '../ui/SpotlightCard';
 import {
   SiPython,
   SiTypescript,
@@ -285,12 +284,39 @@ export const SkillsSection: React.FC = () => {
   const [certSubTab, setCertSubTab] = useState<'prof' | 'other'>('prof');
   const [sectionVisible, setSectionVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  // One ref per skill card — used to fire the intro glare sweep
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const hasPlayedIntro = useRef(false);
 
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
+
     const observer = new IntersectionObserver(
-      ([entry]) => setSectionVisible(entry.isIntersecting),
+      ([entry]) => {
+        setSectionVisible(entry.isIntersecting);
+
+        // On first entry, sweep glare across all cards in random order
+        if (entry.isIntersecting && !hasPlayedIntro.current) {
+          hasPlayedIntro.current = true;
+          const n = SKILL_CATEGORIES.length;
+          const indices = Array.from({ length: n }, (_, i) => i);
+          // Fisher-Yates shuffle
+          for (let i = n - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [indices[i], indices[j]] = [indices[j], indices[i]];
+          }
+          indices.forEach((cardIdx, step) => {
+            setTimeout(() => {
+              const card = cardRefs.current[cardIdx];
+              if (!card) return;
+              card.classList.add('glare-intro');
+              // Remove after animation duration (800ms) + small buffer
+              setTimeout(() => card.classList.remove('glare-intro'), 900);
+            }, step * 300);
+          });
+        }
+      },
       { threshold: 0.1 }
     );
     observer.observe(el);
@@ -326,55 +352,51 @@ export const SkillsSection: React.FC = () => {
         {activeTab === 'skills' && (
           <div className={styles.skillsLayout}>
             <div className={styles.categoryGrid}>
-              {SKILL_CATEGORIES.map((cat) => (
-                <SpotlightCard
+              {SKILL_CATEGORIES.map((cat, catIdx) => (
+                <GlareHover
                   key={cat.id}
-                  className={styles.cardSpotlightWrap}
-                  spotlightColor="rgba(0, 229, 255, 0.12)"
+                  ref={(el) => { cardRefs.current[catIdx] = el; }}
+                  width="100%"
+                  height="100%"
+                  background="transparent"
+                  borderRadius="20px"
+                  borderColor="transparent"
+                  glareColor="#ffffff"
+                  glareOpacity={0.1}
+                  glareAngle={-30}
+                  glareSize={300}
+                  transitionDuration={800}
+                  className={styles.categoryCard}
                 >
-                  <GlareHover
-                    width="100%"
-                    height="100%"
-                    background="transparent"
-                    borderRadius="20px"
-                    borderColor="transparent"
-                    glareColor="#ffffff"
-                    glareOpacity={0.1}
-                    glareAngle={-30}
-                    glareSize={300}
-                    transitionDuration={800}
-                    className={styles.categoryCard}
-                  >
 
-                    {/* Large emoji watermark in the background */}
-                    <span className={styles.cardBgEmoji} aria-hidden="true">{cat.emojiIcon}</span>
+                  {/* Large emoji watermark in the background */}
+                  <span className={styles.cardBgEmoji} aria-hidden="true">{cat.emojiIcon}</span>
 
-                    {/* Badge rows – centered, balanced distribution */}
-                    <div className={styles.techPillRows}>
-                      {distributeItems(cat.items).map((row, rowIdx) => (
-                        <div key={rowIdx} className={styles.techPillRow}>
-                          {row.map((tech, i) => (
-                            <div key={i} className={styles.techPill} title={tech.name}>
-                              <span
-                                className={styles.techIcon}
-                                style={{ color: tech.color || 'var(--accent)' }}
-                              >
-                                {tech.icon}
-                              </span>
-                              <span className={styles.techName}>{tech.name}</span>
-                            </div>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
+                  {/* Badge rows – centered, balanced distribution */}
+                  <div className={styles.techPillRows}>
+                    {distributeItems(cat.items).map((row, rowIdx) => (
+                      <div key={rowIdx} className={styles.techPillRow}>
+                        {row.map((tech, i) => (
+                          <div key={i} className={styles.techPill} title={tech.name}>
+                            <span
+                              className={styles.techIcon}
+                              style={{ color: tech.color || 'var(--accent)' }}
+                            >
+                              {tech.icon}
+                            </span>
+                            <span className={styles.techName}>{tech.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
 
-                    {/* Title centered at bottom — text only */}
-                    <div className={styles.categoryHeader}>
-                      <span className={styles.catTitle}>{cat.title}</span>
-                    </div>
+                  {/* Title centered at bottom — text only */}
+                  <div className={styles.categoryHeader}>
+                    <span className={styles.catTitle}>{cat.title}</span>
+                  </div>
 
-                  </GlareHover>
-                </SpotlightCard>
+                </GlareHover>
               ))}
             </div>
           </div>

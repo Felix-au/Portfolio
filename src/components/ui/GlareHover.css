@@ -61,3 +61,16 @@
     100% 100%,
     0 0;
 }
+
+/* ── Programmatic intro sweep ──────────────────────────────────────────────
+   Added by JS (classList.add) to trigger the glare without mouse hover.
+   Uses a keyframe so it auto-resets cleanly after the animation ends.
+   ────────────────────────────────────────────────────────────────────────── */
+@keyframes glare-sweep {
+  0%   { background-position: -100% -100%, 0 0; }
+  100% { background-position:  100%  100%, 0 0; }
+}
+
+.glare-intro::before {
+  animation: glare-sweep var(--gh-duration, 800ms) ease;
+}
