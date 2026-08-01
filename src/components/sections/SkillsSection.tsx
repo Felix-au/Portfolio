@@ -407,7 +407,7 @@ export const SkillsSection: React.FC = () => {
       <div className={styles.container}>
 
         {/* TAB 1: SKILLS CONTENT */}
-        {activeTab === 'skills' && (
+        <div className={`${styles.tabContent} ${activeTab === 'skills' ? styles.activeTabContent : ''}`}>
           <div className={styles.skillsLayout}>
             <div className={styles.categoryGrid}>
               {SKILL_CATEGORIES.map((cat, catIdx) => (
@@ -458,14 +458,14 @@ export const SkillsSection: React.FC = () => {
               ))}
             </div>
           </div>
-        )}
+        </div>
 
         {/* TAB 2: CERTIFICATIONS CONTENT */}
-        {activeTab === 'certifications' && (
+        <div className={`${styles.tabContent} ${activeTab === 'certifications' ? styles.activeTabContent : ''}`}>
           <div className={styles.certsContainer}>
 
             {/* Sub-Tab: Specialization Certificates */}
-            {certSubTab === 'spec' && (
+            <div className={`${styles.subTabContent} ${certSubTab === 'spec' ? styles.activeSubTabContent : ''}`}>
               <div className={styles.certGrid}>
                 {PROFESSIONAL_CERTS.map((cert) => (
                   <div key={cert.id} className={styles.certCard}>
@@ -492,10 +492,10 @@ export const SkillsSection: React.FC = () => {
                   </div>
                 ))}
               </div>
-            )}
+            </div>
 
             {/* Sub-Tab: Other Certificates */}
-            {certSubTab === 'other' && (
+            <div className={`${styles.subTabContent} ${certSubTab === 'other' ? styles.activeSubTabContent : ''}`}>
               <div className={styles.certGrid}>
                 {OTHER_CERTS.map((cert) => (
                   <div key={cert.id} className={styles.certCard}>
@@ -522,10 +522,10 @@ export const SkillsSection: React.FC = () => {
                   </div>
                 ))}
               </div>
-            )}
+            </div>
 
             {/* Sub-Tab: Badges */}
-            {certSubTab === 'badges' && (
+            <div className={`${styles.subTabContent} ${certSubTab === 'badges' ? styles.activeSubTabContent : ''}`}>
               <div className={styles.certGrid}>
                 {BADGES_DATA.map((badge) => (
                   <div key={badge.id} className={styles.certCard}>
@@ -552,10 +552,10 @@ export const SkillsSection: React.FC = () => {
                   </div>
                 ))}
               </div>
-            )}
+            </div>
 
           </div>
-        )}
+        </div>
       </div>
     </section>
   );

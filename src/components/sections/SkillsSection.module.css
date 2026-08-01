@@ -449,7 +449,50 @@
   max-width: 1000px;
   margin: 0 auto;
   width: 100%;
+  position: relative;
 }
+
+/* ─── Tab & Sub-tab cross-fade transitions ─── */
+.tabContent {
+  width: 100%;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.4s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+}
+
+.activeTabContent {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  position: relative;
+  visibility: visible;
+}
+
+.subTabContent {
+  width: 100%;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.4s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+}
+
+.activeSubTabContent {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  position: relative;
+  visibility: visible;
+}
+
 
 .subTabNav {
   display: flex;
