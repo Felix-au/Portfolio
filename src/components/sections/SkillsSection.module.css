@@ -1,6 +1,6 @@
 .section {
   min-height: 100vh;
-  padding: 6rem 2rem 5rem;
+  padding: 7.5rem 2rem 5rem;
   position: relative;
   z-index: 10;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -20,17 +20,17 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 2rem;
 }
 
-/* Section Header & Main Tabs (Far Right-aligned like navbar is left) */
+/* Section Header & Main Tabs (Right-aligned below theme toggle) */
 .header {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-  padding-right: 1rem;
-  margin-bottom: 0.5rem;
+  padding-right: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .tabNav {
