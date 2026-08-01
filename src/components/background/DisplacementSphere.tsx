@@ -80,8 +80,9 @@ export const DisplacementSphere: React.FC<DisplacementSphereProps> = ({ isVisibl
 
     const sphere = new Mesh(geometry, material);
     sphere.position.z = 0;
+    const initialY = innerWidth <= 768 ? 10 : 16;
     sphere.position.x = innerWidth <= 768 ? 14 : 22;
-    sphere.position.y = innerWidth <= 768 ? 10 : 16;
+    sphere.position.y = initialY;
     sphereRef.current = sphere;
     scene.add(sphere);
 
@@ -140,13 +141,22 @@ export const DisplacementSphere: React.FC<DisplacementSphereProps> = ({ isVisibl
       rotationY.set(pos.x / 2);
     };
 
+    const handleScroll = () => {
+      if (sphereRef.current) {
+        const baseY = window.innerWidth <= 768 ? 10 : 16;
+        sphereRef.current.position.y = baseY + window.scrollY * 0.008;
+      }
+    };
+
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
 
       if (geometryRef.current) geometryRef.current.dispose();
       if (materialRef.current) materialRef.current.dispose();
