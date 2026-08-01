@@ -3,6 +3,7 @@ import { IntroLoader } from './components/loader/IntroLoader';
 import { FlashOverlay } from './components/loader/FlashOverlay';
 import { DisplacementSphere } from './components/background/DisplacementSphere';
 import { ThemeToggle } from './components/ui/ThemeToggle';
+import { Navbar } from './components/layout/Navbar';
 import { HeroIntro } from './components/home/HeroIntro';
 
 export const App: React.FC = () => {
@@ -24,6 +25,7 @@ export const App: React.FC = () => {
         <>
           <FlashOverlay />
           <ThemeToggle />
+          <Navbar />
         </>
       )}
 
