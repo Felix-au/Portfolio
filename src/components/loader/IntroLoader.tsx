@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { createTimeline } from 'animejs';
-import VectorSvg from '../../assets/Vector.svg';
+import { LogoSvg } from '../icons/LogoSvg';
 
 interface IntroLoaderProps {
   onFinishLoading: () => void;
 }
 
 export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => {
-  const logoRef = useRef<HTMLImageElement | null>(null);
+  const logoRef = useRef<SVGSVGElement | null>(null);
 
   useEffect(() => {
     if (!logoRef.current) return;
@@ -42,14 +42,12 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
         zIndex: 99999,
       }}
     >
-      <img
+      <LogoSvg
         ref={logoRef}
-        src={VectorSvg}
-        alt="Loading logo"
         style={{
-          width: 60,
-          height: 90,
-          objectFit: 'contain',
+          width: 140,
+          height: 140,
+          filter: 'drop-shadow(0 0 30px rgba(0, 229, 255, 0.85))',
         }}
       />
     </div>
