@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   SiPython,
   SiTypescript,
@@ -267,11 +267,24 @@ const OTHER_CERTS_BADGES: CertificationItem[] = [
 export const SkillsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'skills' | 'certifications'>('skills');
   const [certSubTab, setCertSubTab] = useState<'prof' | 'other'>('prof');
+  const [sectionVisible, setSectionVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setSectionVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section id="skills" className={styles.section}>
-      {/* Vertical Side Rail – fixed right, below theme toggle */}
-      <nav className={styles.sideRail}>
+    <section id="skills" className={styles.section} ref={sectionRef}>
+      {/* Vertical Side Rail – only visible when skills section is in view */}
+      <nav className={`${styles.sideRail} ${sectionVisible ? styles.railVisible : ''}`}>
         <button
           className={`${styles.railBtn} ${activeTab === 'skills' ? styles.railActive : ''}`}
           onClick={() => setActiveTab('skills')}
