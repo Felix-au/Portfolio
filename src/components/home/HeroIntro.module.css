@@ -227,7 +227,6 @@
 .word[data-plus='true']::before {
   content: '+';
   margin-right: 12px;
-  opacity: 0.4;
   color: inherit;
 }
 
