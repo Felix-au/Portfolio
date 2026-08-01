@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useSpring } from 'framer-motion';
+import { useSpring, motion } from 'framer-motion';
 import {
   AmbientLight,
   DirectionalLight,
@@ -22,7 +22,11 @@ const springConfig = {
   mass: 2,
 };
 
-export const DisplacementSphere: React.FC = () => {
+interface DisplacementSphereProps {
+  isVisible?: boolean;
+}
+
+export const DisplacementSphere: React.FC<DisplacementSphereProps> = ({ isVisible = true }) => {
   const startRef = useRef(Date.now());
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rendererRef = useRef<WebGLRenderer | null>(null);
@@ -151,8 +155,11 @@ export const DisplacementSphere: React.FC = () => {
   }, [rotationX, rotationY]);
 
   return (
-    <canvas
+    <motion.canvas
       ref={canvasRef}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isVisible ? 0.85 : 0 }}
+      transition={{ duration: 1.2, ease: 'easeOut' }}
       style={{
         position: 'fixed',
         top: 0,
@@ -161,7 +168,6 @@ export const DisplacementSphere: React.FC = () => {
         height: '100vh',
         pointerEvents: 'none',
         zIndex: 0,
-        opacity: 0.85,
       }}
     />
   );
