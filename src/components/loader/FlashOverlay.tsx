@@ -2,15 +2,15 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import GradientVideo from '../../assets/GradientBackground.mp4';
 
-const fadeout = keyframes`
+const subtleFadeout = keyframes`
   0% {
-    opacity: 1;
+    opacity: 0.45;
   }
-  50% {
-    opacity: 0.8;
+  40% {
+    opacity: 0.3;
   }
-  80% {
-    opacity: 0.6;
+  75% {
+    opacity: 0.15;
   }
   100% {
     opacity: 0;
@@ -27,7 +27,8 @@ const VideoContainer = styled.video`
   z-index: 9998;
   user-select: none;
   pointer-events: none;
-  animation: ${fadeout} 2.5s linear forwards;
+  mix-blend-mode: screen;
+  animation: ${subtleFadeout} 1.6s ease-out forwards;
 `;
 
 export const FlashOverlay: React.FC = () => {
