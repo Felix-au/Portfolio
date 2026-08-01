@@ -19,75 +19,97 @@
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding-right: 230px; /* Reserved strip for vertical tabs on far right */
+  padding-right: 100px; /* Reserved space for vertical sidebar tab strip */
   display: flex;
   flex-direction: column;
 }
 
-/* Header & Main Tabs (Positioned in far-right vertical strip under Theme Toggle) */
+/* Header & Main Tabs (Vertical Sidebar Style in Far-Right Strip directly below Theme Toggle) */
 .header {
   position: absolute;
-  top: 5rem;
-  right: 1.75rem;
+  top: 5.5rem;
+  right: 2rem;
   z-index: 50;
 }
 
 .tabNav {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  flex-direction: row-reverse;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 6px;
-  border-radius: 20px;
-  backdrop-filter: blur(12px);
-  width: 215px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme='light'] .tabNav {
-  background: rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
 .tabBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 18px;
-  border-radius: 14px;
+  padding: 16px 14px;
+  color: var(--text-light, rgba(255, 255, 255, 0.7));
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
   border: none;
   background: transparent;
-  color: var(--text-light, rgba(255, 255, 255, 0.7));
-  font-size: 0.9rem;
-  font-weight: 600;
   cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+  transition: color 0.3s ease 0.1s;
   white-space: nowrap;
-  transition: all 0.3s ease;
-  width: 100%;
-  justify-content: flex-start;
+}
+
+[data-theme='light'] .tabBtn {
+  color: rgba(0, 0, 0, 0.65);
 }
 
 .tabIcon {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
 .tabBtn:hover {
-  color: var(--text-color, #ffffff);
+  color: var(--accent, #00e5ff);
+}
+
+[data-theme='light'] .tabBtn:hover {
+  color: var(--accent, #0096d6);
 }
 
 .activeTab {
-  background: var(--accent, #00e5ff);
-  color: #050814 !important;
-  box-shadow: 0 0 16px rgba(0, 229, 255, 0.35);
+  color: var(--accent, #00e5ff) !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 [data-theme='light'] .activeTab {
+  color: var(--accent, #0096d6) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Cyan vertical line indicator matching left sidebar navbar */
+.tabBtn::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 0;
+  width: 3px;
+  background: var(--accent, #00e5ff);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme='light'] .tabBtn::after {
   background: var(--accent, #0096d6);
-  color: #ffffff !important;
-  box-shadow: 0 0 16px rgba(0, 150, 214, 0.35);
+}
+
+.tabBtn:hover::after,
+.activeTab::after {
+  transform: scaleY(1);
+  transform-origin: top;
 }
 
 /* Skills Layout (Full width 2x4 Grid) */
