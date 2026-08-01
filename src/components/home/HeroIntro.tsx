@@ -113,7 +113,7 @@ export const HeroIntro: React.FC = () => {
             <a href="https://github.com/Felix-au/AlgoBuddy" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               AlgoBuddy
             </a>
-            , and more.
+            {' '}and more.
           </p>
         </div>
       </header>
