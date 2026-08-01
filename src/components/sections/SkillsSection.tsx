@@ -278,7 +278,7 @@ export const SkillsSection: React.FC = () => {
           title="Skills & Expertise"
         >
           <Brain className={styles.railIcon} />
-          <span className={styles.railLabel}>Skills</span>
+          <span className={styles.railLabel}>Skills & Expertise</span>
         </button>
 
         <button
@@ -287,7 +287,7 @@ export const SkillsSection: React.FC = () => {
           title="Certifications & Badges"
         >
           <Award className={styles.railIcon} />
-          <span className={styles.railLabel}>Certs</span>
+          <span className={styles.railLabel}>Certifications & Badges</span>
         </button>
       </nav>
 

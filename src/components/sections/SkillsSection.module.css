@@ -26,33 +26,35 @@
 /* ─── Vertical Side Rail (fixed right, below theme toggle) ─── */
 /*
   Theme toggle: top: 26px, right: 26px, height: 48px
-  Rail starts at: top: 26px + 48px + 16px gap = 90px
-  Width matches toggle: 48px
+  Rail starts below: top = 90px, bottom = 32px
+  Each button gets flex: 1 to share space equally.
 */
 .sideRail {
   position: fixed;
   top: 90px;
+  bottom: 32px;
   right: 26px;
   width: 48px;
   z-index: 998;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 0;
 }
 
 .railBtn {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: 6px;
+  justify-content: center;
+  gap: 10px;
   width: 48px;
-  padding: 12px 0;
+  padding: 0;
   border: none;
   background: transparent;
   cursor: pointer;
-  color: var(--text-light, rgba(255, 255, 255, 0.45));
+  color: var(--text-light, rgba(255, 255, 255, 0.4));
   border-radius: 12px;
   transition: color 0.25s ease, background 0.25s ease;
   position: relative;
@@ -60,27 +62,26 @@
 
 .railBtn:hover {
   color: var(--text-color, #ffffff);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 [data-theme='light'] .railBtn:hover {
   color: var(--text-color, #0a0a0a);
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .railActive {
   color: var(--accent, #00e5ff) !important;
 }
 
-/* Active indicator – a vertical bar on the right edge like a sidebar indicator */
+/* Active indicator – thin bar on the far right edge */
 .railActive::after {
   content: '';
   position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 15%;
+  height: 70%;
   width: 2px;
-  height: 60%;
   border-radius: 2px 0 0 2px;
   background: var(--accent, #00e5ff);
   box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
@@ -102,14 +103,13 @@
 }
 
 .railLabel {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  /* vertical-rl with NO rotation = reads top-to-bottom (S-K-I...) */
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  /* rotate so letters read top-to-bottom */
-  transform: rotate(180deg);
   line-height: 1;
 }
 
