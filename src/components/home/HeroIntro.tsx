@@ -51,8 +51,9 @@ export const HeroIntro: React.FC = () => {
             <span className={styles.word} style={{ '--delay': '200ms' } as React.CSSProperties}>
               {profile.role}
             </span>
+
             <div className={styles.lineWrapper}>
-              {/* Above the line: Stars, Commits, Forks, Followers */}
+              {/* Above the line: Stars, Commits, Forks, Watched */}
               <div className={styles.lineStatsAbove}>
                 <span className={styles.statItem} title="Stars Earned">
                   ⭐ <strong>{stats ? stats.totalStars : 669}</strong> Stars
@@ -66,15 +67,15 @@ export const HeroIntro: React.FC = () => {
                   🍴 <strong>{stats ? stats.totalForks : 235}</strong> Forks
                 </span>
                 <span className={styles.statDot}>•</span>
-                <span className={styles.statItem} title="GitHub Followers">
-                  👥 <strong>73</strong> Followers
+                <span className={styles.statItem} title="Watched Repositories">
+                  👁️ <strong>27</strong> Watched
                 </span>
               </div>
 
               {/* Undisturbed horizontal line */}
               <span className={styles.line} />
 
-              {/* Below the line: PRs, Code Reviews, Issues */}
+              {/* Below the line: PRs, Code Reviews, Issues, Followers */}
               <div className={styles.lineStatsBelow}>
                 <span className={styles.statItem} title="Pull Requests Created">
                   🔀 <strong>{stats ? stats.totalPRs : 219}</strong> PRs
@@ -86,6 +87,10 @@ export const HeroIntro: React.FC = () => {
                 <span className={styles.statDot}>•</span>
                 <span className={styles.statItem} title="Issues Opened">
                   🐛 <strong>{stats ? stats.totalIssues : 243}</strong> Issues
+                </span>
+                <span className={styles.statDot}>•</span>
+                <span className={styles.statItem} title="GitHub Followers">
+                  👥 <strong>73</strong> Followers
                 </span>
               </div>
             </div>
