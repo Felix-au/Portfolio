@@ -18,6 +18,7 @@ interface GraphQLResponse {
           isFork: boolean;
           stargazerCount: number;
           forkCount: number;
+          watchers?: { totalCount: number };
           primaryLanguage?: {
             name: string;
             color: string;
@@ -47,6 +48,9 @@ const GITHUB_GRAPHQL_QUERY = `
           isFork
           stargazerCount
           forkCount
+          watchers {
+            totalCount
+          }
           primaryLanguage {
             name
             color
@@ -105,6 +109,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const repos = userData.repositories?.nodes || [];
     const totalStars = repos.reduce((acc, repo) => acc + repo.stargazerCount, 0);
     const totalForks = repos.reduce((acc, repo) => acc + repo.forkCount, 0);
+    const totalWatchers = repos.reduce((acc, repo) => acc + (repo.watchers?.totalCount || 0), 0);
 
     const contribs = userData.contributionsCollection || {
       totalCommitContributions: 0,
@@ -141,6 +146,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       username,
       totalStars: totalStars || 669,
       totalForks: totalForks || 235,
+      totalWatchers: totalWatchers || 124,
       totalRepos: repos.length || 33,
       totalCommits: contribs.totalCommitContributions || 5907,
       totalPRs: contribs.totalPullRequestContributions || 219,

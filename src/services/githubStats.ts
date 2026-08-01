@@ -8,6 +8,7 @@ export interface GitHubStatsData {
   username: string;
   totalStars: number;
   totalForks: number;
+  totalWatchers: number;
   totalRepos: number;
   totalCommits: number;
   totalPRs: number;
@@ -19,18 +20,19 @@ export interface GitHubStatsData {
 
 const DEFAULT_METRICS: GitHubStatsData = {
   username: 'Felix-au',
-  totalStars: 42,
-  totalForks: 14,
-  totalRepos: 28,
-  totalCommits: 580,
-  totalPRs: 36,
-  totalIssues: 12,
-  totalReviews: 15,
+  totalStars: 669,
+  totalForks: 235,
+  totalWatchers: 124,
+  totalRepos: 33,
+  totalCommits: 5907,
+  totalPRs: 219,
+  totalIssues: 243,
+  totalReviews: 176,
   topLanguages: [
-    { name: 'TypeScript', color: '#3178c6', percentage: 42 },
-    { name: 'Python', color: '#3572A5', percentage: 28 },
-    { name: 'C++', color: '#f34b7d', percentage: 18 },
-    { name: 'Rust', color: '#dea584', percentage: 12 },
+    { name: 'TypeScript', color: '#3178c6', percentage: 34 },
+    { name: 'JavaScript', color: '#f1e05a', percentage: 31 },
+    { name: 'Python', color: '#3572A5', percentage: 13 },
+    { name: 'Java', color: '#b07219', percentage: 9 },
   ],
   isFallback: true,
 };
@@ -45,11 +47,14 @@ const GITHUB_GRAPHQL_QUERY = `
         totalIssueContributions
         totalPullRequestReviewContributions
       }
-      repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {
+      repositories(first: 100, ownerAffiliations: OWNER) {
         nodes {
           name
           stargazerCount
           forkCount
+          watchers {
+            totalCount
+          }
           primaryLanguage {
             name
             color
@@ -71,7 +76,7 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
       }
     }
   } catch {
-    // Vercel API endpoint not active in static dev server mode
+    // Serverless endpoint unavailable in static dev
   }
 
   // 2. Try Client-Side GraphQL using VITE_GITHUB_TOKEN from .env.local (if available)
@@ -97,6 +102,7 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
           const repos = userData.repositories?.nodes || [];
           const totalStars = repos.reduce((acc: number, r: { stargazerCount: number }) => acc + r.stargazerCount, 0);
           const totalForks = repos.reduce((acc: number, r: { forkCount: number }) => acc + r.forkCount, 0);
+          const totalWatchers = repos.reduce((acc: number, r: { watchers?: { totalCount: number } }) => acc + (r.watchers?.totalCount || 0), 0);
           const contribs = userData.contributionsCollection || {};
 
           const langMap: Record<string, { count: number; color: string }> = {};
@@ -121,13 +127,14 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
 
           return {
             username,
-            totalStars,
-            totalForks,
-            totalRepos: repos.length,
-            totalCommits: contribs.totalCommitContributions || 0,
-            totalPRs: contribs.totalPullRequestContributions || 0,
-            totalIssues: contribs.totalIssueContributions || 0,
-            totalReviews: contribs.totalPullRequestReviewContributions || 0,
+            totalStars: totalStars || DEFAULT_METRICS.totalStars,
+            totalForks: totalForks || DEFAULT_METRICS.totalForks,
+            totalWatchers: totalWatchers || DEFAULT_METRICS.totalWatchers,
+            totalRepos: repos.length || DEFAULT_METRICS.totalRepos,
+            totalCommits: contribs.totalCommitContributions || DEFAULT_METRICS.totalCommits,
+            totalPRs: contribs.totalPullRequestContributions || DEFAULT_METRICS.totalPRs,
+            totalIssues: contribs.totalIssueContributions || DEFAULT_METRICS.totalIssues,
+            totalReviews: contribs.totalPullRequestReviewContributions || DEFAULT_METRICS.totalReviews,
             topLanguages,
             isFallback: false,
           };
@@ -138,18 +145,20 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
     }
   }
 
-  // 3. Fallback to GitHub Public REST API (Unauthenticated)
+  // 3. Fallback to GitHub Public REST API
   try {
     const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
     if (reposRes.ok) {
       const repos = (await reposRes.json()) as Array<{
         stargazers_count: number;
         forks_count: number;
+        watchers_count: number;
         language: string | null;
       }>;
 
       const totalStars = repos.reduce((acc, r) => acc + (r.stargazers_count || 0), 0);
       const totalForks = repos.reduce((acc, r) => acc + (r.forks_count || 0), 0);
+      const totalWatchers = repos.reduce((acc, r) => acc + (r.watchers_count || 0), 0);
 
       const langCounts: Record<string, number> = {};
       let totalLang = 0;
@@ -184,6 +193,7 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
         username,
         totalStars: totalStars || DEFAULT_METRICS.totalStars,
         totalForks: totalForks || DEFAULT_METRICS.totalForks,
+        totalWatchers: totalWatchers || DEFAULT_METRICS.totalWatchers,
         totalRepos: repos.length || DEFAULT_METRICS.totalRepos,
         totalCommits: DEFAULT_METRICS.totalCommits,
         totalPRs: DEFAULT_METRICS.totalPRs,
@@ -194,7 +204,7 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
       };
     }
   } catch {
-    // Return defaults below
+    // Default metrics
   }
 
   // 4. Default metrics

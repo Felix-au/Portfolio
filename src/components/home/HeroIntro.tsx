@@ -53,7 +53,7 @@ export const HeroIntro: React.FC = () => {
             </span>
 
             <div className={styles.lineWrapper}>
-              {/* Above the line: Stars, Commits, Forks, Watched */}
+              {/* Above the line: Stars, Commits, Forks, Watchers Earned */}
               <div className={styles.lineStatsAbove}>
                 <span className={styles.statItem} title="Stars Earned">
                   ⭐ <strong>{stats ? stats.totalStars : 669}</strong> Stars
@@ -67,8 +67,8 @@ export const HeroIntro: React.FC = () => {
                   🍴 <strong>{stats ? stats.totalForks : 235}</strong> Forks
                 </span>
                 <span className={styles.statDot}>•</span>
-                <span className={styles.statItem} title="Watched Repositories">
-                  👁️ <strong>27</strong> Watched
+                <span className={styles.statItem} title="Watchers Earned Across All Repos">
+                  👁️ <strong>{stats ? stats.totalWatchers : 124}</strong> Watchers
                 </span>
               </div>
 
