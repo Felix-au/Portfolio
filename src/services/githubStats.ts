@@ -19,6 +19,7 @@ export interface GitHubStatsData {
   followers?: number;
   topLanguages: LanguageStat[];
   isFallback?: boolean;
+  error?: string;
 }
 
 export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubStatsData> {
