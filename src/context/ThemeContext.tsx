@@ -32,7 +32,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const toggleTheme = (newTheme?: Theme) => {
-    const targetTheme = newTheme ? newTheme : theme === 'dark' ? 'light' : 'dark';
+    const targetTheme =
+      newTheme === 'dark' || newTheme === 'light'
+        ? newTheme
+        : theme === 'dark'
+        ? 'light'
+        : 'dark';
     setTheme(targetTheme);
   };
 

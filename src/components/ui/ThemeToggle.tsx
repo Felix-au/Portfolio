@@ -17,7 +17,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ isMobile }) => {
       data-mobile={isMobile}
       data-theme={theme}
       aria-label="Toggle theme"
-      onClick={toggleTheme}
+      onClick={() => toggleTheme()}
     >
       <svg aria-hidden className="theme-toggle__svg" width="38" height="38" viewBox="0 0 38 38">
         <defs>
