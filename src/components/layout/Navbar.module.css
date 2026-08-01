@@ -52,20 +52,13 @@
   transition: fill 0.4s ease;
 }
 
-/* Light Theme Logo Hover: Black paths fill with bluish cyan accent */
-[data-theme='light'] .logo:hover svg path[fill="#000000"],
-[data-theme='light'] .logo:hover svg path[fill="#070707"],
-[data-theme='light'] .logo:hover svg path[fill="#262626"],
-[data-theme='light'] .logo:hover svg path[fill="#141414"],
-[data-theme='light'] .logo:hover svg path[fill="#101010"],
-[data-theme='light'] .logo:hover svg path[fill="#0E0E0E"] {
+/* Light & Dark Theme Logo Hover: Paths fill with cyan accent in both dark and light modes */
+[data-theme='light'] .logo:hover svg path {
   fill: var(--accent, #0096d6) !important;
 }
 
-/* Dark Theme Logo Hover: White paths fill with cyan accent */
-[data-theme='dark'] .logo:hover svg path[fill="#F1F1F1"],
-[data-theme='dark'] .logo:hover svg path[fill="#070707"],
-.logo:hover svg path[fill="#F1F1F1"] {
+[data-theme='dark'] .logo:hover svg path,
+.logo:hover svg path {
   fill: var(--accent, #00e5ff) !important;
 }
 
@@ -120,28 +113,30 @@
   color: rgba(0, 0, 0, 0.65);
 }
 
-/* Hover & Active states change text color to cyan accent */
+/* Hover & Active states change text color to cyan accent and bold */
 .navLink:hover,
 .navLink:active,
 .navLink[aria-current='page'] {
-  color: var(--accent, #00e5ff);
+  color: var(--accent, #00e5ff) !important;
+  font-weight: 600;
 }
 
 [data-theme='light'] .navLink:hover,
 [data-theme='light'] .navLink:active,
 [data-theme='light'] .navLink[aria-current='page'] {
-  color: var(--accent, #0096d6);
+  color: var(--accent, #0096d6) !important;
+  font-weight: 600;
 }
 
-/* Cyan bar indicator on the side of vertical text for current active section */
+/* Prominent cyan bar indicator under/beside vertical text for current active section */
 .navLink::after {
   content: '';
   position: absolute;
-  top: 12px;
-  bottom: 12px;
-  left: 0;
-  right: auto;
-  width: 3px;
+  top: 10px;
+  bottom: 10px;
+  right: -4px;
+  left: auto;
+  width: 4px;
   height: auto;
   background: var(--accent, #00e5ff);
   transform: scaleY(0);
@@ -156,7 +151,7 @@
 .navLink:hover::after,
 .navLink:active::after,
 .navLink[aria-current='page']::after {
-  transform: scaleY(1);
+  transform: scaleY(1) !important;
   transform-origin: top;
 }
 
@@ -240,7 +235,7 @@
   inset: 0;
   background: rgba(17, 17, 17, 0.92);
   transform: translate3d(0, -100%, 0);
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -268,7 +263,7 @@
   color: var(--text-color, #ffffff);
   padding: 20px;
   opacity: 0;
-  transition: opacity 0.4s ease 0.1s, color 0.3s ease;
+  transition: opacity 0.5s ease 0.1s, color 0.3s ease;
   position: relative;
 }
 
@@ -279,13 +274,15 @@
 .mobileNavLink:hover,
 .mobileNavLink:active,
 .mobileNavLink[aria-current='page'] {
-  color: var(--accent, #00e5ff);
+  color: var(--accent, #00e5ff) !important;
+  font-weight: 600;
 }
 
 [data-theme='light'] .mobileNavLink:hover,
 [data-theme='light'] .mobileNavLink:active,
 [data-theme='light'] .mobileNavLink[aria-current='page'] {
-  color: var(--accent, #0096d6);
+  color: var(--accent, #0096d6) !important;
+  font-weight: 600;
 }
 
 .mobileNavLink::after {
@@ -309,7 +306,7 @@
 .mobileNavLink:hover::after,
 .mobileNavLink:active::after,
 .mobileNavLink[aria-current='page']::after {
-  transform: scaleX(1);
+  transform: scaleX(1) !important;
   transform-origin: left;
 }
 

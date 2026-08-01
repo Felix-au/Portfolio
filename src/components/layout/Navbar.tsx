@@ -19,17 +19,19 @@ export const Navbar: React.FC = () => {
 
   const SelectedLogo = theme === 'light' ? LogoLightSvg : LogoSvg;
 
-  // Active section scroll tracking
+  // Dynamic active section scroll tracking
   useEffect(() => {
     const sectionIds = ['intro', 'projects', 'details', 'articles', 'contact'];
+
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 3;
-      for (const id of sectionIds) {
+      const scrollPosition = window.scrollY + window.innerHeight * 0.4;
+
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const id = sectionIds[i];
         const el = document.getElementById(id);
         if (el) {
           const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
+          if (scrollPosition >= top) {
             setActiveHash(`#${id}`);
             break;
           }
@@ -67,7 +69,7 @@ export const Navbar: React.FC = () => {
         <SelectedLogo style={{ width: 48, height: 48 }} />
       </a>
 
-      {/* Mobile Hamburger Toggle Button */}
+      {/* Mobile Toggle Button (Morphs into diagonal X icon when open) */}
       <button
         className={styles.navToggle}
         aria-label="Toggle navigation menu"
@@ -76,11 +78,16 @@ export const Navbar: React.FC = () => {
         <svg
           className={styles.navToggleIcon}
           viewBox="0 0 24 24"
-          style={{ transform: menuOpen ? 'rotate(45deg)' : 'none' }}
+          style={{
+            transform: menuOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+            transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
         >
           {menuOpen ? (
+            /* Explicit Diagonal X Close Icon */
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z" />
           ) : (
+            /* 3-bar Hamburger Menu Icon */
             <path d="M22 6H2V4h20v2ZM2 13h16v-2H2v2Zm0 7h20v-2H2v2Z" />
           )}
         </svg>
