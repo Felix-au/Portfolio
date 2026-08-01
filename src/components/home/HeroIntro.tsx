@@ -69,6 +69,80 @@ export const HeroIntro: React.FC = () => {
             </span>
           </div>
         </h2>
+
+        {/* Bio Description & Expertise */}
+        <div className={styles.bio}>
+          <p>
+            I'm a Software Engineer, AI Developer & Systems Programmer passionate about building highly polished, performance-driven desktop applications, scalable web services, and intelligent systems. My work spans full-stack engineering, multimodal AI deployment at scale, and cloud-native infrastructure.
+          </p>
+
+          <p>
+            Currently pursuing a B.Tech in Computer Science Engineering at BML Munjal University (CGPA: 8.15), I’ve engineered production-ready enterprise platforms ranging from secure academic assessment portals (
+            <a href="https://prashnasetu.com" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
+              PrashnaSetu
+            </a>
+            ) and AI model hosting & unified API gateways (
+            <a href="https://omnikeyai.felixau.in" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
+              OmniKey AI
+            </a>
+            ) to OS-level Windows utilities (
+            <a href="https://sonixx.felixau.in/" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
+              Sonixx
+            </a>
+            ,{' '}
+            <a href="https://github.com/Felix-au/MouseX-Absolute-Mouse-Control" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
+              MouseX
+            </a>
+            ,{' '}
+            <a href="https://github.com/Felix-au/DeskX-Wallpaper-Engine" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
+              DeskX
+            </a>
+            ) and desktop intelligence suites (
+            <a href="https://corvusx.felixau.in/" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
+              CorvusX
+            </a>
+            ).
+          </p>
+
+          <p>
+            Beyond enterprise systems, I actively build open-source developer tools and interactive graphics libraries including{' '}
+            <a href="https://cursorx.felixau.in/" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
+              CursorX
+            </a>
+            ,{' '}
+            <a href="https://3dconstructs.felixau.in/" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
+              3D Constructs Library
+            </a>
+            , and{' '}
+            <a href="https://github.com/Felix-au/AlgoBuddy" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
+              AlgoBuddy
+            </a>
+            .
+          </p>
+
+          <p>
+            I enjoy solving complex engineering challenges—whether optimizing low-latency LLM pipelines, scaling backend services, or architecting developer infrastructure.
+          </p>
+
+          <div className={styles.expertise}>
+            <div className={styles.expertiseHeader}>🧠 Core Areas of Expertise</div>
+            <div className={styles.expertiseItem}>
+              🚀 <strong>Full-Stack Engineering:</strong> React, Next.js, FastAPI, Node.js, Spring Boot, Django
+            </div>
+            <div className={styles.expertiseItem}>
+              🖥️ <strong>Systems Programming & Windows Core:</strong> Win32 FFI, WASAPI, and OS-level hooks
+            </div>
+            <div className={styles.expertiseItem}>
+              🤖 <strong>Agentic AI, NLP, RAG, LLM Applications & Multimodal Systems</strong>
+            </div>
+            <div className={styles.expertiseItem}>
+              ☁️ <strong>Cloud & DevOps:</strong> AWS, Azure, Docker, Kubernetes, Redis, Kafka
+            </div>
+            <div className={styles.expertiseItem}>
+              🗄️ <strong>Databases & Storage:</strong> MySQL, MongoDB Atlas, PostgreSQL, MariaDB, Firebase
+            </div>
+          </div>
+        </div>
       </header>
     </section>
   );

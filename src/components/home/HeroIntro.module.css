@@ -74,15 +74,15 @@
 }
 
 .intro {
-  height: 100vh;
-  min-height: 550px;
+  min-height: 100vh;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   position: relative;
   z-index: 10;
-  padding: 0 2rem;
+  padding: 120px 2rem 60px;
   box-sizing: border-box;
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -92,7 +92,6 @@
   max-width: 1024px;
   width: 100%;
   position: relative;
-  top: -24px;
   margin-left: 16rem; /* Pushed significantly further right as requested */
 }
 
@@ -332,4 +331,68 @@
 
 [data-theme='light'] .scrollIndicator::before {
   background: rgba(0, 0, 0, 0.5);
+}
+
+.bio {
+  margin-top: 2.25rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-light, rgba(255, 255, 255, 0.8));
+  max-width: 820px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+[data-theme='light'] .bio {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.bio p {
+  margin: 0;
+}
+
+.bioLink {
+  color: var(--accent, #00e5ff);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 1px transparent solid;
+}
+
+[data-theme='light'] .bioLink {
+  color: var(--accent, #0096d6);
+}
+
+.bioLink:hover {
+  text-decoration: underline;
+}
+
+.expertise {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.expertiseHeader {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--text-color, #ffffff);
+  margin-bottom: 0.35rem;
+}
+
+.expertiseItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 696px) {
+  .bio {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-top: 1.5rem;
+  }
 }
