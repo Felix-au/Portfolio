@@ -29,7 +29,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className={styles.navbar}>
-      {/* Top Logo SVG using existing vector SVGs */}
+      {/* Top Vector Logo SVG */}
       <a
         href="#intro"
         className={styles.logo}
@@ -39,7 +39,7 @@ export const Navbar: React.FC = () => {
           handleNavClick('#intro');
         }}
       >
-        <SelectedLogo style={{ width: 32, height: 32 }} />
+        <SelectedLogo style={{ width: 38, height: 38 }} />
       </a>
 
       {/* Mobile Hamburger Toggle Button */}
@@ -48,11 +48,15 @@ export const Navbar: React.FC = () => {
         aria-label="Toggle navigation menu"
         onClick={() => setMenuOpen(!menuOpen)}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <svg
+          className={styles.navToggleIcon}
+          viewBox="0 0 24 24"
+          style={{ transform: menuOpen ? 'rotate(45deg)' : 'none' }}
+        >
           {menuOpen ? (
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z" />
           ) : (
-            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            <path d="M22 6H2V4h20v2ZM2 13h16v-2H2v2Zm0 7h20v-2H2v2Z" />
           )}
         </svg>
       </button>
@@ -78,9 +82,10 @@ export const Navbar: React.FC = () => {
 
         {/* Bottom Social Icon Links */}
         <div className={styles.navIcons}>
+          {/* GitHub */}
           <a
             className={styles.navIconLink}
-            href="https://github.com"
+            href="https://github.com/Felix-au"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
@@ -90,27 +95,27 @@ export const Navbar: React.FC = () => {
             </svg>
           </a>
 
+          {/* LinkedIn */}
           <a
             className={styles.navIconLink}
-            href="https://figma.com"
+            href="https://www.linkedin.com/in/harshit-soni-781a77274/"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Figma"
+            aria-label="LinkedIn"
           >
             <svg className={styles.navIcon} viewBox="0 0 24 24">
-              <path fillRule="evenodd" d="M15 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-2 5.46A4 4 0 0 0 17.65 9a4.01 4.01 0 0 0 .18-5.83A4 4 0 0 0 15 2H9a4 4 0 0 0-2.65 7 4.01 4.01 0 0 0 0 6A3.98 3.98 0 0 0 5 18a4 4 0 1 0 8 0v-2.54ZM11 16H9a2 2 0 1 0 2 2v-2ZM9 8h2V4H9a2 2 0 1 0 0 4Zm0 2a2 2 0 1 0 0 4h2v-4H9Zm4-2V4h2a2 2 0 0 1 0 4h-2Z" />
+              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77Z" />
             </svg>
           </a>
 
+          {/* Email */}
           <a
             className={styles.navIconLink}
-            href="https://bsky.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Bluesky"
+            href="mailto:felixaugum@gmail.com"
+            aria-label="Email"
           >
             <svg className={styles.navIcon} viewBox="0 0 24 24">
-              <path d="M6.34 3.78C8.63 5.51 11.09 9.01 12 10.9v4.96c0-.1-.04.02-.13.27-.47 1.4-2.32 6.83-6.54 2.49-2.22-2.29-1.19-4.58 2.86-5.27-2.32.4-4.92-.26-5.63-2.82C2.35 9.8 2 5.25 2 4.64c0-3.07 2.68-2.1 4.34-.86Zm11.32 0C15.37 5.51 12.91 9.01 12 10.9v4.96c0-.1.04.02.13.27.47 1.4 2.32 6.83 6.54 2.49 2.22-2.29-1.19-4.58-2.86-5.27 2.32.4 4.92-.26 5.63-2.82.21-.73.56-5.27.56-5.88 0-3.07-2.68-2.1-4.34-.86Z" />
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
             </svg>
           </a>
         </div>

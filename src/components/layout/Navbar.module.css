@@ -19,8 +19,8 @@
   .navbar {
     --headerNavFontSize: 1.375rem;
     bottom: auto;
-    left: 16px;
-    top: 16px;
+    left: 24px;
+    top: 24px;
   }
 }
 
@@ -35,6 +35,11 @@
   text-decoration: none;
   align-items: center;
   justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.08);
 }
 
 @media (max-width: 696px) {
@@ -116,7 +121,7 @@
   justify-content: center;
   position: relative;
   z-index: 8;
-  gap: 8px;
+  gap: 4px;
 }
 
 @media (max-width: 696px) {
@@ -125,6 +130,7 @@
     position: absolute;
     bottom: 32px;
     left: 32px;
+    gap: 16px;
   }
 }
 
@@ -132,27 +138,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  color: var(--text-light, rgba(255, 255, 255, 0.6));
-  transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 48px;
+  height: 48px;
+  color: var(--text-light, rgba(255, 255, 255, 0.65));
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease;
   text-decoration: none;
 }
 
 [data-theme='light'] .navIconLink {
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.65);
 }
 
 .navIconLink:hover,
 .navIconLink:active {
   color: var(--accent, #00e5ff);
+  transform: scale(1.15);
 }
 
 .navIcon {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   fill: currentColor;
-  transition: fill 0.4s ease;
+  transition: fill 0.3s ease;
 }
 
 /* Mobile Toggle Hamburger Button */
@@ -163,25 +170,34 @@
   cursor: pointer;
   padding: 8px;
   position: fixed;
-  top: 16px;
-  right: 64px;
+  top: 24px;
+  right: 80px;
   z-index: 1000;
   color: var(--text-color, #ffffff);
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 696px) {
   .navToggle {
     display: flex;
-    align-items: center;
-    justify-content: center;
   }
+}
+
+.navToggleIcon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
 }
 
 /* Mobile Menu Backdrop Overlay */
 .mobileNav {
   position: fixed;
   inset: 0;
-  background: rgba(17, 17, 17, 0.88);
+  background: rgba(17, 17, 17, 0.92);
   transform: translate3d(0, -100%, 0);
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
@@ -194,7 +210,7 @@
 }
 
 [data-theme='light'] .mobileNav {
-  background: rgba(245, 245, 245, 0.88);
+  background: rgba(245, 245, 245, 0.92);
 }
 
 .mobileNav[data-visible='true'] {
@@ -209,7 +225,7 @@
   color: var(--text-color, #ffffff);
   padding: 20px;
   opacity: 0;
-  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.4s ease 0.1s, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
 

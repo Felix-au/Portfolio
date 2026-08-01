@@ -5,6 +5,12 @@ import { DisplacementSphere } from './components/background/DisplacementSphere';
 import { ThemeToggle } from './components/ui/ThemeToggle';
 import { Navbar } from './components/layout/Navbar';
 import { HeroIntro } from './components/home/HeroIntro';
+import {
+  ProjectsSection,
+  DetailsSection,
+  ArticlesSection,
+  ContactSection,
+} from './components/sections/PlaceholderSections';
 
 export const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -30,12 +36,12 @@ export const App: React.FC = () => {
       )}
 
       <div
+        id="intro"
         style={{
           minHeight: '100vh',
           backgroundColor: 'var(--bg-color)',
           color: 'var(--text-color)',
           position: 'relative',
-          overflow: 'hidden',
           transition: 'background-color 0.4s ease, color 0.4s ease',
         }}
       >
@@ -43,7 +49,15 @@ export const App: React.FC = () => {
         <DisplacementSphere isVisible={showBg} />
 
         {/* Hero Section */}
-        {showBg && <HeroIntro />}
+        {showBg && (
+          <>
+            <HeroIntro />
+            <ProjectsSection />
+            <DetailsSection />
+            <ArticlesSection />
+            <ContactSection />
+          </>
+        )}
       </div>
     </>
   );
