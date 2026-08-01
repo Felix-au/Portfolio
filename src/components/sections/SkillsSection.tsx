@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import GlareHover from '../ui/GlareHover';
 import {
   SiPython,
   SiTypescript,
@@ -325,7 +326,20 @@ export const SkillsSection: React.FC = () => {
           <div className={styles.skillsLayout}>
             <div className={styles.categoryGrid}>
               {SKILL_CATEGORIES.map((cat) => (
-                <div key={cat.id} className={styles.categoryCard}>
+                <GlareHover
+                  key={cat.id}
+                  width="100%"
+                  height="100%"
+                  background="transparent"
+                  borderRadius="20px"
+                  borderColor="transparent"
+                  glareColor="#ffffff"
+                  glareOpacity={0.1}
+                  glareAngle={-30}
+                  glareSize={300}
+                  transitionDuration={800}
+                  className={styles.categoryCard}
+                >
 
                   {/* Large emoji watermark in the background */}
                   <span className={styles.cardBgEmoji} aria-hidden="true">{cat.emojiIcon}</span>
@@ -354,7 +368,7 @@ export const SkillsSection: React.FC = () => {
                     <span className={styles.catTitle}>{cat.title}</span>
                   </div>
 
-                </div>
+                </GlareHover>
               ))}
             </div>
           </div>
