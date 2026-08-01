@@ -74,15 +74,15 @@
 }
 
 .intro {
+  height: 100vh;
   min-height: 100vh;
-  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   position: relative;
   z-index: 10;
-  padding: 120px 2rem 60px;
+  padding: 0 2rem;
   box-sizing: border-box;
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -116,8 +116,13 @@
 }
 
 @media (max-width: 696px) {
+  .intro {
+    height: auto;
+    min-height: 100vh;
+    padding: 80px 1.5rem 40px;
+  }
   .text {
-    top: -48px;
+    top: 0;
     margin-left: 0;
   }
 }
