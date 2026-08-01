@@ -8,13 +8,6 @@ export const HeroIntro: React.FC = () => {
   const { theme } = useTheme();
   const [disciplineIndex, setDisciplineIndex] = useState(0);
   const [prevDisciplineIndex, setPrevDisciplineIndex] = useState<number | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    setVisible(false);
-    const timer = setTimeout(() => setVisible(true), 100);
-    return () => clearTimeout(timer);
-  }, [theme]);
 
   useEffect(() => {
     setDisciplineIndex(0);
@@ -27,7 +20,7 @@ export const HeroIntro: React.FC = () => {
         setPrevDisciplineIndex(prev);
         return (prev + 1) % profile.disciplines.length;
       });
-    }, 4500); // 10% less time than 5000ms
+    }, 4500);
 
     return () => clearInterval(interval);
   }, [theme]);
@@ -41,8 +34,8 @@ export const HeroIntro: React.FC = () => {
   return (
     <section className={styles.intro}>
       <header key={theme} className={styles.text}>
-        <h1 className={styles.name} data-visible={visible}>
-          <DecoderText text={profile.name} delay={500} />
+        <h1 className={styles.name} data-visible="true">
+          <DecoderText text={profile.name} delay={300} />
         </h1>
 
         <h2 className={styles.title}>
