@@ -11,9 +11,8 @@ import {
   SphereGeometry,
   UniformsUtils,
   WebGLRenderer,
-  Light,
-  IUniform
 } from 'three';
+import type { Light, IUniform } from 'three';
 import vertexShader from './displacement-sphere-vertex.glsl?raw';
 import fragmentShader from './displacement-sphere-fragment.glsl?raw';
 
