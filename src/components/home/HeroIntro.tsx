@@ -70,14 +70,14 @@ export const HeroIntro: React.FC = () => {
           </div>
         </h2>
 
-        {/* Bio Description & Expertise */}
+        {/* Bio Description */}
         <div className={styles.bio}>
           <p>
-            I'm a Software Engineer, AI Developer & Systems Programmer passionate about building highly polished, performance-driven desktop applications, scalable web services, and intelligent systems. I’ve engineered production-ready enterprise platforms ranging from secure academic assessment portals (
+            I'm a Software Engineer, AI Developer & Systems Programmer passionate about building performance-driven desktop applications, optimizing low-latency LLM pipelines, scalable web services, & intelligent systems. I’ve engineered production-ready enterprise platforms ranging from secure assessment portals (
             <a href="https://prashnasetu.com" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               PrashnaSetu
             </a>
-            ) and AI model hosting & unified API gateways (
+            ) & AI model hosting & unified API gateway (
             <a href="https://omnikeyai.felixau.in" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               OmniKey AI
             </a>
@@ -93,7 +93,7 @@ export const HeroIntro: React.FC = () => {
             <a href="https://github.com/Felix-au/DeskX-Wallpaper-Engine" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               DeskX
             </a>
-            ) and desktop intelligence suites (
+            ) and desktop assistants (
             <a href="https://corvusx.felixau.in/" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               CorvusX
             </a>
@@ -101,7 +101,7 @@ export const HeroIntro: React.FC = () => {
           </p>
 
           <p>
-            Beyond enterprise systems, I actively build open-source developer tools and interactive graphics libraries including{' '}
+            Beyond enterprise systems, I actively build open-source developer tools and interactive graphics libraries such as{' '}
             <a href="https://cursorx.felixau.in/" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               CursorX
             </a>
@@ -113,31 +113,8 @@ export const HeroIntro: React.FC = () => {
             <a href="https://github.com/Felix-au/AlgoBuddy" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               AlgoBuddy
             </a>
-            .
+            , among others.
           </p>
-
-          <p>
-            I enjoy solving complex engineering challenges—whether optimizing low-latency LLM pipelines, scaling backend services, or architecting developer infrastructure.
-          </p>
-
-          <div className={styles.expertise}>
-            <div className={styles.expertiseHeader}>🧠 Core Areas of Expertise</div>
-            <div className={styles.expertiseItem}>
-              🚀 <strong>Full-Stack Engineering:</strong> React, Next.js, FastAPI, Node.js, Spring Boot, Django
-            </div>
-            <div className={styles.expertiseItem}>
-              🖥️ <strong>Systems Programming & Windows Core:</strong> Win32 FFI, WASAPI, and OS-level hooks
-            </div>
-            <div className={styles.expertiseItem}>
-              🤖 <strong>Agentic AI, NLP, RAG, LLM Applications & Multimodal Systems</strong>
-            </div>
-            <div className={styles.expertiseItem}>
-              ☁️ <strong>Cloud & DevOps:</strong> AWS, Azure, Docker, Kubernetes, Redis, Kafka
-            </div>
-            <div className={styles.expertiseItem}>
-              🗄️ <strong>Databases & Storage:</strong> MySQL, MongoDB Atlas, PostgreSQL, MariaDB, Firebase
-            </div>
-          </div>
         </div>
       </header>
     </section>
