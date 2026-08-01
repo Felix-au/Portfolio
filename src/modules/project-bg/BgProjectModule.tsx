@@ -6,21 +6,6 @@ import { Box, Eye, Code2 } from 'lucide-react';
 export const BgProjectModule: React.FC = () => {
   return (
     <div style={{ margin: '3rem 0' }}>
-      <span
-        style={{
-          background: 'rgba(124, 77, 255, 0.1)',
-          color: '#b388ff',
-          fontSize: '0.8rem',
-          padding: '0.25rem 0.75rem',
-          borderRadius: '20px',
-          border: '1px solid rgba(124, 77, 255, 0.2)',
-          display: 'inline-block',
-          marginBottom: '1rem',
-        }}
-      >
-        Integrated from `bg` project
-      </span>
-
       <h3 style={{ fontSize: '1.8rem', color: '#fff', marginBottom: '0.5rem' }}>
         <DecoderText text="Interactive 3D Displacement & Shader Motion" delay={200} />
       </h3>
