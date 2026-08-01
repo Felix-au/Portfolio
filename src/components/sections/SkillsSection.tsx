@@ -271,14 +271,8 @@ export const SkillsSection: React.FC = () => {
   return (
     <section id="skills" className={styles.section}>
       <div className={styles.container}>
-        {/* Header Title */}
+        {/* Header Right-Aligned Tab Bar */}
         <div className={styles.header}>
-          <h2 className={styles.sectionTitle}>Skills & Certifications</h2>
-          <p className={styles.sectionSubtitle}>
-            Technical proficiency, full-stack capabilities, and verified professional certifications.
-          </p>
-
-          {/* Main Tabs */}
           <div className={styles.tabNav}>
             <button
               className={`${styles.tabBtn} ${activeTab === 'skills' ? styles.activeTab : ''}`}
