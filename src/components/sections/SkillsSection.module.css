@@ -189,15 +189,15 @@
   color: var(--accent, #00e5ff) !important;
 }
 
-/* Active indicator on the LEFT edge (mirrored from right rail) */
+/* Active indicator on the RIGHT edge, matching main rail */
 .certRailActive::after {
   content: '';
   position: absolute;
-  left: 0;
+  right: 0;
   top: 15%;
   height: 70%;
   width: 2px;
-  border-radius: 0 2px 2px 0;
+  border-radius: 2px 0 0 2px;
   background: var(--accent, #00e5ff);
   box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
 }
@@ -211,7 +211,6 @@
   box-shadow: 0 0 8px rgba(0, 150, 214, 0.5);
 }
 
-/* Label reads BOTTOM → TOP (opposite of right rail's top → bottom) */
 .certRailLabel {
   font-size: 0.68rem;
   font-weight: 700;
@@ -219,7 +218,6 @@
   text-transform: uppercase;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  transform: rotate(180deg);
   line-height: 1;
 }
 
