@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { createTimeline } from 'animejs';
 import { LogoSvg } from '../icons/LogoSvg';
+import { LogoLightSvg } from '../icons/LogoLightSvg';
 import { useTheme } from '../../context/ThemeContext';
 
 interface IntroLoaderProps {
@@ -32,12 +33,14 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
       });
   }, [onFinishLoading]);
 
+  const SelectedLogo = theme === 'light' ? LogoLightSvg : LogoSvg;
+
   return (
     <div
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: theme === 'dark' ? '#0a0a0f' : '#f4f4f7',
+        backgroundColor: theme === 'dark' ? '#111111' : '#f5f5f5',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -45,7 +48,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
         transition: 'background-color 0.3s ease',
       }}
     >
-      <LogoSvg
+      <SelectedLogo
         ref={logoRef}
         style={{
           width: 90,
@@ -53,7 +56,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
           filter:
             theme === 'dark'
               ? 'drop-shadow(0 0 25px rgba(0, 229, 255, 0.85))'
-              : 'drop-shadow(0 0 25px rgba(0, 119, 182, 0.65))',
+              : 'drop-shadow(0 0 25px rgba(0, 150, 214, 0.55))',
         }}
       />
     </div>

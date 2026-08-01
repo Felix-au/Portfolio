@@ -3,10 +3,7 @@ import { IntroLoader } from './components/loader/IntroLoader';
 import { FlashOverlay } from './components/loader/FlashOverlay';
 import { DisplacementSphere } from './components/background/DisplacementSphere';
 import { ThemeToggle } from './components/ui/ThemeToggle';
-import { useTheme } from './context/ThemeContext';
-
 export const App: React.FC = () => {
-  const { theme } = useTheme();
   const [loading, setLoading] = useState(true);
   const [showBg, setShowBg] = useState(false);
 
@@ -31,8 +28,8 @@ export const App: React.FC = () => {
       <div
         style={{
           minHeight: '100vh',
-          backgroundColor: theme === 'dark' ? '#0a0a0f' : '#f4f4f7',
-          color: theme === 'dark' ? '#fff' : '#12121a',
+          backgroundColor: 'var(--bg-color)',
+          color: 'var(--text-color)',
           position: 'relative',
           overflow: 'hidden',
           transition: 'background-color 0.4s ease, color 0.4s ease',

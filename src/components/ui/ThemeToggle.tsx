@@ -1,36 +1,43 @@
-import React from 'react';
-import { Sun, Moon } from 'lucide-react';
+import React, { useId } from 'react';
 import { useTheme } from '../../context/ThemeContext';
+import './ThemeToggle.css';
 
-export const ThemeToggle: React.FC = () => {
+export interface ThemeToggleProps {
+  isMobile?: boolean;
+}
+
+export const ThemeToggle: React.FC<ThemeToggleProps> = ({ isMobile }) => {
+  const id = useId();
   const { theme, toggleTheme } = useTheme();
+  const maskId = `${id}theme-toggle-mask`;
 
   return (
     <button
+      className="theme-toggle"
+      data-mobile={isMobile}
+      data-theme={theme}
+      aria-label="Toggle theme"
       onClick={toggleTheme}
-      aria-label="Toggle dark and light theme"
-      title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-      style={{
-        position: 'fixed',
-        top: '1.5rem',
-        right: '1.5rem',
-        zIndex: 9999,
-        width: '46px',
-        height: '46px',
-        borderRadius: '50%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)',
-        backdropFilter: 'blur(16px)',
-        border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(0, 0, 0, 0.15)',
-        color: theme === 'dark' ? '#00e5ff' : '#0077b6',
-        cursor: 'pointer',
-        boxShadow: theme === 'dark' ? '0 8px 32px rgba(0, 229, 255, 0.2)' : '0 8px 32px rgba(0, 0, 0, 0.12)',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-      }}
     >
-      {theme === 'dark' ? <Sun size={22} /> : <Moon size={22} />}
+      <svg aria-hidden className="theme-toggle__svg" width="38" height="38" viewBox="0 0 38 38">
+        <defs>
+          <mask id={maskId}>
+            <circle className="theme-toggle__circle" data-mask="true" cx="19" cy="19" r="13" />
+            <circle className="theme-toggle__mask" cx="25" cy="14" r="9" />
+          </mask>
+        </defs>
+        <path
+          className="theme-toggle__path"
+          d="M19 3v7M19 35v-7M32.856 11l-6.062 3.5M5.144 27l6.062-3.5M5.144 11l6.062 3.5M32.856 27l-6.062-3.5"
+        />
+        <circle
+          className="theme-toggle__circle"
+          mask={`url(#${maskId})`}
+          cx="19"
+          cy="19"
+          r="12"
+        />
+      </svg>
     </button>
   );
 };
