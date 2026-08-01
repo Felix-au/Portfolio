@@ -101,7 +101,7 @@ export const HeroIntro: React.FC = () => {
           </p>
 
           <p>
-            Beyond enterprise systems, I actively build open-source developer tools and interactive graphics libraries such as{' '}
+            Beyond enterprise systems, I build open-source developer tools and graphics libraries—featuring projects like{' '}
             <a href="https://cursorx.felixau.in/" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               CursorX
             </a>
@@ -109,11 +109,11 @@ export const HeroIntro: React.FC = () => {
             <a href="https://3dconstructs.felixau.in/" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               3D Constructs Library
             </a>
-            , and{' '}
+            ,{' '}
             <a href="https://github.com/Felix-au/AlgoBuddy" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               AlgoBuddy
             </a>
-            , among others.
+            , and more.
           </p>
         </div>
       </header>
