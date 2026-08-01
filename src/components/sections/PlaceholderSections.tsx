@@ -45,8 +45,8 @@ export const ResumeSection: React.FC = () => (
   <PlaceholderSection id="resume" title="Resume" />
 );
 
-export const CertificationsSection: React.FC = () => (
-  <PlaceholderSection id="certifications" title="Certifications" />
+export const SkillsSection: React.FC = () => (
+  <PlaceholderSection id="skills" title="Skills" />
 );
 
 export const ContactSection: React.FC = () => (

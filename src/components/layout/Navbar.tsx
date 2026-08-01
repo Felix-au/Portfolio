@@ -8,7 +8,7 @@ import styles from './Navbar.module.css';
 const navLinks = [
   { label: 'Projects', href: '#projects' },
   { label: 'Resume', href: '#resume' },
-  { label: 'Certifications', href: '#certifications' },
+  { label: 'Skills', href: '#skills' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -21,7 +21,7 @@ export const Navbar: React.FC = () => {
 
   // Active section scroll tracking
   useEffect(() => {
-    const sectionIds = ['intro', 'projects', 'resume', 'certifications', 'contact'];
+    const sectionIds = ['intro', 'projects', 'resume', 'skills', 'contact'];
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight / 3;
       for (const id of sectionIds) {

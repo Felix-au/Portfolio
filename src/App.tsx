@@ -9,7 +9,7 @@ import { useTheme } from './context/ThemeContext';
 import {
   ProjectsSection,
   ResumeSection,
-  CertificationsSection,
+  SkillsSection,
   ContactSection,
 } from './components/sections/PlaceholderSections';
 
@@ -56,7 +56,7 @@ export const App: React.FC = () => {
             <HeroIntro />
             <ProjectsSection />
             <ResumeSection />
-            <CertificationsSection />
+            <SkillsSection />
             <ContactSection />
           </>
         )}
