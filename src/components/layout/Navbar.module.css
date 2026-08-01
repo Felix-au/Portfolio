@@ -133,14 +133,14 @@
   color: var(--accent, #0096d6);
 }
 
-/* Cyan bar indicator on the side of vertical text (never strikethrough!) */
+/* Cyan bar indicator on the side of vertical text for current active section */
 .navLink::after {
   content: '';
   position: absolute;
   top: 12px;
   bottom: 12px;
-  right: 4px;
-  left: auto;
+  left: 0;
+  right: auto;
   width: 3px;
   height: auto;
   background: var(--accent, #00e5ff);
@@ -293,8 +293,8 @@
   position: absolute;
   bottom: 8px;
   top: auto;
-  right: 30%;
-  left: 30%;
+  right: 35%;
+  left: 35%;
   height: 3px;
   background: var(--accent, #00e5ff);
   transform: scaleX(0);

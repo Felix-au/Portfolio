@@ -70,8 +70,6 @@ export const HeroIntro: React.FC = () => {
           </div>
         </h2>
       </header>
-
-      <div className={styles.scrollIndicator} aria-hidden="true" />
     </section>
   );
 };
