@@ -15,14 +15,29 @@ export const HeroIntro: React.FC = () => {
   }, [theme]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const baseInterval = 3000;
+    const initialDelay = baseInterval * 1.25; // 3750ms (1.25x longer for initial sub-role)
+
+    let intervalId: ReturnType<typeof setInterval>;
+
+    const timeoutId = setTimeout(() => {
       setDisciplineIndex((prev) => {
         setPrevDisciplineIndex(prev);
         return (prev + 1) % profile.disciplines.length;
       });
-    }, 3600);
 
-    return () => clearInterval(interval);
+      intervalId = setInterval(() => {
+        setDisciplineIndex((prev) => {
+          setPrevDisciplineIndex(prev);
+          return (prev + 1) % profile.disciplines.length;
+        });
+      }, baseInterval);
+    }, initialDelay);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (intervalId) clearInterval(intervalId);
+    };
   }, [theme]);
 
   const currentDiscipline = profile.disciplines[disciplineIndex];
