@@ -119,6 +119,7 @@
   color: var(--text-light, rgba(255, 255, 255, 0.6));
   margin-bottom: 20px;
   margin-top: 0;
+  margin-left: -1.2rem; /* Pushed left for distinct visual hierarchy */
   font-weight: 500;
   line-height: 1;
   min-height: 1.25em;
@@ -131,6 +132,7 @@
   .name {
     font-size: calc((18 / 16) * 1rem);
     margin-bottom: 16px;
+    margin-left: -0.8rem;
     min-height: 1.2em;
   }
 }
@@ -138,12 +140,14 @@
 @media (max-width: 1024px) {
   .name {
     font-size: calc((16 / 16) * 1rem);
+    margin-left: -0.5rem;
   }
 }
 
 @media (max-width: 696px) {
   .name {
     margin-bottom: 12px;
+    margin-left: 0;
     letter-spacing: 0.2em;
     font-size: 0.9rem;
     white-space: nowrap;
@@ -191,6 +195,7 @@
   align-items: center;
   position: relative;
   margin-top: 0.08em;
+  margin-left: 1.2rem; /* Pushed right for distinct visual hierarchy */
   min-height: 1.1em;
 }
 
