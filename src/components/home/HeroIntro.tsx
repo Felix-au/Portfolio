@@ -3,7 +3,6 @@ import { DecoderText } from '../ui/DecoderText';
 import profile from '../../config/profile';
 import { useTheme } from '../../context/ThemeContext';
 import { fetchGitHubStats, type GitHubStatsData } from '../../services/githubStats';
-import { Star, GitFork, Users, GitCommitHorizontal, GitPullRequest, CheckCircle2 } from 'lucide-react';
 import styles from './HeroIntro.module.css';
 
 export const HeroIntro: React.FC = () => {
@@ -56,19 +55,16 @@ export const HeroIntro: React.FC = () => {
             <div className={styles.lineWrapper}>
               {/* Top Row: Stars, Forks (Desktop Only), Followers */}
               <div className={styles.lineStatsAbove}>
-                <span className={styles.statItem} title="Stars Earned Across Repositories">
-                  <Star className={`${styles.iconSvg} ${styles.iconStar}`} size={13} />
-                  <strong>{stats ? stats.totalStars : 669}</strong> Stars
+                <span className={styles.statItem} title="Stars Earned">
+                  ⭐ <strong>{stats ? stats.totalStars : 669}</strong> Stars
                 </span>
                 <span className={styles.statDot}>•</span>
-                <span className={`${styles.statItem} ${styles.statHideMobile}`} title="Forks Earned Across Repositories">
-                  <GitFork className={`${styles.iconSvg} ${styles.iconFork}`} size={13} />
-                  <strong>{stats ? stats.totalForks : 235}</strong> Forks
+                <span className={`${styles.statItem} ${styles.statHideMobile}`} title="Forks Earned">
+                  🍴 <strong>{stats ? stats.totalForks : 235}</strong> Forks
                 </span>
                 <span className={`${styles.statDot} ${styles.statHideMobile}`}>•</span>
                 <span className={styles.statItem} title="GitHub Followers">
-                  <Users className={`${styles.iconSvg} ${styles.iconUsers}`} size={13} />
-                  <strong>{stats ? (stats.followers || 73) : 73}</strong> Followers
+                  👥 <strong>{stats ? (stats.followers || 73) : 73}</strong> Followers
                 </span>
               </div>
 
@@ -78,18 +74,15 @@ export const HeroIntro: React.FC = () => {
               {/* Bottom Row: Commits, PRs, Code Reviews (Desktop Only) */}
               <div className={styles.lineStatsBelow}>
                 <span className={styles.statItem} title="Lifetime Commits">
-                  <GitCommitHorizontal className={`${styles.iconSvg} ${styles.iconCommit}`} size={13} />
-                  <strong>{stats ? stats.totalCommits.toLocaleString() : '5,799'}</strong> Commits
+                  🔨 <strong>{stats ? stats.totalCommits.toLocaleString() : '5,799'}</strong> Commits
                 </span>
                 <span className={styles.statDot}>•</span>
                 <span className={styles.statItem} title="Pull Requests Created">
-                  <GitPullRequest className={`${styles.iconSvg} ${styles.iconPr}`} size={13} />
-                  <strong>{stats ? stats.totalPRs : 219}</strong> PRs
+                  🔀 <strong>{stats ? stats.totalPRs : 219}</strong> PRs
                 </span>
                 <span className={`${styles.statDot} ${styles.statHideMobile}`}>•</span>
                 <span className={`${styles.statItem} ${styles.statHideMobile}`} title="Code Reviews Performed">
-                  <CheckCircle2 className={`${styles.iconSvg} ${styles.iconReview}`} size={13} />
-                  <strong>{stats ? stats.totalReviews : 176}</strong> Reviews
+                  👀 <strong>{stats ? stats.totalReviews : 176}</strong> Reviews
                 </span>
               </div>
             </div>
