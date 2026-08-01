@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import GlareHover from '../ui/GlareHover';
+import SpotlightCard from '../ui/SpotlightCard';
 import {
   SiPython,
   SiTypescript,
@@ -326,49 +327,54 @@ export const SkillsSection: React.FC = () => {
           <div className={styles.skillsLayout}>
             <div className={styles.categoryGrid}>
               {SKILL_CATEGORIES.map((cat) => (
-                <GlareHover
+                <SpotlightCard
                   key={cat.id}
-                  width="100%"
-                  height="100%"
-                  background="transparent"
-                  borderRadius="20px"
-                  borderColor="transparent"
-                  glareColor="#ffffff"
-                  glareOpacity={0.1}
-                  glareAngle={-30}
-                  glareSize={300}
-                  transitionDuration={800}
-                  className={styles.categoryCard}
+                  className={styles.cardSpotlightWrap}
+                  spotlightColor="rgba(0, 229, 255, 0.12)"
                 >
+                  <GlareHover
+                    width="100%"
+                    height="100%"
+                    background="transparent"
+                    borderRadius="20px"
+                    borderColor="transparent"
+                    glareColor="#ffffff"
+                    glareOpacity={0.1}
+                    glareAngle={-30}
+                    glareSize={300}
+                    transitionDuration={800}
+                    className={styles.categoryCard}
+                  >
 
-                  {/* Large emoji watermark in the background */}
-                  <span className={styles.cardBgEmoji} aria-hidden="true">{cat.emojiIcon}</span>
+                    {/* Large emoji watermark in the background */}
+                    <span className={styles.cardBgEmoji} aria-hidden="true">{cat.emojiIcon}</span>
 
-                  {/* Badge rows – centered, balanced distribution */}
-                  <div className={styles.techPillRows}>
-                    {distributeItems(cat.items).map((row, rowIdx) => (
-                      <div key={rowIdx} className={styles.techPillRow}>
-                        {row.map((tech, i) => (
-                          <div key={i} className={styles.techPill} title={tech.name}>
-                            <span
-                              className={styles.techIcon}
-                              style={{ color: tech.color || 'var(--accent)' }}
-                            >
-                              {tech.icon}
-                            </span>
-                            <span className={styles.techName}>{tech.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
+                    {/* Badge rows – centered, balanced distribution */}
+                    <div className={styles.techPillRows}>
+                      {distributeItems(cat.items).map((row, rowIdx) => (
+                        <div key={rowIdx} className={styles.techPillRow}>
+                          {row.map((tech, i) => (
+                            <div key={i} className={styles.techPill} title={tech.name}>
+                              <span
+                                className={styles.techIcon}
+                                style={{ color: tech.color || 'var(--accent)' }}
+                              >
+                                {tech.icon}
+                              </span>
+                              <span className={styles.techName}>{tech.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
 
-                  {/* Title centered at bottom — text only */}
-                  <div className={styles.categoryHeader}>
-                    <span className={styles.catTitle}>{cat.title}</span>
-                  </div>
+                    {/* Title centered at bottom — text only */}
+                    <div className={styles.categoryHeader}>
+                      <span className={styles.catTitle}>{cat.title}</span>
+                    </div>
 
-                </GlareHover>
+                  </GlareHover>
+                </SpotlightCard>
               ))}
             </div>
           </div>
