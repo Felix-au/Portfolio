@@ -223,7 +223,7 @@
   top: 0;
   left: 0;
   z-index: 0;
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
 }
 
 .word[data-status='exiting']::after {
