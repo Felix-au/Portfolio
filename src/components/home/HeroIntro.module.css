@@ -387,6 +387,12 @@
   font-size: 0.7rem;
 }
 
+@media (max-width: 768px) {
+  .statHideMobile {
+    display: none !important;
+  }
+}
+
 @media (max-width: 900px) {
   .lineStatsAbove,
   .lineStatsBelow {
