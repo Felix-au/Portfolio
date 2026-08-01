@@ -31,8 +31,16 @@
 
 @media (max-width: 696px) {
   .theme-toggle:not([data-mobile='true']) {
-    top: 16px;
-    right: 16px;
+    display: none;
+  }
+
+  .theme-toggle[data-mobile='true'] {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    top: auto;
+    left: auto;
+    z-index: 1001;
   }
 }
 
