@@ -369,8 +369,28 @@
 .statItem {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  transition: color 0.3s ease;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+[data-theme='light'] .statItem {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.statItem:hover {
+  background: rgba(0, 229, 255, 0.09);
+  border-color: rgba(0, 229, 255, 0.4);
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.25);
+  transform: translateY(-1px);
 }
 
 .statItem strong {
@@ -382,9 +402,92 @@
   color: var(--accent, #0096d6);
 }
 
+.iconSvg {
+  flex-shrink: 0;
+  stroke-width: 2.2px;
+  transition: transform 0.3s ease, filter 0.3s ease, color 0.3s ease;
+}
+
+/* Animated SVG Icons */
+.iconStar {
+  color: #ffb703;
+  filter: drop-shadow(0 0 3px rgba(255, 183, 3, 0.5));
+  animation: starPulse 3s ease-in-out infinite alternate;
+}
+
+.statItem:hover .iconStar {
+  transform: rotate(15deg) scale(1.2);
+  filter: drop-shadow(0 0 8px rgba(255, 183, 3, 0.9));
+}
+
+.iconFork {
+  color: var(--accent, #00e5ff);
+}
+
+.statItem:hover .iconFork {
+  transform: translateY(-2px) scale(1.15);
+}
+
+.iconUsers {
+  color: #c084fc;
+}
+
+.statItem:hover .iconUsers {
+  transform: scale(1.18);
+  color: #d8b4fe;
+}
+
+.iconCommit {
+  color: #34d399;
+  animation: spinSlow 14s linear infinite;
+}
+
+.statItem:hover .iconCommit {
+  transform: scale(1.25);
+  color: #6ee7b7;
+}
+
+.iconPr {
+  color: #60a5fa;
+}
+
+.statItem:hover .iconPr {
+  transform: translateX(1px) scale(1.18);
+  color: #93c5fd;
+}
+
+.iconReview {
+  color: #f472b6;
+}
+
+.statItem:hover .iconReview {
+  transform: rotate(180deg) scale(1.18);
+  color: #f472b6;
+}
+
+@keyframes starPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .statDot {
-  opacity: 0.4;
-  font-size: 0.7rem;
+  opacity: 0.35;
+  font-size: 0.65rem;
 }
 
 @media (max-width: 768px) {
