@@ -149,7 +149,13 @@
   transition: opacity 0.3s ease;
 }
 
-/* railVisible is shared — reused for both rails */
+/* certRail needs its own .railVisible override because .certRail comes AFTER
+   .railVisible in source order, so its opacity:0 would otherwise win.
+   Two-class specificity (0,2,0) beats either single class (0,1,0). */
+.certRail.railVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 .certRailBtn {
   flex: 1;
