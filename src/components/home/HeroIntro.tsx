@@ -73,11 +73,7 @@ export const HeroIntro: React.FC = () => {
         {/* Bio Description & Expertise */}
         <div className={styles.bio}>
           <p>
-            I'm a Software Engineer, AI Developer & Systems Programmer passionate about building highly polished, performance-driven desktop applications, scalable web services, and intelligent systems. My work spans full-stack engineering, multimodal AI deployment at scale, and cloud-native infrastructure.
-          </p>
-
-          <p>
-            Currently pursuing a B.Tech in Computer Science Engineering at BML Munjal University (CGPA: 8.15), I’ve engineered production-ready enterprise platforms ranging from secure academic assessment portals (
+            I'm a Software Engineer, AI Developer & Systems Programmer passionate about building highly polished, performance-driven desktop applications, scalable web services, and intelligent systems. I’ve engineered production-ready enterprise platforms ranging from secure academic assessment portals (
             <a href="https://prashnasetu.com" target="_blank" rel="noopener noreferrer" className={styles.bioLink}>
               PrashnaSetu
             </a>
