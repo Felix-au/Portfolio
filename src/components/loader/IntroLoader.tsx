@@ -18,7 +18,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
 
     timeline
       .add(logoRef.current, {
-        scale: 7.0,
+        scale: 4.8,
         duration: 1400,
         ease: 'inOutQuad',
       })
