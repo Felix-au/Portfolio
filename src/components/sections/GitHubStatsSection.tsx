@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchGitHubStats, GitHubStatsData } from '../../services/githubStats';
+import { fetchGitHubStats, type GitHubStatsData } from '../../services/githubStats';
 import styles from './GitHubStatsSection.module.css';
 
 export const GitHubStatsSection: React.FC = () => {
