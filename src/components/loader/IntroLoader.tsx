@@ -18,14 +18,14 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
 
     timeline
       .add(logoRef.current, {
-        scale: 3,
+        scale: 7.0,
         duration: 1400,
         ease: 'inOutQuad',
       })
       .add(logoRef.current, {
         scale: 0,
         opacity: 0,
-        duration: 400,
+        duration: 450,
         ease: 'inOutQuart',
       });
   }, [onFinishLoading]);
@@ -47,8 +47,8 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
         src={VectorSvg}
         alt="Loading logo"
         style={{
-          width: 50,
-          height: 80,
+          width: 60,
+          height: 90,
           objectFit: 'contain',
         }}
       />

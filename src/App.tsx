@@ -13,7 +13,7 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('all');
 
-  // Staggered sequential reveal stages after flash/loader completes
+  // Distinct step-by-step reveal states to prevent elements loading all at once
   const [showBg, setShowBg] = useState(false);
   const [showHeader, setShowHeader] = useState(false);
   const [showHero, setShowHero] = useState(false);
@@ -22,16 +22,20 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (!loading) {
-      // Step 1: 3D WebGL Background Canvas
+      // Step 1: Background & 3D WebGL Displacement Sphere ("flower") appear FIRST alone
       const timer1 = setTimeout(() => setShowBg(true), 100);
-      // Step 2: Header Navigation
-      const timer2 = setTimeout(() => setShowHeader(true), 400);
-      // Step 3: Hero Banner
-      const timer3 = setTimeout(() => setShowHero(true), 800);
-      // Step 4: Active Modules
-      const timer4 = setTimeout(() => setShowModules(true), 1200);
-      // Step 5: Footer
-      const timer5 = setTimeout(() => setShowFooter(true), 1600);
+
+      // Step 2: Header Navigation appears after 3D Background is fully established
+      const timer2 = setTimeout(() => setShowHeader(true), 1200);
+
+      // Step 3: Hero Banner appears after Header
+      const timer3 = setTimeout(() => setShowHero(true), 2000);
+
+      // Step 4: Active Modules appear after Hero
+      const timer4 = setTimeout(() => setShowModules(true), 2800);
+
+      // Step 5: Footer appears last
+      const timer5 = setTimeout(() => setShowFooter(true), 3600);
 
       return () => {
         clearTimeout(timer1);
@@ -56,7 +60,7 @@ export const App: React.FC = () => {
       )}
 
       <div style={{ minHeight: '100vh', backgroundColor: '#0a0a0f', color: '#fff', position: 'relative' }}>
-        {/* Step 1: 3D WebGL Displacement Sphere Background from bg project */}
+        {/* Step 1: 3D WebGL Displacement Sphere ("flower") Background appears FIRST */}
         <DisplacementSphere isVisible={showBg} />
 
         {/* Foreground Content Container */}
@@ -65,9 +69,9 @@ export const App: React.FC = () => {
           {/* Step 2: Header Navigation */}
           {showHeader && (
             <motion.div
-              initial={{ opacity: 0, y: -40 }}
+              initial={{ opacity: 0, y: -30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
+              transition={{ duration: 0.7, ease: 'easeOut' }}
             >
               <Header activeTab={activeTab} setActiveTab={setActiveTab} projectCount={activeProjects.length} />
             </motion.div>
@@ -78,9 +82,9 @@ export const App: React.FC = () => {
             {/* Step 3: Hero Banner Section */}
             {showHero && (
               <motion.section
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: 'easeOut' }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
                 style={{
                   marginBottom: '3rem',
                   padding: '3rem 2.5rem',
@@ -110,7 +114,7 @@ export const App: React.FC = () => {
               <motion.section
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: 'easeOut' }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
                   <h3 style={{ fontSize: '1.4rem', color: '#fff', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -128,7 +132,7 @@ export const App: React.FC = () => {
                       key={project.id}
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: idx * 0.15 }}
+                      transition={{ duration: 0.6, delay: idx * 0.25 }}
                       style={{
                         marginBottom: '2rem',
                         padding: '2rem',
@@ -175,7 +179,7 @@ export const App: React.FC = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8 }}
             >
               <Footer />
             </motion.div>
