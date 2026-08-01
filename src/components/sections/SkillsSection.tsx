@@ -32,9 +32,6 @@ import {
   SiMariadb,
   SiRedis,
   SiFirebase,
-  SiVercel,
-  SiRender,
-  SiRailway,
   SiDocker,
   SiKubernetes,
   SiNginx,
@@ -52,19 +49,15 @@ import { VscVscode } from 'react-icons/vsc';
 
 import {
   Cpu,
-  Terminal,
-  Shield,
   Zap,
   Award,
   ExternalLink,
   CheckCircle2,
-  Sliders,
   Volume2,
   Database,
   Layers,
   Code2,
   Cloud,
-  Wrench,
   Brain,
   Palette,
   Package,
@@ -162,14 +155,10 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
       { name: 'Scikit-Learn', icon: <SiScikitlearn />, color: '#f7931e' },
       { name: 'Win32 Koffi FFI', icon: <Cpu />, color: '#00a4ef' },
       { name: 'WASAPI', icon: <Volume2 />, color: '#00e5ff' },
-      { name: 'Pycaw FFI Wrapper', icon: <Sliders />, color: '#3776ab' },
-      { name: 'C++ System Hooks', icon: <Terminal />, color: '#00599c' },
-      { name: 'OpenJFX Containers', icon: <Shield />, color: '#ed8b00' },
-      { name: 'Launch4J', icon: <Wrench />, color: '#ed8b00' },
     ],
   },
   {
-    // Databases & Storage gains cloud platforms from dissolved Cloud section
+    // Databases & Storage (cloud providers Vercel/Render/Railway removed)
     id: 'databases',
     title: 'Databases & Infrastructure',
     emojiIcon: '🗄️',
@@ -184,9 +173,6 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
       { name: 'Cloudinary CDN', icon: <Cloud />, color: '#3448c5' },
       { name: 'AWS', icon: <FaAws />, color: '#ff9900' },
       { name: 'Azure', icon: <Cloud />, color: '#0089d6' },
-      { name: 'Vercel', icon: <SiVercel />, color: '#000000' },
-      { name: 'Render', icon: <SiRender />, color: '#000000' },
-      { name: 'Railway', icon: <SiRailway />, color: '#000000' },
     ],
   },
   {
@@ -254,6 +240,26 @@ const OTHER_CERTS_BADGES: CertificationItem[] = [
   },
 ];
 
+/**
+ * Distributes items into rows achieving minimum rows while balancing
+ * row counts (max diff of 1 between any two rows).
+ */
+function distributeItems(items: TechItem[], maxPerRow = 5): TechItem[][] {
+  const n = items.length;
+  if (n === 0) return [];
+  const rows = Math.ceil(n / maxPerRow);
+  const base = Math.floor(n / rows);
+  const extra = n % rows;
+  const result: TechItem[][] = [];
+  let start = 0;
+  for (let i = 0; i < rows; i++) {
+    const count = i < extra ? base + 1 : base;
+    result.push(items.slice(start, start + count));
+    start += count;
+  }
+  return result;
+}
+
 export const SkillsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'skills' | 'certifications'>('skills');
   const [certSubTab, setCertSubTab] = useState<'prof' | 'other'>('prof');
@@ -296,30 +302,41 @@ export const SkillsSection: React.FC = () => {
 
       <div className={styles.container}>
 
-        {/* TAB 1: SKILLS CONTENT (2 Rows x 4 Columns = 8 Categories) */}
+        {/* TAB 1: SKILLS CONTENT */}
         {activeTab === 'skills' && (
           <div className={styles.skillsLayout}>
             <div className={styles.categoryGrid}>
               {SKILL_CATEGORIES.map((cat) => (
                 <div key={cat.id} className={styles.categoryCard}>
+
+                  {/* Large emoji watermark in the background */}
+                  <span className={styles.cardBgEmoji} aria-hidden="true">{cat.emojiIcon}</span>
+
+                  {/* Badge rows – centered, balanced distribution */}
+                  <div className={styles.techPillRows}>
+                    {distributeItems(cat.items).map((row, rowIdx) => (
+                      <div key={rowIdx} className={styles.techPillRow}>
+                        {row.map((tech, i) => (
+                          <div key={i} className={styles.techPill} title={tech.name}>
+                            <span
+                              className={styles.techIcon}
+                              style={{ color: tech.color || 'var(--accent)' }}
+                            >
+                              {tech.icon}
+                            </span>
+                            <span className={styles.techName}>{tech.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Title centered at bottom */}
                   <div className={styles.categoryHeader}>
                     <span className={styles.catEmoji}>{cat.emojiIcon}</span>
                     <span className={styles.catTitle}>{cat.title}</span>
                   </div>
 
-                  <div className={styles.techPillGrid}>
-                    {cat.items.map((tech, i) => (
-                      <div key={i} className={styles.techPill} title={tech.name}>
-                        <span
-                          className={styles.techIcon}
-                          style={{ color: tech.color || 'var(--accent)' }}
-                        >
-                          {tech.icon}
-                        </span>
-                        <span className={styles.techName}>{tech.name}</span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
               ))}
             </div>
