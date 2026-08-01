@@ -49,7 +49,7 @@ export const HeroIntro: React.FC = () => {
               key={`${theme}-${currentDiscipline}`}
               className={styles.word}
               data-plus="true"
-              style={{ '--delay': '200ms' } as React.CSSProperties}
+              style={{ '--delay': '1100ms' } as React.CSSProperties}
             >
               {currentDiscipline}
             </span>

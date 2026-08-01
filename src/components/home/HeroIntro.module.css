@@ -60,7 +60,7 @@
 
 .intro {
   height: 100vh;
-  min-height: 600px;
+  min-height: 550px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,7 +72,7 @@
 }
 
 .text {
-  max-width: 1096px;
+  max-width: 1024px;
   width: 100%;
   position: relative;
   top: -24px;
@@ -80,28 +80,28 @@
 
 @media (max-width: 1200px) {
   .text {
-    max-width: 1000px;
+    max-width: 880px;
   }
 }
 
 @media (max-width: 1024px) {
   .text {
-    max-width: 780px;
+    max-width: 720px;
   }
 }
 
 @media (max-width: 696px) {
   .text {
-    top: -64px;
+    top: -48px;
   }
 }
 
 .name {
   text-transform: uppercase;
-  font-size: calc((24 / 16) * 1rem);
+  font-size: calc((22 / 16) * 1rem);
   letter-spacing: 0.3em;
   color: var(--textLight, rgba(255, 255, 255, 0.6));
-  margin-bottom: 48px;
+  margin-bottom: 36px;
   margin-top: 0;
   font-weight: 500;
   line-height: 1;
@@ -119,8 +119,8 @@
 
 @media (max-width: 1200px) {
   .name {
-    font-size: calc((22 / 16) * 1rem);
-    margin-bottom: 32px;
+    font-size: calc((20 / 16) * 1rem);
+    margin-bottom: 28px;
   }
 }
 
@@ -132,9 +132,9 @@
 
 @media (max-width: 696px) {
   .name {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     letter-spacing: 0.2em;
-    font-size: 1rem;
+    font-size: 0.95rem;
     white-space: nowrap;
     overflow: hidden;
   }
@@ -142,34 +142,28 @@
 
 .title {
   letter-spacing: -0.05em;
-  font-size: 8.75rem;
+  font-size: 6.25rem;
   font-weight: 700;
   line-height: 1.1;
   color: var(--text-color, #ffffff);
   margin: 0;
 }
 
-@media (max-width: 1600px) {
-  .title {
-    font-size: 7.5rem;
-  }
-}
-
 @media (max-width: 1200px) {
   .title {
-    font-size: 6.25rem;
+    font-size: 5.25rem;
   }
 }
 
 @media (max-width: 1024px) {
   .title {
-    font-size: 5rem;
+    font-size: 4.25rem;
   }
 }
 
 @media (max-width: 696px) {
   .title {
-    font-size: 3.5rem;
+    font-size: 2.75rem;
   }
 }
 
