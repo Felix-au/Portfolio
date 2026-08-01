@@ -6,6 +6,7 @@ import { ThemeToggle } from './components/ui/ThemeToggle';
 import { Navbar } from './components/layout/Navbar';
 import { HeroIntro } from './components/home/HeroIntro';
 import { useTheme } from './context/ThemeContext';
+import { useSmoothScrollSnap } from './hooks/useSmoothScrollSnap';
 import {
   ProjectsSection,
   DetailsSection,
@@ -17,6 +18,8 @@ export const App: React.FC = () => {
   const { theme } = useTheme();
   const [loading, setLoading] = useState(true);
   const [showBg, setShowBg] = useState(false);
+
+  useSmoothScrollSnap();
 
   useEffect(() => {
     if (!loading) {
