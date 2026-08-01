@@ -6,7 +6,7 @@ import { ThemeToggle } from './components/ui/ThemeToggle';
 import { Navbar } from './components/layout/Navbar';
 import { HeroIntro } from './components/home/HeroIntro';
 import { useTheme } from './context/ThemeContext';
-import { useSmoothScrollSnap } from './hooks/useSmoothScrollSnap';
+import { useSectionScrollSnap } from './hooks/useSectionScrollSnap';
 import {
   ProjectsSection,
   DetailsSection,
@@ -19,7 +19,8 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [showBg, setShowBg] = useState(false);
 
-  useSmoothScrollSnap();
+  // JS-based smooth scroll snap — 750 ms ease-in-out per section
+  useSectionScrollSnap();
 
   useEffect(() => {
     if (!loading) {

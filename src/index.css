@@ -25,8 +25,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
+  scroll-behavior: auto; /* JS smooth snap handles scrolling */
 }
 
 body {
@@ -39,9 +38,6 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-section {
-  scroll-snap-align: start;
-}
 
 ::-webkit-scrollbar {
   width: 8px;
