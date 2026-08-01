@@ -398,102 +398,106 @@
   }
 }
 
-.githubBadgeStrip {
-  display: inline-flex;
+.lineContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  margin-left: 20px;
+}
+
+.line {
+  content: '';
+  height: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  width: 100%;
+  display: block;
+  transform-origin: left;
+  animation: introLineReveal 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.8s;
+  transform: scaleX(0);
+}
+
+[data-theme='light'] .line {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.lineStatsTop,
+.lineStatsBottom {
+  display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-left: 1.5rem;
-  padding: 0.35rem 0.85rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 500;
-  color: var(--text-color, #ffffff);
-  text-decoration: none !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-light, rgba(255, 255, 255, 0.7));
   letter-spacing: 0;
-  vertical-align: middle;
-}
-
-[data-theme='light'] .githubBadgeStrip {
-  background: rgba(0, 0, 0, 0.04);
-  border-color: rgba(0, 0, 0, 0.12);
-}
-
-.githubBadgeStrip:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent, #00e5ff);
-  box-shadow: 0 4px 20px rgba(0, 229, 255, 0.2);
-  background: rgba(0, 229, 255, 0.08);
-}
-
-[data-theme='light'] .githubBadgeStrip:hover {
-  border-color: var(--accent, #0096d6);
-  box-shadow: 0 4px 20px rgba(0, 150, 214, 0.2);
-  background: rgba(0, 150, 214, 0.08);
-}
-
-.badgeItem {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
+  transition: opacity 0.3s ease;
   white-space: nowrap;
 }
 
-.badgeIcon {
-  font-size: 0.9rem;
+.lineStatsTop {
+  margin-bottom: 0.35rem;
 }
 
-.badgeValue {
+.lineStatsBottom {
+  margin-top: 0.35rem;
+}
+
+[data-theme='light'] .lineStatsTop,
+[data-theme='light'] .lineStatsBottom {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.statItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.accentVal {
   font-weight: 700;
   color: var(--accent, #00e5ff);
 }
 
-[data-theme='light'] .badgeValue {
+[data-theme='light'] .accentVal {
   color: var(--accent, #0096d6);
 }
 
-.badgeDot {
+.statDot {
   opacity: 0.35;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
 }
 
-.badgePill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  background: rgba(0, 229, 255, 0.15);
-  color: var(--accent, #00e5ff);
-  padding: 0.15rem 0.5rem;
-  border-radius: 12px;
+.statPill {
   font-size: 0.75rem;
   font-weight: 600;
+  color: var(--accent, #00e5ff);
+  opacity: 0.9;
 }
 
-[data-theme='light'] .badgePill {
-  background: rgba(0, 150, 214, 0.15);
+[data-theme='light'] .statPill {
   color: var(--accent, #0096d6);
 }
 
 @media (max-width: 1024px) {
-  .githubBadgeStrip {
-    font-size: 0.78rem;
-    padding: 0.25rem 0.65rem;
-    gap: 0.45rem;
-    margin-left: 1rem;
+  .lineStatsTop,
+  .lineStatsBottom {
+    font-size: 0.75rem;
+    gap: 0.4rem;
   }
 }
 
 @media (max-width: 696px) {
-  .githubBadgeStrip {
+  .lineContainer {
     margin-left: 0;
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
     width: 100%;
+  }
+  .lineStatsTop,
+  .lineStatsBottom {
     overflow-x: auto;
-    white-space: nowrap;
+    width: 100%;
     -webkit-overflow-scrolling: touch;
   }
 }

@@ -50,54 +50,47 @@ export const HeroIntro: React.FC = () => {
               {profile.role}
             </span>
 
-            {/* Inline GitHub Quick-Stats Impact Badge Strip */}
-            <a
-              href="#github-stats"
-              className={styles.githubBadgeStrip}
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('github-stats')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              title="View Full GitHub Activity & Statistics"
-            >
-              <span className={styles.badgeItem}>
-                <span className={styles.badgeIcon}>⭐</span>
-                <span className={styles.badgeValue}>{stats ? stats.totalStars : 669}</span> Stars
-              </span>
-              <span className={styles.badgeDot}>•</span>
-              <span className={styles.badgeItem}>
-                <span className={styles.badgeIcon}>🔨</span>
-                <span className={styles.badgeValue}>{stats ? `${(stats.totalCommits / 1000).toFixed(1)}k+` : '5.9k+'}</span> Commits
-              </span>
-              <span className={styles.badgeDot}>•</span>
-              <span className={styles.badgeItem}>
-                <span className={styles.badgeIcon}>🍴</span>
-                <span className={styles.badgeValue}>{stats ? stats.totalForks : 235}</span> Forks
-              </span>
-              <span className={styles.badgeDot}>•</span>
-              <span className={styles.badgeItem}>
-                <span className={styles.badgeIcon}>🔀</span>
-                <span className={styles.badgeValue}>{stats ? stats.totalPRs : 219}</span> PRs
-              </span>
-              <span className={styles.badgeDot}>•</span>
-              <span className={styles.badgeItem}>
-                <span className={styles.badgeIcon}>👀</span>
-                <span className={styles.badgeValue}>{stats ? stats.totalReviews : 176}</span> Reviews
-              </span>
-              <span className={styles.badgeDot}>•</span>
-              <span className={styles.badgeItem}>
-                <span className={styles.badgeIcon}>🐛</span>
-                <span className={styles.badgeValue}>{stats ? stats.totalIssues : 243}</span> Issues
-              </span>
-              <span className={styles.badgeDot}>•</span>
-              <span className={styles.badgeItem}>
-                <span className={styles.badgeIcon}>👥</span>
-                <span className={styles.badgeValue}>{stats ? stats.followers : 73}</span> Followers
-              </span>
-              <span className={styles.badgePill}>
-                💻 TS • JS • PY
-              </span>
-            </a>
+            {/* Restored Line with GitHub Stats Attached Above and Below */}
+            <div className={styles.lineContainer}>
+              {/* Above Line: Stars, Commits, Forks, Followers */}
+              <div className={styles.lineStatsTop}>
+                <span className={styles.statItem}>
+                  ⭐ <strong className={styles.accentVal}>{stats ? stats.totalStars : 669}</strong> Stars
+                </span>
+                <span className={styles.statDot}>•</span>
+                <span className={styles.statItem}>
+                  🔨 <strong className={styles.accentVal}>{stats ? `${(stats.totalCommits / 1000).toFixed(1)}k+` : '5.9k+'}</strong> Commits
+                </span>
+                <span className={styles.statDot}>•</span>
+                <span className={styles.statItem}>
+                  🍴 <strong className={styles.accentVal}>{stats ? stats.totalForks : 235}</strong> Forks
+                </span>
+                <span className={styles.statDot}>•</span>
+                <span className={styles.statItem}>
+                  👥 <strong className={styles.accentVal}>{stats ? stats.followers : 73}</strong> Followers
+                </span>
+              </div>
+
+              {/* The Restored Divider Line */}
+              <span className={styles.line} />
+
+              {/* Below Line: PRs, Reviews, Issues, Language Pill */}
+              <div className={styles.lineStatsBottom}>
+                <span className={styles.statItem}>
+                  🔀 <strong className={styles.accentVal}>{stats ? stats.totalPRs : 219}</strong> PRs
+                </span>
+                <span className={styles.statDot}>•</span>
+                <span className={styles.statItem}>
+                  👀 <strong className={styles.accentVal}>{stats ? stats.totalReviews : 176}</strong> Reviews
+                </span>
+                <span className={styles.statDot}>•</span>
+                <span className={styles.statItem}>
+                  🐛 <strong className={styles.accentVal}>{stats ? stats.totalIssues : 243}</strong> Issues
+                </span>
+                <span className={styles.statDot}>•</span>
+                <span className={styles.statPill}>💻 TS • JS • PY</span>
+              </div>
+            </div>
           </div>
 
           <div className={styles.subRoleRow}>
