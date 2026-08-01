@@ -6,7 +6,6 @@
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  background-color: var(--bg-color);
   color: var(--text-color);
   transition: background-color 0.4s ease, color 0.4s ease;
   /* Vertically center content in the viewport */

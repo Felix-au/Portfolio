@@ -7,7 +7,6 @@ import styles from './Navbar.module.css';
 
 const navLinks = [
   { label: 'Projects', href: '#projects' },
-  { label: 'Resume', href: '#resume' },
   { label: 'Credentials', href: '#skills' },
   { label: 'Contact', href: '#contact' },
 ];
@@ -110,6 +109,22 @@ export const Navbar: React.FC = () => {
 
         {/* Bottom Social Icon Links */}
         <div className={styles.navIcons}>
+          {/* Resume */}
+          <a
+            className={styles.navIconLink}
+            href="#resume"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('#resume');
+            }}
+            aria-label="Resume"
+            title="View Resume"
+          >
+            <svg className={styles.navIcon} viewBox="0 0 24 24">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0 4H7v-2h10v2zm0-8H7V7h10v2z" />
+            </svg>
+          </a>
+
           {/* GitHub */}
           <a
             className={styles.navIconLink}
@@ -168,6 +183,22 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Overlay Bottom Socials */}
         <div className={styles.mobileSocials}>
+          {/* Resume */}
+          <a
+            className={styles.navIconLink}
+            href="#resume"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('#resume');
+            }}
+            aria-label="Resume"
+            title="View Resume"
+          >
+            <svg className={styles.navIcon} viewBox="0 0 24 24">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0 4H7v-2h10v2zm0-8H7V7h10v2z" />
+            </svg>
+          </a>
+
           <a
             className={styles.navIconLink}
             href="https://github.com/Felix-au"
