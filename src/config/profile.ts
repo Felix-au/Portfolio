@@ -1,11 +1,11 @@
 export const profile = {
   name: 'Felix Au (Harshit Soni)',
-  role: 'Full Stack Developer',
+  role: 'Developer',
   disciplines: [
     'Systems Engineer',
     'AI Systems',
     'Designer',
-    'Open Source Enthusiast',
+    'OS Enthusiast',
   ],
 };
 
