@@ -18,7 +18,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
 
     timeline
       .add(logoRef.current, {
-        scale: 4.8,
+        scale: 2.4,
         duration: 1400,
         ease: 'inOutQuad',
       })
@@ -45,9 +45,9 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onFinishLoading }) => 
       <LogoSvg
         ref={logoRef}
         style={{
-          width: 140,
-          height: 140,
-          filter: 'drop-shadow(0 0 30px rgba(0, 229, 255, 0.85))',
+          width: 75,
+          height: 75,
+          filter: 'drop-shadow(0 0 25px rgba(0, 229, 255, 0.85))',
         }}
       />
     </div>
