@@ -96,34 +96,6 @@ interface CertificationItem {
   badgeUrl?: string;
 }
 
-const CORE_EXPERTISE = [
-  {
-    title: 'Full-Stack Engineering',
-    desc: 'React, Next.js, FastAPI, Node.js, Spring Boot, Django',
-    icon: '🚀',
-  },
-  {
-    title: 'Systems Programming & Windows Core',
-    desc: 'Win32 FFI, WASAPI, and OS-level hooks',
-    icon: '🖥️',
-  },
-  {
-    title: 'Agentic AI & Multimodal Systems',
-    desc: 'Agentic AI, NLP, RAG, LLM Applications & Multimodal Systems',
-    icon: '🤖',
-  },
-  {
-    title: 'Cloud & DevOps',
-    desc: 'AWS, Azure, Docker, Kubernetes, Redis, Kafka',
-    icon: '☁️',
-  },
-  {
-    title: 'Databases & Storage',
-    desc: 'MySQL, MongoDB Atlas, PostgreSQL, MariaDB, Firebase',
-    icon: '🗄️',
-  },
-];
-
 const SKILL_CATEGORIES: CategoryGroup[] = [
   {
     id: 'languages',
@@ -326,56 +298,33 @@ export const SkillsSection: React.FC = () => {
           </div>
         </div>
 
-        {/* TAB 1: SKILLS CONTENT */}
+        {/* TAB 1: SKILLS CONTENT (2 Rows x 4 Columns = 8 Categories) */}
         {activeTab === 'skills' && (
           <div className={styles.skillsLayout}>
-            {/* Left Column: Core Areas of Expertise */}
-            <aside className={styles.leftCol}>
-              <div className={styles.coreCard}>
-                <h3 className={styles.coreHeader}>
-                  🧠 Core Areas of Expertise
-                </h3>
-                <div className={styles.coreList}>
-                  {CORE_EXPERTISE.map((item, idx) => (
-                    <div key={idx} className={styles.coreItem}>
-                      <span className={styles.coreIcon}>{item.icon}</span>
-                      <div className={styles.coreText}>
-                        <div className={styles.coreTitle}>{item.title}</div>
-                        <div className={styles.coreDesc}>{item.desc}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </aside>
-
-            {/* Right Column: 2 Rows x 4 Columns (8 Categories) */}
-            <main className={styles.rightCol}>
-              <div className={styles.categoryGrid}>
-                {SKILL_CATEGORIES.map((cat) => (
-                  <div key={cat.id} className={styles.categoryCard}>
-                    <div className={styles.categoryHeader}>
-                      <span className={styles.catEmoji}>{cat.emojiIcon}</span>
-                      <span className={styles.catTitle}>{cat.title}</span>
-                    </div>
-
-                    <div className={styles.techPillGrid}>
-                      {cat.items.map((tech, i) => (
-                        <div key={i} className={styles.techPill} title={tech.name}>
-                          <span
-                            className={styles.techIcon}
-                            style={{ color: tech.color || 'var(--accent)' }}
-                          >
-                            {tech.icon}
-                          </span>
-                          <span className={styles.techName}>{tech.name}</span>
-                        </div>
-                      ))}
-                    </div>
+            <div className={styles.categoryGrid}>
+              {SKILL_CATEGORIES.map((cat) => (
+                <div key={cat.id} className={styles.categoryCard}>
+                  <div className={styles.categoryHeader}>
+                    <span className={styles.catEmoji}>{cat.emojiIcon}</span>
+                    <span className={styles.catTitle}>{cat.title}</span>
                   </div>
-                ))}
-              </div>
-            </main>
+
+                  <div className={styles.techPillGrid}>
+                    {cat.items.map((tech, i) => (
+                      <div key={i} className={styles.techPill} title={tech.name}>
+                        <span
+                          className={styles.techIcon}
+                          style={{ color: tech.color || 'var(--accent)' }}
+                        >
+                          {tech.icon}
+                        </span>
+                        <span className={styles.techName}>{tech.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
