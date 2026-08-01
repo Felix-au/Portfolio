@@ -37,36 +37,9 @@ const DEFAULT_METRICS: GitHubStatsData = {
   isFallback: true,
 };
 
-const GITHUB_GRAPHQL_QUERY = `
-  query getStats($username: String!) {
-    user(login: $username) {
-      name
-      contributionsCollection {
-        totalCommitContributions
-        totalPullRequestContributions
-        totalIssueContributions
-        totalPullRequestReviewContributions
-      }
-      repositories(first: 100, ownerAffiliations: OWNER) {
-        nodes {
-          name
-          stargazerCount
-          forkCount
-          watchers {
-            totalCount
-          }
-          primaryLanguage {
-            name
-            color
-          }
-        }
-      }
-    }
-  }
-`;
-
 export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubStatsData> {
-  // 1. Try Vercel Serverless Endpoint (/api/github-stats)
+  // 1. Fetch from Vercel Serverless Function (/api/github-stats)
+  // Token is read strictly on server side via process.env.GITHUB_TOKEN
   try {
     const res = await fetch(`/api/github-stats?username=${username}`);
     if (res.ok) {
@@ -76,76 +49,10 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
       }
     }
   } catch {
-    // Serverless endpoint unavailable in static dev
+    // Endpoint unavailable in local static vite dev server mode
   }
 
-  // 2. Try Client-Side GraphQL using VITE_GITHUB_TOKEN from .env.local (if available)
-  const envToken = import.meta.env.VITE_GITHUB_TOKEN;
-  if (envToken && envToken !== 'your_github_token_here') {
-    try {
-      const gqlRes = await fetch('https://api.github.com/graphql', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${envToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: GITHUB_GRAPHQL_QUERY,
-          variables: { username },
-        }),
-      });
-
-      if (gqlRes.ok) {
-        const result = await gqlRes.json();
-        const userData = result?.data?.user;
-        if (userData) {
-          const repos = userData.repositories?.nodes || [];
-          const totalStars = repos.reduce((acc: number, r: { stargazerCount: number }) => acc + r.stargazerCount, 0);
-          const totalForks = repos.reduce((acc: number, r: { forkCount: number }) => acc + r.forkCount, 0);
-          const totalWatchers = repos.reduce((acc: number, r: { watchers?: { totalCount: number } }) => acc + (r.watchers?.totalCount || 0), 0);
-          const contribs = userData.contributionsCollection || {};
-
-          const langMap: Record<string, { count: number; color: string }> = {};
-          let totalLang = 0;
-          repos.forEach((repo: { primaryLanguage?: { name: string; color: string } }) => {
-            if (repo.primaryLanguage) {
-              const { name, color } = repo.primaryLanguage;
-              langMap[name] = langMap[name] || { count: 0, color: color || '#00e5ff' };
-              langMap[name].count += 1;
-              totalLang += 1;
-            }
-          });
-
-          const topLanguages: LanguageStat[] = Object.entries(langMap)
-            .map(([name, { count, color }]) => ({
-              name,
-              color,
-              percentage: totalLang > 0 ? Math.round((count / totalLang) * 100) : 0,
-            }))
-            .sort((a, b) => b.percentage - a.percentage)
-            .slice(0, 5);
-
-          return {
-            username,
-            totalStars: totalStars || DEFAULT_METRICS.totalStars,
-            totalForks: totalForks || DEFAULT_METRICS.totalForks,
-            totalWatchers: totalWatchers || DEFAULT_METRICS.totalWatchers,
-            totalRepos: repos.length || DEFAULT_METRICS.totalRepos,
-            totalCommits: contribs.totalCommitContributions || DEFAULT_METRICS.totalCommits,
-            totalPRs: contribs.totalPullRequestContributions || DEFAULT_METRICS.totalPRs,
-            totalIssues: contribs.totalIssueContributions || DEFAULT_METRICS.totalIssues,
-            totalReviews: contribs.totalPullRequestReviewContributions || DEFAULT_METRICS.totalReviews,
-            topLanguages,
-            isFallback: false,
-          };
-        }
-      }
-    } catch {
-      // Fallback below
-    }
-  }
-
-  // 3. Fallback to GitHub Public REST API
+  // 2. Unauthenticated GitHub Public REST API Fallback
   try {
     const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
     if (reposRes.ok) {
@@ -207,6 +114,6 @@ export async function fetchGitHubStats(username = 'Felix-au'): Promise<GitHubSta
     // Default metrics
   }
 
-  // 4. Default metrics
+  // 3. Authenticated profile metrics fallback
   return DEFAULT_METRICS;
 }
