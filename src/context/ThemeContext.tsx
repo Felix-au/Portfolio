@@ -2,13 +2,17 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export type Theme = 'dark' | 'light';
 
-interface ThemeContextType {
+export interface ThemeContextType {
   theme: Theme;
-  toggleTheme: () => void;
+  toggleTheme: (newTheme?: Theme) => void;
   setTheme: (theme: Theme) => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType>({
+  theme: 'dark',
+  toggleTheme: () => {},
+  setTheme: () => {},
+});
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
@@ -24,14 +28,17 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setThemeState(newTheme);
     localStorage.setItem('theme', newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
+    document.body.setAttribute('data-theme', newTheme);
   };
 
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+  const toggleTheme = (newTheme?: Theme) => {
+    const targetTheme = newTheme ? newTheme : theme === 'dark' ? 'light' : 'dark';
+    setTheme(targetTheme);
   };
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    document.body.setAttribute('data-theme', theme);
   }, [theme]);
 
   return (
@@ -41,10 +48,4 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   );
 };
 
-export const useTheme = (): ThemeContextType => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
-};
+export const useTheme = (): ThemeContextType => useContext(ThemeContext);

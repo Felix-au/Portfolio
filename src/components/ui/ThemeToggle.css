@@ -56,6 +56,7 @@
   fill: white;
 }
 
+[data-theme='dark'] .theme-toggle__circle,
 .theme-toggle[data-theme='dark'] .theme-toggle__circle {
   transform: none;
   transition-delay: 0.3s;
@@ -68,6 +69,7 @@
   transition-delay: 0s;
 }
 
+[data-theme='dark'] .theme-toggle__mask,
 .theme-toggle[data-theme='dark'] .theme-toggle__mask {
   transform: none;
   transition-delay: 0.3s;
@@ -87,6 +89,7 @@
   transition-delay: 0.3s;
 }
 
+[data-theme='dark'] .theme-toggle__path,
 .theme-toggle[data-theme='dark'] .theme-toggle__path {
   stroke-dashoffset: 7;
   opacity: 0;
