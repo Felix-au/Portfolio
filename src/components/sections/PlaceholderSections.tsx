@@ -41,12 +41,12 @@ export const ProjectsSection: React.FC = () => (
   <PlaceholderSection id="projects" title="Projects" />
 );
 
-export const DetailsSection: React.FC = () => (
-  <PlaceholderSection id="details" title="Details" />
+export const ResumeSection: React.FC = () => (
+  <PlaceholderSection id="resume" title="Resume" />
 );
 
-export const ArticlesSection: React.FC = () => (
-  <PlaceholderSection id="articles" title="Articles" />
+export const CertificationsSection: React.FC = () => (
+  <PlaceholderSection id="certifications" title="Certifications" />
 );
 
 export const ContactSection: React.FC = () => (

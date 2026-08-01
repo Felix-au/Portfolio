@@ -7,8 +7,8 @@ import styles from './Navbar.module.css';
 
 const navLinks = [
   { label: 'Projects', href: '#projects' },
-  { label: 'Details', href: '#details' },
-  { label: 'Articles', href: '#articles' },
+  { label: 'Resume', href: '#resume' },
+  { label: 'Certifications', href: '#certifications' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -21,7 +21,7 @@ export const Navbar: React.FC = () => {
 
   // Active section scroll tracking
   useEffect(() => {
-    const sectionIds = ['intro', 'projects', 'details', 'articles', 'contact'];
+    const sectionIds = ['intro', 'projects', 'resume', 'certifications', 'contact'];
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight / 3;
       for (const id of sectionIds) {
@@ -67,7 +67,7 @@ export const Navbar: React.FC = () => {
         <SelectedLogo style={{ width: 48, height: 48 }} />
       </a>
 
-      {/* Mobile Hamburger Toggle Button - Morphs into crisp X icon */}
+      {/* Mobile Hamburger Toggle Button */}
       <button
         className={styles.navToggle}
         aria-label="Toggle navigation menu"

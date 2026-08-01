@@ -8,8 +8,8 @@ import { HeroIntro } from './components/home/HeroIntro';
 import { useTheme } from './context/ThemeContext';
 import {
   ProjectsSection,
-  DetailsSection,
-  ArticlesSection,
+  ResumeSection,
+  CertificationsSection,
   ContactSection,
 } from './components/sections/PlaceholderSections';
 
@@ -50,13 +50,13 @@ export const App: React.FC = () => {
         {/* 3D WebGL Displacement Sphere Background ("flower") */}
         <DisplacementSphere isVisible={showBg} />
 
-        {/* Hero Section */}
+        {/* Hero Section & Page Sections */}
         {showBg && (
           <>
             <HeroIntro />
             <ProjectsSection />
-            <DetailsSection />
-            <ArticlesSection />
+            <ResumeSection />
+            <CertificationsSection />
             <ContactSection />
           </>
         )}
