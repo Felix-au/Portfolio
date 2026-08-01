@@ -246,16 +246,17 @@ const OTHER_CERTS_BADGES: CertificationItem[] = [
  * - The largest row appears LAST and gets the shortest-named badges.
  * - Diff between any two row counts is at most 1.
  *
- * Example (10 items, base=3, extra=1):
- *   rowSizes = [3, 3, 4]
- *   Row 0: 3 longest names
- *   Row 1: next 3 names
- *   Row 2: 4 shortest names
+ * Example (10 items, base=2, extra=2):
+ *   rowSizes = [2, 2, 3, 3]
+ *   Row 0: 2 longest names
+ *   Row 1: next 2 names
+ *   Row 2: next 3 names
+ *   Row 3: 3 shortest names
  */
 function distributeItems(items: TechItem[]): TechItem[][] {
   const n = items.length;
   if (n === 0) return [];
-  const ROWS = 3;
+  const ROWS = 4;
   const base = Math.floor(n / ROWS);
   const extra = n % ROWS;
 
