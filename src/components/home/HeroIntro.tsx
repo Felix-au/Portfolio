@@ -53,30 +53,34 @@ export const HeroIntro: React.FC = () => {
             </span>
 
             <div className={styles.lineWrapper}>
-              {/* Above the line: Stars, Commits, Forks, Watchers Earned */}
+              {/* Top Row: Stars, Forks, Watchers, Followers */}
               <div className={styles.lineStatsAbove}>
                 <span className={styles.statItem} title="Stars Earned">
                   ⭐ <strong>{stats ? stats.totalStars : 669}</strong> Stars
-                </span>
-                <span className={styles.statDot}>•</span>
-                <span className={styles.statItem} title="Lifetime Commits">
-                  🔨 <strong>{stats ? stats.totalCommits.toLocaleString() : '5,907'}</strong> Commits
                 </span>
                 <span className={styles.statDot}>•</span>
                 <span className={styles.statItem} title="Forks Earned">
                   🍴 <strong>{stats ? stats.totalForks : 235}</strong> Forks
                 </span>
                 <span className={styles.statDot}>•</span>
-                <span className={styles.statItem} title="Watchers Earned Across All Repos">
+                <span className={styles.statItem} title="Watchers Earned">
                   👁️ <strong>{stats ? stats.totalWatchers : 124}</strong> Watchers
+                </span>
+                <span className={styles.statDot}>•</span>
+                <span className={styles.statItem} title="GitHub Followers">
+                  👥 <strong>{stats ? (stats.followers || 73) : 73}</strong> Followers
                 </span>
               </div>
 
               {/* Undisturbed horizontal line */}
               <span className={styles.line} />
 
-              {/* Below the line: PRs, Code Reviews, Issues, Followers */}
+              {/* Bottom Row: Commits, PRs, Reviews, Issues */}
               <div className={styles.lineStatsBelow}>
+                <span className={styles.statItem} title="Lifetime Commits">
+                  🔨 <strong>{stats ? stats.totalCommits.toLocaleString() : '5,907'}</strong> Commits
+                </span>
+                <span className={styles.statDot}>•</span>
                 <span className={styles.statItem} title="Pull Requests Created">
                   🔀 <strong>{stats ? stats.totalPRs : 219}</strong> PRs
                 </span>
@@ -87,10 +91,6 @@ export const HeroIntro: React.FC = () => {
                 <span className={styles.statDot}>•</span>
                 <span className={styles.statItem} title="Issues Opened">
                   🐛 <strong>{stats ? stats.totalIssues : 243}</strong> Issues
-                </span>
-                <span className={styles.statDot}>•</span>
-                <span className={styles.statItem} title="GitHub Followers">
-                  👥 <strong>73</strong> Followers
                 </span>
               </div>
             </div>
