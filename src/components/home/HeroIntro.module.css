@@ -1,0 +1,149 @@
+.intro {
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  z-index: 10;
+  padding: 0 2rem;
+  box-sizing: border-box;
+}
+
+.text {
+  max-width: 1024px;
+  width: 100%;
+  position: relative;
+  top: -2rem;
+}
+
+@media (max-width: 1024px) {
+  .text {
+    max-width: 860px;
+  }
+}
+
+@media (max-width: 768px) {
+  .text {
+    max-width: 680px;
+    top: -1rem;
+  }
+}
+
+.name {
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  letter-spacing: 0.3em;
+  color: var(--text-color, #ffffff);
+  opacity: 0.85;
+  margin-bottom: 2rem;
+  margin-top: 0;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .name {
+    font-size: 1.15rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.title {
+  letter-spacing: -0.03em;
+  font-size: 3.8rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text-color, #ffffff);
+}
+
+@media (max-width: 1024px) {
+  .title {
+    font-size: 3.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.2rem;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  min-height: 1.2em;
+}
+
+.word {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  line-height: 1.1;
+  color: var(--text-color, #ffffff);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.word[data-plus='true']::before {
+  content: '+';
+  margin-right: 12px;
+  opacity: 0.5;
+  color: #00e5ff;
+}
+
+.line {
+  content: '';
+  height: 2px;
+  background: rgba(0, 229, 255, 0.4);
+  width: 100%;
+  flex: 1;
+  display: flex;
+  margin-left: 24px;
+  transform-origin: left;
+  border-radius: 2px;
+}
+
+.scrollIndicator {
+  border: 2px solid rgba(120, 120, 150, 0.4);
+  border-radius: 20px;
+  width: 26px;
+  height: 38px;
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.4s ease;
+}
+
+.scrollIndicator::before {
+  content: '';
+  height: 7px;
+  width: 2px;
+  background: #00e5ff;
+  border-radius: 4px;
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: introScrollIndicator 2s ease infinite;
+}
+
+@keyframes introScrollIndicator {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 8px);
+    opacity: 0;
+  }
+}

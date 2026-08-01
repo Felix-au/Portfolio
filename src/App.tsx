@@ -3,6 +3,8 @@ import { IntroLoader } from './components/loader/IntroLoader';
 import { FlashOverlay } from './components/loader/FlashOverlay';
 import { DisplacementSphere } from './components/background/DisplacementSphere';
 import { ThemeToggle } from './components/ui/ThemeToggle';
+import { HeroIntro } from './components/home/HeroIntro';
+
 export const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [showBg, setShowBg] = useState(false);
@@ -37,6 +39,9 @@ export const App: React.FC = () => {
       >
         {/* 3D WebGL Displacement Sphere Background ("flower") */}
         <DisplacementSphere isVisible={showBg} />
+
+        {/* Hero Section */}
+        {showBg && <HeroIntro />}
       </div>
     </>
   );

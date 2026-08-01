@@ -174,8 +174,8 @@ export const DisplacementSphere: React.FC<DisplacementSphereProps> = ({ isVisibl
         y: event.clientY / window.innerHeight,
       };
 
-      rotationX.set((position.y / 2) * 1.5);
-      rotationY.set((position.x / 2) * 1.5);
+      rotationX.set((position.y / 2) * 2);
+      rotationY.set((position.x / 2) * 2);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
