@@ -270,27 +270,28 @@ export const SkillsSection: React.FC = () => {
 
   return (
     <section id="skills" className={styles.section}>
-      <div className={styles.container}>
-        {/* Header Right-Aligned Tab Bar */}
-        <div className={styles.header}>
-          <div className={styles.tabNav}>
-            <button
-              className={`${styles.tabBtn} ${activeTab === 'skills' ? styles.activeTab : ''}`}
-              onClick={() => setActiveTab('skills')}
-            >
-              <Brain className={styles.tabIcon} />
-              Skills & Expertise
-            </button>
+      {/* Vertical Side Rail – fixed right, below theme toggle */}
+      <nav className={styles.sideRail}>
+        <button
+          className={`${styles.railBtn} ${activeTab === 'skills' ? styles.railActive : ''}`}
+          onClick={() => setActiveTab('skills')}
+          title="Skills & Expertise"
+        >
+          <Brain className={styles.railIcon} />
+          <span className={styles.railLabel}>Skills</span>
+        </button>
 
-            <button
-              className={`${styles.tabBtn} ${activeTab === 'certifications' ? styles.activeTab : ''}`}
-              onClick={() => setActiveTab('certifications')}
-            >
-              <Award className={styles.tabIcon} />
-              Certifications & Badges
-            </button>
-          </div>
-        </div>
+        <button
+          className={`${styles.railBtn} ${activeTab === 'certifications' ? styles.railActive : ''}`}
+          onClick={() => setActiveTab('certifications')}
+          title="Certifications & Badges"
+        >
+          <Award className={styles.railIcon} />
+          <span className={styles.railLabel}>Certs</span>
+        </button>
+      </nav>
+
+      <div className={styles.container}>
 
         {/* TAB 1: SKILLS CONTENT (2 Rows x 4 Columns = 8 Categories) */}
         {activeTab === 'skills' && (
