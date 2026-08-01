@@ -1,6 +1,6 @@
 .section {
   min-height: 100vh;
-  padding: 7.5rem 2rem 5rem;
+  padding: 5rem 2rem 5rem;
   position: relative;
   z-index: 10;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -16,21 +16,20 @@
 }
 
 .container {
-  max-width: 1400px;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
+  padding-right: 230px; /* Reserved strip for vertical tabs on far right */
   display: flex;
   flex-direction: column;
-  gap: 2rem;
 }
 
-/* Section Header & Main Tabs (Vertical Tabs right below theme toggle) */
+/* Header & Main Tabs (Positioned in far-right vertical strip under Theme Toggle) */
 .header {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  width: 100%;
-  padding-right: 0.5rem;
-  margin-bottom: 0.5rem;
+  position: absolute;
+  top: 5rem;
+  right: 1.75rem;
+  z-index: 50;
 }
 
 .tabNav {
@@ -43,7 +42,8 @@
   padding: 6px;
   border-radius: 20px;
   backdrop-filter: blur(12px);
-  min-width: 230px;
+  width: 215px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme='light'] .tabNav {
@@ -379,6 +379,20 @@
 
 /* Responsive Breakpoints */
 @media (max-width: 1200px) {
+  .container {
+    padding-right: 0;
+  }
+  .header {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-bottom: 1.5rem;
+    justify-content: flex-end;
+  }
+  .tabNav {
+    width: auto;
+    flex-direction: row;
+  }
   .categoryGrid {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
@@ -395,14 +409,18 @@
   .section {
     padding: 5rem 1rem 4rem;
   }
+  .header {
+    justify-content: center;
+  }
+  .tabNav {
+    width: 100%;
+    justify-content: center;
+  }
   .categoryGrid {
     grid-template-columns: 1fr;
   }
-  .sectionTitle {
-    font-size: 2.2rem;
-  }
   .tabBtn {
-    padding: 8px 16px;
+    padding: 8px 14px;
     font-size: 0.85rem;
   }
 }
