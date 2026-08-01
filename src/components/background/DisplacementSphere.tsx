@@ -67,7 +67,7 @@ export const DisplacementSphere: React.FC<DisplacementSphereProps> = ({ isVisibl
     material.onBeforeCompile = (shader) => {
       uniformsRef.current = UniformsUtils.merge([
         shader.uniforms,
-        { time: { type: 'f', value: 0 } },
+        { time: { value: 0 } },
       ]);
       shader.uniforms = uniformsRef.current;
       shader.vertexShader = vertexShader;
