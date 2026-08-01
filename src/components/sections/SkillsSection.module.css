@@ -147,6 +147,28 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
+  /* Thin vertical spine on the right side of the sub-tabs */
+  border-right: 1px dashed rgba(255, 255, 255, 0.15);
+}
+
+[data-theme='light'] .certRail {
+  border-right: 1px dashed rgba(0, 0, 0, 0.15);
+}
+
+/* Horizontal branch linking sub-tabs to the main Certifications button */
+.certRail::after {
+  content: '';
+  position: absolute;
+  right: -13px;
+  top: 75%; /* aligns with Certifications & Badges button */
+  width: 12px;
+  height: 1px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+}
+
+[data-theme='light'] .certRail::after {
+  border-top-color: rgba(0, 0, 0, 0.15);
 }
 
 /* certRail needs its own .railVisible override because .certRail comes AFTER
