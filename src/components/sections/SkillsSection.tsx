@@ -382,7 +382,7 @@ export const SkillsSection: React.FC = () => {
           title="Specialization Certificates"
         >
           <GraduationCap className={styles.railIcon} />
-          <span className={styles.certRailLabel}>Specialization Certificates</span>
+          <span className={styles.certRailLabel}>Specialization</span>
         </button>
 
         <button
@@ -391,7 +391,7 @@ export const SkillsSection: React.FC = () => {
           title="Other Certificates"
         >
           <FileCheck className={styles.railIcon} />
-          <span className={styles.certRailLabel}>Other Certificates</span>
+          <span className={styles.certRailLabel}>Other Certs</span>
         </button>
 
         <button
