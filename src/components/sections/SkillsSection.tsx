@@ -241,18 +241,19 @@ const OTHER_CERTS_BADGES: CertificationItem[] = [
 ];
 
 /**
- * Distributes items into rows achieving minimum rows while balancing
- * row counts (max diff of 1 between any two rows).
+ * Distributes items into exactly 3 rows.
+ * Balances row counts so the difference between the fullest
+ * and emptiest row is at most 1.
  */
-function distributeItems(items: TechItem[], maxPerRow = 5): TechItem[][] {
+function distributeItems(items: TechItem[]): TechItem[][] {
   const n = items.length;
   if (n === 0) return [];
-  const rows = Math.ceil(n / maxPerRow);
-  const base = Math.floor(n / rows);
-  const extra = n % rows;
+  const ROWS = 3;
+  const base = Math.floor(n / ROWS);
+  const extra = n % ROWS; // first `extra` rows get base+1 items
   const result: TechItem[][] = [];
   let start = 0;
-  for (let i = 0; i < rows; i++) {
+  for (let i = 0; i < ROWS; i++) {
     const count = i < extra ? base + 1 : base;
     result.push(items.slice(start, start + count));
     start += count;
@@ -331,9 +332,8 @@ export const SkillsSection: React.FC = () => {
                     ))}
                   </div>
 
-                  {/* Title centered at bottom */}
+                  {/* Title centered at bottom — text only */}
                   <div className={styles.categoryHeader}>
-                    <span className={styles.catEmoji}>{cat.emojiIcon}</span>
                     <span className={styles.catTitle}>{cat.title}</span>
                   </div>
 
