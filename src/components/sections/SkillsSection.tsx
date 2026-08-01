@@ -149,9 +149,9 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
     ],
   },
   {
-    // Renamed from "AI & Machine Learning" → "Frameworks"
+    // Renamed from "AI & Machine Learning" → "Frameworks & Libraries"
     id: 'frameworks',
-    title: 'Frameworks',
+    title: 'Frameworks & Libraries',
     emojiIcon: '🤖',
     items: [
       { name: 'PyTorch', icon: <SiPytorch />, color: '#ee4c2c' },
@@ -160,6 +160,12 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
       { name: 'OpenCV', icon: <SiOpencv />, color: '#5c3ee8' },
       { name: 'Hugging Face', icon: <SiHuggingface />, color: '#ffd21e' },
       { name: 'Scikit-Learn', icon: <SiScikitlearn />, color: '#f7931e' },
+      { name: 'Win32 Koffi FFI', icon: <Cpu />, color: '#00a4ef' },
+      { name: 'WASAPI', icon: <Volume2 />, color: '#00e5ff' },
+      { name: 'Pycaw FFI Wrapper', icon: <Sliders />, color: '#3776ab' },
+      { name: 'C++ System Hooks', icon: <Terminal />, color: '#00599c' },
+      { name: 'OpenJFX Containers', icon: <Shield />, color: '#ed8b00' },
+      { name: 'Launch4J', icon: <Wrench />, color: '#ed8b00' },
     ],
   },
   {
@@ -184,7 +190,7 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
     ],
   },
   {
-    // Tools gains Systems & OS Core items + Docker, Kubernetes, GitHub Actions from dissolved Cloud section
+    // Tools gains Docker, Kubernetes, GitHub Actions from dissolved Cloud section
     id: 'tools',
     title: 'Tools & DevOps',
     emojiIcon: '🛠️',
@@ -199,12 +205,6 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
       { name: 'Qt / PySide6', icon: <SiQt />, color: '#41cd52' },
       { name: 'Jupyter', icon: <SiJupyter />, color: '#f37626' },
       { name: 'Postman', icon: <SiPostman />, color: '#ff6c37' },
-      { name: 'Win32 Koffi FFI', icon: <Cpu />, color: '#00a4ef' },
-      { name: 'WASAPI', icon: <Volume2 />, color: '#00e5ff' },
-      { name: 'Pycaw FFI Wrapper', icon: <Sliders />, color: '#3776ab' },
-      { name: 'C++ System Hooks', icon: <Terminal />, color: '#00599c' },
-      { name: 'OpenJFX Containers', icon: <Shield />, color: '#ed8b00' },
-      { name: 'Launch4J', icon: <Wrench />, color: '#ed8b00' },
     ],
   },
 ];
