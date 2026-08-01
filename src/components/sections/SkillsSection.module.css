@@ -267,7 +267,7 @@
 .categoryCard {
   position: relative;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   /* Extra bottom padding makes room for the pinned title footer */
@@ -495,7 +495,7 @@
 }
 
 .certCard {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 18px;
   padding: 1.5rem;
