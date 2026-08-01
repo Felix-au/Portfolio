@@ -40,10 +40,10 @@
     color: transparent;
   }
   60% {
-    color: var(--textLight, rgba(255, 255, 255, 0.6));
+    color: var(--text-light, rgba(255, 255, 255, 0.6));
   }
   100% {
-    color: var(--textLight, rgba(255, 255, 255, 0.6));
+    color: var(--text-light, rgba(255, 255, 255, 0.6));
   }
 }
 
@@ -115,17 +115,13 @@
   text-transform: uppercase;
   font-size: calc((20 / 16) * 1rem);
   letter-spacing: 0.3em;
-  color: var(--textLight, rgba(255, 255, 255, 0.6));
+  color: var(--text-light, rgba(255, 255, 255, 0.6));
   margin-bottom: 20px;
   margin-top: 0;
   font-weight: 500;
   line-height: 1;
   opacity: 0;
-  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
-}
-
-[data-theme='light'] .name {
-  color: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, color 0.4s ease;
 }
 
 .name[data-visible='true'] {
@@ -203,10 +199,6 @@
   animation-name: subRoleTextReveal;
 }
 
-[data-theme='light'] .subRoleRow .word {
-  color: rgba(0, 0, 0, 0.6);
-}
-
 .word {
   position: relative;
   display: flex;
@@ -219,7 +211,6 @@
   animation-delay: var(--delay, 0.2s);
 }
 
-/* Extended right inset to -0.10em so sweeping cyan bar extends slightly past the last letter */
 .word::after {
   content: '';
   background: var(--accent, #00e5ff);
@@ -251,11 +242,7 @@
 }
 
 .subRoleRow .word[data-status='exiting'] {
-  color: var(--textLight, rgba(255, 255, 255, 0.6));
-}
-
-[data-theme='light'] .subRoleRow .word[data-status='exiting'] {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--text-light, rgba(255, 255, 255, 0.6));
 }
 
 .word[data-status='exiting']::after {
