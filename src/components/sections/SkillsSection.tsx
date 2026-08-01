@@ -242,23 +242,39 @@ const OTHER_CERTS_BADGES: CertificationItem[] = [
 
 /**
  * Distributes items into exactly 3 rows.
- * Balances row counts so the difference between the fullest
- * and emptiest row is at most 1.
+ * - Rows with fewer items appear FIRST and get the longest-named badges.
+ * - The largest row appears LAST and gets the shortest-named badges.
+ * - Diff between any two row counts is at most 1.
+ *
+ * Example (10 items, base=3, extra=1):
+ *   rowSizes = [3, 3, 4]
+ *   Row 0: 3 longest names
+ *   Row 1: next 3 names
+ *   Row 2: 4 shortest names
  */
 function distributeItems(items: TechItem[]): TechItem[][] {
   const n = items.length;
   if (n === 0) return [];
   const ROWS = 3;
   const base = Math.floor(n / ROWS);
-  const extra = n % ROWS; // first `extra` rows get base+1 items
-  const result: TechItem[][] = [];
-  let start = 0;
-  for (let i = 0; i < ROWS; i++) {
-    const count = i < extra ? base + 1 : base;
-    result.push(items.slice(start, start + count));
-    start += count;
+  const extra = n % ROWS;
+
+  // Sort longest name → shortest name
+  const sorted = [...items].sort((a, b) => b.name.length - a.name.length);
+
+  // First (ROWS - extra) rows are the "small" rows (size = base)  → get longest names
+  // Last extra rows are the "large" rows (size = base + 1)         → get shorter names
+  const rowSizes = Array.from({ length: ROWS }, (_, i) =>
+    i < ROWS - extra ? base : base + 1
+  );
+
+  const rows: TechItem[][] = [];
+  let cursor = 0;
+  for (const size of rowSizes) {
+    rows.push(sorted.slice(cursor, cursor + size));
+    cursor += size;
   }
-  return result;
+  return rows;
 }
 
 export const SkillsSection: React.FC = () => {
