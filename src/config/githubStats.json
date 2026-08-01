@@ -1,0 +1,40 @@
+{
+  "username": "Felix-au",
+  "totalStars": 669,
+  "totalForks": 235,
+  "totalWatchers": 124,
+  "totalRepos": 33,
+  "totalCommits": 5799,
+  "totalPRs": 219,
+  "totalIssues": 243,
+  "totalReviews": 176,
+  "followers": 73,
+  "topLanguages": [
+    {
+      "name": "TypeScript",
+      "color": "#3178c6",
+      "percentage": 34
+    },
+    {
+      "name": "JavaScript",
+      "color": "#f1e05a",
+      "percentage": 31
+    },
+    {
+      "name": "Python",
+      "color": "#3572A5",
+      "percentage": 13
+    },
+    {
+      "name": "Java",
+      "color": "#b07219",
+      "percentage": 9
+    },
+    {
+      "name": "Jupyter Notebook",
+      "color": "#DA5B0B",
+      "percentage": 6
+    }
+  ],
+  "lastUpdated": "2026-08-01T21:29:05.965Z"
+}
