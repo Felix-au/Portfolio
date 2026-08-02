@@ -289,6 +289,7 @@
   padding: 1.5rem 1.25rem 5rem;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   justify-content: center;
   backdrop-filter: blur(12px);
   transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
@@ -377,13 +378,18 @@
   color: var(--text-color, #0a0a0a);
 }
 
-/* Badge rows — each row centered */
+/* Badge rows — each row centered, block vertically centered in card */
 .techPillRows {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
   gap: 6px;
   position: relative;
   z-index: 1;
+  /* Take all available space so rows sit vertically centered */
+  flex: 1;
+  margin: auto 0;
 }
 
 .techPillRow {

@@ -133,25 +133,12 @@ const MicrosoftLogoSvg: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 );
 
-const IbmLogoSvg: React.FC<{ className?: string }> = ({ className }) => (
-  <svg viewBox="0 0 64 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* IBM 8-bar logo — official horizontal stripe pattern */}
-    <rect x="0"  y="4"  width="64" height="6"  fill="#0f62fe" rx="1"/>
-    <rect x="8"  y="14" width="48" height="6"  fill="#0f62fe" rx="1"/>
-    <rect x="8"  y="24" width="16" height="6"  fill="#0f62fe" rx="1"/>
-    <rect x="40" y="24" width="16" height="6"  fill="#0f62fe" rx="1"/>
-    <rect x="8"  y="34" width="16" height="6"  fill="#0f62fe" rx="1"/>
-    <rect x="40" y="34" width="16" height="6"  fill="#0f62fe" rx="1"/>
-    <rect x="8"  y="44" width="48" height="6"  fill="#0f62fe" rx="1"/>
-    <rect x="0"  y="54" width="64" height="6"  fill="#0f62fe" rx="1"/>
-  </svg>
-);
 
 function getCompanyLogo(issuer: string) {
   const lower = issuer.toLowerCase();
   if (lower.includes('google')) return <GoogleLogoSvg className={styles.companyBgLogo} />;
   if (lower.includes('microsoft')) return <MicrosoftLogoSvg className={styles.companyBgLogo} />;
-  if (lower.includes('ibm')) return <IbmLogoSvg className={styles.companyBgLogo} />;
+  if (lower.includes('ibm')) return <img src="/ibm-logo.svg" className={styles.companyBgLogo} alt="IBM" />;
   return <Award className={styles.companyBgLogo} />;
 }
 
@@ -203,7 +190,7 @@ function formatCardSkills(rawSkills: string[] = []): string[] {
 function formatCertTitle(title: string): string {
   let formatted = title;
   formatted = formatted.replace(/\bGenerative\b/g, 'Gen');
-  formatted = formatted.replace(/\bEngineering\b/g, 'Eng.');
+  formatted = formatted.replace(/\bEngineering\b/g, 'Eng');
   formatted = formatted.replace(/\band\b/g, '&');
   return formatted;
 }
