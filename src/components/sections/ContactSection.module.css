@@ -21,65 +21,27 @@
 
 .container {
   width: 100%;
-  max-width: 1100px;
+  max-width: 650px;
   margin: 0 auto;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 5rem;
-}
-
-.leftPanel {
-  flex: 1 1 45%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.rightPanel {
-  flex: 1 1 55%;
-  display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: 1rem;
-  width: 100%;
-}
-
-.illustrationWrapper {
-  width: 100%;
-  max-width: 420px;
-  display: flex;
-  justify-content: center;
+  gap: 2rem;
   align-items: center;
-}
-
-.illustration {
-  width: 100%;
-  height: auto;
-  max-height: 400px;
-  object-fit: contain;
-  filter: drop-shadow(0 15px 30px rgba(0, 229, 255, 0.15));
-}
-
-[data-theme='light'] .illustration {
-  filter: drop-shadow(0 15px 30px rgba(0, 150, 214, 0.12));
 }
 
 .sectionTitle {
   text-transform: uppercase;
-  font-size: 3.5rem;
-  letter-spacing: 0.15em;
-  color: var(--text-color);
-  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  letter-spacing: 0.28em;
+  color: var(--text-light, rgba(255, 255, 255, 0.6));
+  margin-bottom: 2rem;
   margin-top: 0;
-  font-weight: 700;
-  line-height: 1.1;
-  min-height: 1.15em;
+  font-weight: 500;
+  line-height: 1;
+  min-height: 1.25em;
   display: block;
   transition: color 0.4s ease;
-  text-align: left;
+  text-align: center;
 }
 
 /* Glassmorphic Form Card */
@@ -397,19 +359,13 @@
 /* Responsive constraints */
 @media (max-width: 1200px) {
   .sectionTitle {
-    font-size: 3rem;
-  }
-  .container {
-    gap: 3.5rem;
+    font-size: 2.2rem;
   }
 }
 
 @media (max-width: 1024px) {
   .sectionTitle {
-    font-size: 2.75rem;
-  }
-  .container {
-    gap: 2.5rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -417,48 +373,17 @@
   .section {
     padding: 5rem 1.5rem 4rem;
   }
-  .container {
-    flex-direction: column;
-    gap: 3rem;
-    align-items: center;
-  }
-  .leftPanel, .rightPanel {
-    width: 100%;
-    flex: 1 1 100%;
-  }
-  .leftPanel {
-    order: 1;
-  }
-  .rightPanel {
-    order: 2;
-    align-items: center;
-  }
-  .sectionTitle {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .illustrationWrapper {
-    max-width: 320px;
-  }
 }
 
 @media (max-width: 696px) {
   .sectionTitle {
-    font-size: 2.25rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.22em;
+    font-size: 1.4rem;
   }
 }
 
 @media (max-width: 600px) {
   .contactCard {
     padding: 1.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .sectionTitle {
-    font-size: 1.85rem;
-    letter-spacing: 0.08em;
   }
 }
