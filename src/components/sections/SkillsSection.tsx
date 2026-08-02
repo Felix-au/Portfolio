@@ -200,36 +200,41 @@ function formatCertTitle(title: string): string {
 }
 
 function distributeSkillStrings(skills: string[]): string[][] {
-  const n = skills.length;
-  if (n === 0) return [];
+  if (skills.length === 0) return [];
 
   const hasExtra = skills.length > 0 && skills[skills.length - 1].startsWith('+');
   const extraBadge = hasExtra ? skills[skills.length - 1] : null;
   const regularSkills = hasExtra ? skills.slice(0, -1) : skills;
 
+  // Sort regular skills descending by string length
   const sorted = [...regularSkills].sort((a, b) => b.length - a.length);
 
-  if (extraBadge) {
-    sorted.push(extraBadge);
-  }
-
   const ROWS = 4;
-  const base = Math.floor(n / ROWS);
-  const extra = n % ROWS;
+  const rows: { items: string[]; totalLen: number }[] = Array.from({ length: ROWS }, () => ({
+    items: [],
+    totalLen: 0,
+  }));
 
-  const rowSizes = Array.from({ length: ROWS }, (_, i) =>
-    i < ROWS - extra ? base : base + 1
-  );
-
-  const rows: string[][] = [];
-  let cursor = 0;
-  for (const size of rowSizes) {
-    if (size > 0) {
-      rows.push(sorted.slice(cursor, cursor + size));
-      cursor += size;
+  // Distribute regular skills greedily to the row with the smallest current total character length
+  sorted.forEach((skill) => {
+    let minRowIndex = 0;
+    for (let i = 1; i < ROWS; i++) {
+      const effectiveLen = rows[i].totalLen + (i === 3 && extraBadge ? 8 : 0);
+      const minEffectiveLen = rows[minRowIndex].totalLen + (minRowIndex === 3 && extraBadge ? 8 : 0);
+      if (effectiveLen < minEffectiveLen) {
+        minRowIndex = i;
+      }
     }
+    rows[minRowIndex].items.push(skill);
+    rows[minRowIndex].totalLen += skill.length;
+  });
+
+  // Always append +N more badge as the final badge of the 4th row (bottom right)
+  if (extraBadge) {
+    rows[ROWS - 1].items.push(extraBadge);
   }
-  return rows;
+
+  return rows.map((r) => r.items).filter((items) => items.length > 0);
 }
 
 const SKILL_CATEGORIES: CategoryGroup[] = [
