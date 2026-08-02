@@ -1,6 +1,7 @@
-.section {
+.section,
+.certSectionActive {
   min-height: 100vh;
-  padding: 5rem 64px;
+  padding: 5rem 115px;
   position: relative;
   z-index: 10;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -14,10 +15,6 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-}
-
-.certSectionActive {
-  padding: 5rem 115px 5rem 64px;
 }
 
 [data-theme='light'] .section {
