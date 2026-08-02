@@ -498,14 +498,65 @@ export const SkillsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   // One ref per skill card — used to fire the intro glare sweep
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  // Always-current activeTab value for the IntersectionObserver closure
+  const certCardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const activeTabRef = useRef(activeTab);
   activeTabRef.current = activeTab;
-  // Prevents overlapping intro sweeps on rapid scroll
+  const certSubTabRef = useRef(certSubTab);
+  certSubTabRef.current = certSubTab;
+
   const glareInProgress = useRef(false);
-  const certCardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const certGlareInProgress = useRef(false);
   const [selectedCertModal, setSelectedCertModal] = useState<CertificationItem | null>(null);
+
+  const fireSkillsGlareSweep = (delayMs = 150) => {
+    if (glareInProgress.current) return;
+    glareInProgress.current = true;
+
+    // Group A (0,2,4 = Languages, Backend, Databases)
+    // Group B (1,3,5 = Frontend, Frameworks, Tools)
+    const groupA = [0, 2, 4];
+    const groupB = [1, 3, 5];
+    const group = Math.random() < 0.5 ? groupA : groupB;
+
+    setTimeout(() => {
+      group.forEach((cardIdx, step) => {
+        setTimeout(() => {
+          const card = cardRefs.current[cardIdx];
+          if (!card) return;
+          card.classList.add('glare-intro');
+          setTimeout(() => card.classList.remove('glare-intro'), 900);
+        }, step * 250);
+      });
+      setTimeout(() => {
+        glareInProgress.current = false;
+      }, 3 * 250 + 950);
+    }, delayMs);
+  };
+
+  const fireSpecGlareSweep = (delayMs = 150) => {
+    if (certGlareInProgress.current) return;
+    certGlareInProgress.current = true;
+
+    // Group A (0,2,4 = Google Data Analytics, Google Cybersecurity, Google AI)
+    // Group B (1,3,5 = Microsoft Gen AI, IBM RAG, Building AI Agents)
+    const groupA = [0, 2, 4];
+    const groupB = [1, 3, 5];
+    const group = Math.random() < 0.5 ? groupA : groupB;
+
+    setTimeout(() => {
+      group.forEach((cardIdx, step) => {
+        setTimeout(() => {
+          const card = certCardRefs.current[cardIdx];
+          if (!card) return;
+          card.classList.add('glare-intro');
+          setTimeout(() => card.classList.remove('glare-intro'), 900);
+        }, step * 250);
+      });
+      setTimeout(() => {
+        certGlareInProgress.current = false;
+      }, 3 * 250 + 950);
+    }, delayMs);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -517,24 +568,17 @@ export const SkillsSection: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Trigger glare sweep when activeTab or certSubTab changes
   useEffect(() => {
-    if (activeTab === 'certifications' && certSubTab === 'spec' && sectionVisible && !certGlareInProgress.current) {
-      certGlareInProgress.current = true;
-      const group = [0, 1, 2, 3, 4, 5];
-      group.forEach((cardIdx, step) => {
-        setTimeout(() => {
-          const card = certCardRefs.current[cardIdx];
-          if (!card) return;
-          card.classList.add('glare-intro');
-          setTimeout(() => card.classList.remove('glare-intro'), 900);
-        }, step * 200);
-      });
-      setTimeout(() => {
-        certGlareInProgress.current = false;
-      }, 6 * 200 + 950);
+    if (!sectionVisible) return;
+    if (activeTab === 'skills') {
+      fireSkillsGlareSweep(400);
+    } else if (activeTab === 'certifications' && certSubTab === 'spec') {
+      fireSpecGlareSweep(400);
     }
   }, [activeTab, certSubTab, sectionVisible]);
 
+  // IntersectionObserver for scroll-into-view
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -543,27 +587,12 @@ export const SkillsSection: React.FC = () => {
       ([entry]) => {
         setSectionVisible(entry.isIntersecting);
 
-        // Every time the section enters view while on the skills tab, run the sweep
-        if (entry.isIntersecting && activeTabRef.current === 'skills' && !glareInProgress.current) {
-          glareInProgress.current = true;
-
-          // Randomly pick Group A (0,2,4 = Languages/Backend/Databases)
-          // or Group B (1,3,5 = Frontend/Frameworks/Tools)
-          const groupA = [0, 2, 4];
-          const groupB = [1, 3, 5];
-          const group = Math.random() < 0.5 ? groupA : groupB;
-
-          group.forEach((cardIdx, step) => {
-            setTimeout(() => {
-              const card = cardRefs.current[cardIdx];
-              if (!card) return;
-              card.classList.add('glare-intro');
-              setTimeout(() => card.classList.remove('glare-intro'), 900);
-            }, step * 300);
-          });
-
-          // Release cooldown after full sequence (3 cards × 300ms + 900ms animation)
-          setTimeout(() => { glareInProgress.current = false; }, 3 * 300 + 950);
+        if (entry.isIntersecting) {
+          if (activeTabRef.current === 'skills') {
+            fireSkillsGlareSweep(200);
+          } else if (activeTabRef.current === 'certifications' && certSubTabRef.current === 'spec') {
+            fireSpecGlareSweep(200);
+          }
         }
       },
       { threshold: 0.1 }
