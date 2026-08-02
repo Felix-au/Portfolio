@@ -195,11 +195,21 @@ function formatCardSkills(rawSkills: string[] = []): string[] {
 function distributeSkillStrings(skills: string[]): string[][] {
   const n = skills.length;
   if (n === 0) return [];
+
+  const hasExtra = skills.length > 0 && skills[skills.length - 1].startsWith('+');
+  const extraBadge = hasExtra ? skills[skills.length - 1] : null;
+  const regularSkills = hasExtra ? skills.slice(0, -1) : skills;
+
+  const sorted = [...regularSkills].sort((a, b) => b.length - a.length);
+
+  if (extraBadge) {
+    sorted.push(extraBadge);
+  }
+
   const ROWS = 3;
   const base = Math.floor(n / ROWS);
   const extra = n % ROWS;
 
-  const sorted = [...skills].sort((a, b) => b.length - a.length);
   const rowSizes = Array.from({ length: ROWS }, (_, i) =>
     i < ROWS - extra ? base : base + 1
   );
@@ -726,33 +736,9 @@ export const SkillsSection: React.FC = () => {
                               ))}
                             </div>
 
-                            {/* Course Title at bottom + Verify & PDF Buttons */}
+                            {/* Title centered at bottom — clean text matching Skills card */}
                             <div className={styles.categoryHeader}>
                               <span className={styles.catTitle}>{cert.title}</span>
-                              <div className={styles.certCardActions}>
-                                {cert.link && (
-                                  <button
-                                    className={styles.cardActionBtn}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      window.open(cert.link, '_blank');
-                                    }}
-                                  >
-                                    Verify <ExternalLink size={12} />
-                                  </button>
-                                )}
-                                {cert.pdfUrl && (
-                                  <button
-                                    className={styles.cardActionBtnAlt}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setSelectedCertModal(cert);
-                                    }}
-                                  >
-                                    PDF / Details <FileText size={12} />
-                                  </button>
-                                )}
-                              </div>
                             </div>
                           </GlareHover>
                         </motion.div>
