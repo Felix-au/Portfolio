@@ -285,16 +285,15 @@
   background: rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  /* Extra bottom padding makes room for the pinned title footer (allow 2 lines) */
-  padding: 1.5rem 1.25rem 5rem;
+  /* Bottom padding = height of 2-line title footer */
+  padding: 1.25rem 1.25rem 3.75rem;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
   backdrop-filter: blur(12px);
   transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
-  /* Cards in same grid row stretch to equal height automatically */
-  min-height: 220px;
+  min-height: 190px;
 }
 
 .categoryCard:hover {
@@ -352,7 +351,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 0.55rem 0.85rem 0.65rem;
+  padding: 0.45rem 0.85rem 0.55rem;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   z-index: 1;
 }
