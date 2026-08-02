@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import GlareHover from '../ui/GlareHover';
 import {
   SiPython,
@@ -301,6 +302,69 @@ function distributeItems(items: TechItem[]): TechItem[][] {
   return rows;
 }
 
+const getSkillsCardVariants = (index: number) => {
+  const col = index % 3;
+  let exitX = 0;
+  let exitY = 0;
+  let entryX = 0;
+  let entryY = 0;
+
+  if (col === 0) {
+    // Left column slides out left, enters from left
+    entryX = -150;
+    exitX = -250;
+  } else if (col === 2) {
+    // Right column slides out right, enters from right
+    entryX = 150;
+    exitX = 250;
+  } else {
+    // Center column slides out down, enters from top
+    entryY = -120;
+    exitY = 180;
+  }
+
+  return {
+    initial: { opacity: 0, x: entryX, y: entryY, scale: 0.95 },
+    animate: { 
+      opacity: 1, 
+      x: 0, 
+      y: 0, 
+      scale: 1,
+      transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] } 
+    },
+    exit: { 
+      opacity: 0, 
+      x: exitX, 
+      y: exitY, 
+      scale: 0.95,
+      transition: { duration: 0.45, ease: [0.25, 1, 0.5, 1] } 
+    }
+  };
+};
+
+const getCertCardVariants = (index: number) => {
+  // Alternate top and bottom entry/exit
+  const isTop = index % 2 === 0;
+  const entryY = isTop ? -150 : 150;
+  const exitY = isTop ? -200 : 200;
+
+  return {
+    initial: { opacity: 0, y: entryY, scale: 0.95 },
+    animate: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] } 
+    },
+    exit: { 
+      opacity: 0, 
+      y: exitY, 
+      scale: 0.95,
+      transition: { duration: 0.45, ease: [0.25, 1, 0.5, 1] } 
+    }
+  };
+};
+
 export const SkillsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'skills' | 'certifications'>('skills');
   const [certSubTab, setCertSubTab] = useState<'spec' | 'other' | 'badges'>('spec');
@@ -404,158 +468,221 @@ export const SkillsSection: React.FC = () => {
         </button>
       </nav>
 
-      <div className={styles.container}>
-
-        {/* TAB 1: SKILLS CONTENT */}
-        <div className={`${styles.tabContent} ${activeTab === 'skills' ? styles.activeTabContent : ''}`}>
-          <div className={styles.skillsLayout}>
+      <motion.div layout className={styles.container}>
+        <AnimatePresence mode="wait">
+          {activeTab === 'skills' ? (
+            <motion.div
+              key="skills-tab"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className={styles.skillsLayout}
+            >
               <div className={styles.categoryGrid}>
-                {SKILL_CATEGORIES.map((cat, catIdx) => (
-                  <GlareHover
-                    key={cat.id}
-                    ref={(el) => { cardRefs.current[catIdx] = el; }}
-                    width="100%"
-                    height="100%"
-                    background="transparent"
-                    borderRadius="20px"
-                    borderColor="transparent"
-                    glareColor="#ffffff"
-                    glareOpacity={0.1}
-                    glareAngle={-30}
-                    glareSize={300}
-                    transitionDuration={800}
-                    className={styles.categoryCard}
-                  >
+                {SKILL_CATEGORIES.map((cat, catIdx) => {
+                  const cardVariants = getSkillsCardVariants(catIdx);
+                  return (
+                    <motion.div
+                      key={cat.id}
+                      variants={cardVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      style={{ height: '100%' }}
+                    >
+                      <GlareHover
+                        ref={(el) => { cardRefs.current[catIdx] = el; }}
+                        width="100%"
+                        height="100%"
+                        background="transparent"
+                        borderRadius="20px"
+                        borderColor="transparent"
+                        glareColor="#ffffff"
+                        glareOpacity={0.1}
+                        glareAngle={-30}
+                        glareSize={300}
+                        transitionDuration={800}
+                        className={styles.categoryCard}
+                      >
+                        {/* Large emoji watermark in the background */}
+                        <span className={styles.cardBgEmoji} aria-hidden="true">{cat.emojiIcon}</span>
 
-                    {/* Large emoji watermark in the background */}
-                    <span className={styles.cardBgEmoji} aria-hidden="true">{cat.emojiIcon}</span>
-
-                    {/* Badge rows – centered, balanced distribution */}
-                    <div className={styles.techPillRows}>
-                      {distributeItems(cat.items).map((row, rowIdx) => (
-                        <div key={rowIdx} className={styles.techPillRow}>
-                          {row.map((tech, i) => (
-                            <div key={i} className={styles.techPill} title={tech.name}>
-                              <span
-                                className={styles.techIcon}
-                                style={{ color: tech.color || 'var(--accent)' }}
-                              >
-                                {tech.icon}
-                              </span>
-                              <span className={styles.techName}>{tech.name}</span>
+                        {/* Badge rows – centered, balanced distribution */}
+                        <div className={styles.techPillRows}>
+                          {distributeItems(cat.items).map((row, rowIdx) => (
+                            <div key={rowIdx} className={styles.techPillRow}>
+                              {row.map((tech, i) => (
+                                <div key={i} className={styles.techPill} title={tech.name}>
+                                  <span
+                                    className={styles.techIcon}
+                                    style={{ color: tech.color || 'var(--accent)' }}
+                                  >
+                                    {tech.icon}
+                                  </span>
+                                  <span className={styles.techName}>{tech.name}</span>
+                                </div>
+                              ))}
                             </div>
                           ))}
                         </div>
-                      ))}
-                    </div>
 
-                    {/* Title centered at bottom — text only */}
-                    <div className={styles.categoryHeader}>
-                      <span className={styles.catTitle}>{cat.title}</span>
-                    </div>
-
-                  </GlareHover>
-                ))}
+                        {/* Title centered at bottom — text only */}
+                        <div className={styles.categoryHeader}>
+                          <span className={styles.catTitle}>{cat.title}</span>
+                        </div>
+                      </GlareHover>
+                    </motion.div>
+                  );
+                })}
               </div>
-            </div>
-          </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="certs-tab"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className={styles.certsContainer}
+            >
+              <AnimatePresence mode="wait">
+                {certSubTab === 'spec' && (
+                  <motion.div
+                    key="spec-subtab"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className={styles.certGrid}
+                  >
+                    {PROFESSIONAL_CERTS.map((cert, certIdx) => (
+                      <motion.div
+                        key={cert.id}
+                        variants={getCertCardVariants(certIdx)}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                      >
+                        <div className={styles.certCard}>
+                          <div className={styles.certBadgeHeader}>
+                            <Award className={styles.certBadgeIcon} />
+                            <span className={styles.certDate}>{cert.date}</span>
+                          </div>
+                          <h4 className={styles.certTitle}>{cert.title}</h4>
+                          <div className={styles.certIssuer}>{cert.issuer}</div>
+                          {cert.skills && (
+                            <div className={styles.certSkills}>
+                              {cert.skills.map((s, idx) => (
+                                <span key={idx} className={styles.certSkillTag}>
+                                  <CheckCircle2 size={12} /> {s}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          {cert.link && (
+                            <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
+                              Verify Credential <ExternalLink size={14} />
+                            </a>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
 
-        {/* TAB 2: CERTIFICATIONS CONTENT */}
-        <div className={`${styles.tabContent} ${activeTab === 'certifications' ? styles.activeTabContent : ''}`}>
-          <div className={styles.certsContainer}>
+                {certSubTab === 'other' && (
+                  <motion.div
+                    key="other-subtab"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className={styles.certGrid}
+                  >
+                    {OTHER_CERTS.map((cert, certIdx) => (
+                      <motion.div
+                        key={cert.id}
+                        variants={getCertCardVariants(certIdx)}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                      >
+                        <div className={styles.certCard}>
+                          <div className={styles.certBadgeHeader}>
+                            <FileCheck className={styles.certBadgeIcon} />
+                            <span className={styles.certDate}>{cert.date}</span>
+                          </div>
+                          <h4 className={styles.certTitle}>{cert.title}</h4>
+                          <div className={styles.certIssuer}>{cert.issuer}</div>
+                          {cert.skills && (
+                            <div className={styles.certSkills}>
+                              {cert.skills.map((s, idx) => (
+                                <span key={idx} className={styles.certSkillTag}>
+                                  <CheckCircle2 size={12} /> {s}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          {cert.link && (
+                            <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
+                              Verify Credential <ExternalLink size={14} />
+                            </a>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
 
-            {/* Sub-Tab: Specialization Certificates */}
-            <div className={`${styles.subTabContent} ${certSubTab === 'spec' ? styles.activeSubTabContent : ''}`}>
-              <div className={styles.certGrid}>
-                {PROFESSIONAL_CERTS.map((cert) => (
-                  <div key={cert.id} className={styles.certCard}>
-                    <div className={styles.certBadgeHeader}>
-                      <Award className={styles.certBadgeIcon} />
-                      <span className={styles.certDate}>{cert.date}</span>
-                    </div>
-                    <h4 className={styles.certTitle}>{cert.title}</h4>
-                    <div className={styles.certIssuer}>{cert.issuer}</div>
-                    {cert.skills && (
-                      <div className={styles.certSkills}>
-                        {cert.skills.map((s, idx) => (
-                          <span key={idx} className={styles.certSkillTag}>
-                            <CheckCircle2 size={12} /> {s}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    {cert.link && (
-                      <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
-                        Verify Credential <ExternalLink size={14} />
-                      </a>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Sub-Tab: Other Certificates */}
-            <div className={`${styles.subTabContent} ${certSubTab === 'other' ? styles.activeSubTabContent : ''}`}>
-              <div className={styles.certGrid}>
-                {OTHER_CERTS.map((cert) => (
-                  <div key={cert.id} className={styles.certCard}>
-                    <div className={styles.certBadgeHeader}>
-                      <FileCheck className={styles.certBadgeIcon} />
-                      <span className={styles.certDate}>{cert.date}</span>
-                    </div>
-                    <h4 className={styles.certTitle}>{cert.title}</h4>
-                    <div className={styles.certIssuer}>{cert.issuer}</div>
-                    {cert.skills && (
-                      <div className={styles.certSkills}>
-                        {cert.skills.map((s, idx) => (
-                          <span key={idx} className={styles.certSkillTag}>
-                            <CheckCircle2 size={12} /> {s}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    {cert.link && (
-                      <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
-                        Verify Credential <ExternalLink size={14} />
-                      </a>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Sub-Tab: Badges */}
-            <div className={`${styles.subTabContent} ${certSubTab === 'badges' ? styles.activeSubTabContent : ''}`}>
-              <div className={styles.certGrid}>
-                {BADGES_DATA.map((badge) => (
-                  <div key={badge.id} className={styles.certCard}>
-                    <div className={styles.certBadgeHeader}>
-                      <Medal className={styles.certBadgeIconAlt} />
-                      <span className={styles.certDate}>{badge.date}</span>
-                    </div>
-                    <h4 className={styles.certTitle}>{badge.title}</h4>
-                    <div className={styles.certIssuer}>{badge.issuer}</div>
-                    {badge.skills && (
-                      <div className={styles.certSkills}>
-                        {badge.skills.map((s, idx) => (
-                          <span key={idx} className={styles.certSkillTag}>
-                            <CheckCircle2 size={12} /> {s}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    {badge.link && (
-                      <a href={badge.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
-                        View Badge <ExternalLink size={14} />
-                      </a>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                {certSubTab === 'badges' && (
+                  <motion.div
+                    key="badges-subtab"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className={styles.certGrid}
+                  >
+                    {BADGES_DATA.map((badge, badgeIdx) => (
+                      <motion.div
+                        key={badge.id}
+                        variants={getCertCardVariants(badgeIdx)}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                      >
+                        <div className={styles.certCard}>
+                          <div className={styles.certBadgeHeader}>
+                            <Medal className={styles.certBadgeIconAlt} />
+                            <span className={styles.certDate}>{badge.date}</span>
+                          </div>
+                          <h4 className={styles.certTitle}>{badge.title}</h4>
+                          <div className={styles.certIssuer}>{badge.issuer}</div>
+                          {badge.skills && (
+                            <div className={styles.certSkills}>
+                              {badge.skills.map((s, idx) => (
+                                <span key={idx} className={styles.certSkillTag}>
+                                  <CheckCircle2 size={12} /> {s}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          {badge.link && (
+                            <a href={badge.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
+                              View Badge <ExternalLink size={14} />
+                            </a>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </section>
   );
 };
