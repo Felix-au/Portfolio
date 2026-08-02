@@ -759,11 +759,9 @@ export const SkillsSection: React.FC = () => {
                           ))}
                         </div>
 
-                        {/* Title centered at bottom — text only, no buttons */}
+                        {/* Title centered at bottom — text only */}
                         <div className={styles.categoryHeader}>
-                          <div className={styles.catTitleRow}>
-                            <span className={styles.catTitle}>{cat.title}</span>
-                          </div>
+                          <span className={styles.catTitle}>{cat.title}</span>
                         </div>
                       </GlareHover>
                     </motion.div>
@@ -839,32 +837,9 @@ export const SkillsSection: React.FC = () => {
                               ))}
                             </div>
 
-                            {/* Footer: title + action buttons */}
+                            {/* Title centered at bottom — clean text matching Skills card */}
                             <div className={styles.categoryHeader}>
-                              <div className={styles.catTitleRow}>
-                                <span className={styles.catTitle}>{formatCertTitle(cert.title)}</span>
-                              </div>
-                              <div className={styles.cardActions}>
-                                {cert.link && (
-                                  <a
-                                    href={cert.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={styles.cardActionBtn}
-                                    onClick={(e) => e.stopPropagation()}
-                                  >
-                                    <ExternalLink size={10} />
-                                    Verify
-                                  </a>
-                                )}
-                                <button
-                                  className={styles.cardActionBtn}
-                                  onClick={(e) => { e.stopPropagation(); setSelectedCertModal(cert); }}
-                                >
-                                  <Layers size={10} />
-                                  View Details
-                                </button>
-                              </div>
+                              <span className={styles.catTitle}>{formatCertTitle(cert.title)}</span>
                             </div>
                           </GlareHover>
                         </motion.div>
