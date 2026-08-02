@@ -192,6 +192,13 @@ function formatCardSkills(rawSkills: string[] = []): string[] {
   return [...top7, `+${extraCount} more`];
 }
 
+function formatCertTitle(title: string): string {
+  let formatted = title;
+  formatted = formatted.replace(/\bGenerative\b/g, 'Gen');
+  formatted = formatted.replace(/\band\b/g, '&');
+  return formatted;
+}
+
 function distributeSkillStrings(skills: string[]): string[][] {
   const n = skills.length;
   if (n === 0) return [];
@@ -451,19 +458,19 @@ const getSkillsCardVariants = (index: number): Variants => {
 
   return {
     initial: { opacity: 0, x: entryX, y: entryY, scale: 0.95 },
-    animate: { 
-      opacity: 1, 
-      x: 0, 
-      y: 0, 
+    animate: {
+      opacity: 1,
+      x: 0,
+      y: 0,
       scale: 1,
-      transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] } 
+      transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] }
     },
-    exit: { 
-      opacity: 0, 
-      x: exitX, 
-      y: exitY, 
+    exit: {
+      opacity: 0,
+      x: exitX,
+      y: exitY,
       scale: 0.95,
-      transition: { duration: 0.45, ease: [0.25, 1, 0.5, 1] } 
+      transition: { duration: 0.45, ease: [0.25, 1, 0.5, 1] }
     }
   };
 };
@@ -476,17 +483,17 @@ const getCertCardVariants = (index: number): Variants => {
 
   return {
     initial: { opacity: 0, y: entryY, scale: 0.95 },
-    animate: { 
-      opacity: 1, 
-      y: 0, 
+    animate: {
+      opacity: 1,
+      y: 0,
       scale: 1,
-      transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] } 
+      transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] }
     },
-    exit: { 
-      opacity: 0, 
-      y: exitY, 
+    exit: {
+      opacity: 0,
+      y: exitY,
       scale: 0.95,
-      transition: { duration: 0.45, ease: [0.25, 1, 0.5, 1] } 
+      transition: { duration: 0.45, ease: [0.25, 1, 0.5, 1] }
     }
   };
 };
@@ -611,7 +618,11 @@ export const SkillsSection: React.FC = () => {
   }, []);
 
   return (
-    <section id="credentials" className={styles.section} ref={sectionRef}>
+    <section
+      id="credentials"
+      className={`${styles.section} ${activeTab === 'certifications' ? styles.certSectionActive : ''}`}
+      ref={sectionRef}
+    >
       {/* Right rail: main tab switcher (Skills / Certifications) */}
       <nav className={`${styles.sideRail} ${sectionVisible ? styles.railVisible : ''}`}>
         <button
@@ -810,7 +821,7 @@ export const SkillsSection: React.FC = () => {
 
                             {/* Title centered at bottom — clean text matching Skills card */}
                             <div className={styles.categoryHeader}>
-                              <span className={styles.catTitle}>{cert.title}</span>
+                              <span className={styles.catTitle}>{formatCertTitle(cert.title)}</span>
                             </div>
                           </GlareHover>
                         </motion.div>
