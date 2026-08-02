@@ -66,9 +66,13 @@ import {
   GraduationCap,
   FileCheck,
   Medal,
+  FileText,
 } from 'lucide-react';
 
 import styles from './SkillsSection.module.css';
+import rawSpecializationCerts from '../../data/credentials/specialization_certificates.json';
+import rawCourseCerts from '../../data/credentials/course_certificates.json';
+import rawBadges from '../../data/credentials/badges.json';
 
 interface TechItem {
   name: string;
@@ -92,6 +96,7 @@ interface CertificationItem {
   skills?: string[];
   link?: string;
   badgeUrl?: string;
+  pdfUrl?: string;
 }
 
 const SKILL_CATEGORIES: CategoryGroup[] = [
@@ -200,69 +205,44 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
   },
 ];
 
-const PROFESSIONAL_CERTS: CertificationItem[] = [
-  {
-    id: 'cert-1',
-    title: 'Deep Learning Specialization',
-    issuer: 'DeepLearning.AI / Coursera',
-    date: '2025',
-    skills: ['Neural Networks', 'CNNs', 'RNNs', 'Transformers', 'Hyperparameter Tuning'],
-    link: 'https://coursera.org',
-  },
-  {
-    id: 'cert-2',
-    title: 'AWS Certified Developer / Cloud Specialization',
-    issuer: 'Amazon Web Services (AWS)',
-    date: '2025',
-    skills: ['Serverless', 'S3', 'Lambda', 'API Gateway', 'DynamoDB', 'EC2'],
-    link: 'https://aws.amazon.com',
-  },
-  {
-    id: 'cert-3',
-    title: 'Meta Front-End Developer Professional Certificate',
-    issuer: 'Meta',
-    date: '2024',
-    skills: ['React', 'JavaScript ES6+', 'UX/UI', 'State Management'],
-    link: 'https://coursera.org',
-  },
-];
+const PROFESSIONAL_CERTS: CertificationItem[] = rawSpecializationCerts.map((item, idx) => {
+  let provider = 'Coursera';
+  const nameLower = item.name.toLowerCase();
+  if (nameLower.includes('google')) provider = 'Google';
+  else if (nameLower.includes('microsoft')) provider = 'Microsoft';
+  else if (nameLower.includes('ibm')) provider = 'IBM';
 
-const OTHER_CERTS: CertificationItem[] = [
-  {
-    id: 'other-1',
-    title: 'CS50x: Introduction to Computer Science',
-    issuer: 'Harvard University / edX',
-    date: '2023',
-    skills: ['C', 'Python', 'SQL', 'Algorithms', 'Data Structures'],
-    link: 'https://cs50.harvard.edu',
-  },
-  {
-    id: 'other-2',
-    title: 'The Complete JavaScript Course',
-    issuer: 'Udemy – Jonas Schmedtmann',
-    date: '2023',
-    skills: ['ES6+', 'Async JS', 'DOM', 'OOP'],
-    link: 'https://udemy.com',
-  },
-];
+  return {
+    id: `spec-${idx}`,
+    title: item.name,
+    issuer: `${provider} Specialization`,
+    date: `${item.duration_months} Month${item.duration_months > 1 ? 's' : ''}`,
+    skills: item.skills,
+    link: item.verification_url,
+    pdfUrl: `/credentials/${item.pdf_path_relative_to_root}`,
+  };
+});
 
-const BADGES_DATA: CertificationItem[] = [
-  {
-    id: 'badge-1',
-    title: 'Google Cloud Skill Badges & Artifacts',
-    issuer: 'Google Cloud Platform',
-    date: '2024',
-    skills: ['Vertex AI', 'BigQuery', 'Cloud Run', 'Kubernetes Engine'],
-    link: 'https://cloud.google.com',
-  },
-  {
-    id: 'badge-2',
-    title: 'Hackathon Champion & Competitive Programming Badges',
-    issuer: 'BML Munjal University & National Hackathons',
-    date: '2024 - 2025',
-    skills: ['System Architecture', 'Algorithms', 'Rapid Prototyping'],
-  },
-];
+const OTHER_CERTS: CertificationItem[] = rawCourseCerts.map((item, idx) => ({
+  id: `course-${idx}`,
+  title: item.name,
+  issuer: item.provider || 'Coursera',
+  date: 'Course Cert',
+  skills: item.skills ? item.skills.slice(0, 6) : undefined,
+  link: item.verification_url,
+  pdfUrl: `/credentials/${item.pdf_path_relative_to_root}`,
+}));
+
+const BADGES_DATA: CertificationItem[] = rawBadges.map((badge, idx) => ({
+  id: `badge-${idx}`,
+  title: badge.name,
+  issuer: 'Credly Verified',
+  date: 'Digital Badge',
+  skills: badge.skills ? badge.skills.slice(0, 5) : undefined,
+  link: badge.verification_url,
+  badgeUrl: `/credentials/${badge.image_path_relative_to_root}`,
+  pdfUrl: `/credentials/${badge.pdf_path_relative_to_root}`,
+}));
 
 /**
  * Distributes items into exactly 3 rows.
@@ -588,11 +568,18 @@ export const SkillsSection: React.FC = () => {
                               ))}
                             </div>
                           )}
-                          {cert.link && (
-                            <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
-                              Verify Credential <ExternalLink size={14} />
-                            </a>
-                          )}
+                          <div className={styles.certActions}>
+                            {cert.link && (
+                              <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
+                                Verify <ExternalLink size={14} />
+                              </a>
+                            )}
+                            {cert.pdfUrl && (
+                              <a href={cert.pdfUrl} target="_blank" rel="noopener noreferrer" className={styles.certPdfLink}>
+                                PDF <FileText size={14} />
+                              </a>
+                            )}
+                          </div>
                         </div>
                       </motion.div>
                     ))}
@@ -632,11 +619,18 @@ export const SkillsSection: React.FC = () => {
                               ))}
                             </div>
                           )}
-                          {cert.link && (
-                            <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
-                              Verify Credential <ExternalLink size={14} />
-                            </a>
-                          )}
+                          <div className={styles.certActions}>
+                            {cert.link && (
+                              <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
+                                Verify <ExternalLink size={14} />
+                              </a>
+                            )}
+                            {cert.pdfUrl && (
+                              <a href={cert.pdfUrl} target="_blank" rel="noopener noreferrer" className={styles.certPdfLink}>
+                                PDF <FileText size={14} />
+                              </a>
+                            )}
+                          </div>
                         </div>
                       </motion.div>
                     ))}
@@ -662,7 +656,11 @@ export const SkillsSection: React.FC = () => {
                       >
                         <div className={styles.certCard}>
                           <div className={styles.certBadgeHeader}>
-                            <Medal className={styles.certBadgeIconAlt} />
+                            {badge.badgeUrl ? (
+                              <img src={badge.badgeUrl} alt={badge.title} className={styles.badgeImg} />
+                            ) : (
+                              <Medal className={styles.certBadgeIconAlt} />
+                            )}
                             <span className={styles.certDate}>{badge.date}</span>
                           </div>
                           <h4 className={styles.certTitle}>{badge.title}</h4>
@@ -676,11 +674,18 @@ export const SkillsSection: React.FC = () => {
                               ))}
                             </div>
                           )}
-                          {badge.link && (
-                            <a href={badge.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
-                              View Badge <ExternalLink size={14} />
-                            </a>
-                          )}
+                          <div className={styles.certActions}>
+                            {badge.link && (
+                              <a href={badge.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
+                                Credly <ExternalLink size={14} />
+                              </a>
+                            )}
+                            {badge.pdfUrl && (
+                              <a href={badge.pdfUrl} target="_blank" rel="noopener noreferrer" className={styles.certPdfLink}>
+                                PDF <FileText size={14} />
+                              </a>
+                            )}
+                          </div>
                         </div>
                       </motion.div>
                     ))}

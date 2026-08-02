@@ -598,7 +598,6 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 0.5rem;
   font-size: 0.825rem;
   font-weight: 600;
   color: var(--accent, #00e5ff);
@@ -609,6 +608,54 @@
 .certLink:hover {
   text-decoration: underline;
   opacity: 0.85;
+}
+
+.badgeImg {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+}
+
+.certActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.certPdfLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text-color, #ffffff);
+  opacity: 0.75;
+  text-decoration: none;
+  transition: opacity 0.2s ease, color 0.2s ease;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.certPdfLink:hover {
+  opacity: 1;
+  color: var(--accent, #00e5ff);
+  border-color: rgba(0, 229, 255, 0.3);
+}
+
+[data-theme='light'] .certPdfLink {
+  color: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='light'] .certPdfLink:hover {
+  color: var(--accent, #0096d6);
+  border-color: rgba(0, 150, 214, 0.3);
 }
 
 /* Responsive Breakpoints */
