@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import GlareHover from '../ui/GlareHover';
 import {
   SiPython,
@@ -302,7 +302,7 @@ function distributeItems(items: TechItem[]): TechItem[][] {
   return rows;
 }
 
-const getSkillsCardVariants = (index: number) => {
+const getSkillsCardVariants = (index: number): Variants => {
   const col = index % 3;
   let exitX = 0;
   let exitY = 0;
@@ -342,7 +342,7 @@ const getSkillsCardVariants = (index: number) => {
   };
 };
 
-const getCertCardVariants = (index: number) => {
+const getCertCardVariants = (index: number): Variants => {
   // Alternate top and bottom entry/exit
   const isTop = index % 2 === 0;
   const entryY = isTop ? -150 : 150;
