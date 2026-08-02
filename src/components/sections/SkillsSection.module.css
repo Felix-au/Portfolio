@@ -1,13 +1,13 @@
 .section {
   min-height: 100vh;
-  padding: 5rem 180px;
+  padding: 5rem 80px;
   position: relative;
   z-index: 10;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   scroll-snap-align: start;
   scroll-snap-stop: always;
   color: var(--text-color);
-  transition: background-color 0.4s ease, color 0.4s ease;
+  transition: background-color 0.4s ease, color 0.4s ease, padding 0.3s ease;
   /* Vertically & horizontally center content in available main area */
   display: flex;
   flex-direction: column;
@@ -16,13 +16,17 @@
   box-sizing: border-box;
 }
 
+.certSectionActive {
+  padding: 5rem 125px 5rem 80px;
+}
+
 [data-theme='light'] .section {
   border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .container {
   width: 100%;
-  max-width: 1060px;
+  max-width: 1040px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -39,8 +43,8 @@
   position: fixed;
   top: 90px;
   bottom: 32px;
-  right: 26px;
-  width: 48px;
+  right: 18px;
+  width: 44px;
   z-index: 998;
   display: flex;
   flex-direction: column;
@@ -146,8 +150,8 @@
   position: fixed;
   top: 90px;
   bottom: 32px;
-  right: 86px;
-  width: 48px;
+  right: 68px;
+  width: 44px;
   z-index: 998;
   display: flex;
   flex-direction: column;
@@ -661,7 +665,7 @@
 }
 
 /* Responsive Breakpoints */
-@media (max-width: 1380px) {
+@media (max-width: 1200px) {
   .categoryGrid {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
@@ -669,7 +673,8 @@
 }
 
 @media (max-width: 900px) {
-  .section {
+  .section,
+  .certSectionActive {
     padding: 5rem 1.5rem 4rem;
   }
 

@@ -213,7 +213,7 @@ function distributeSkillStrings(skills: string[]): string[][] {
     sorted.push(extraBadge);
   }
 
-  const ROWS = 3;
+  const ROWS = 4;
   const base = Math.floor(n / ROWS);
   const extra = n % ROWS;
 
@@ -618,7 +618,11 @@ export const SkillsSection: React.FC = () => {
   }, []);
 
   return (
-    <section id="credentials" className={styles.section} ref={sectionRef}>
+    <section
+      id="credentials"
+      className={`${styles.section} ${activeTab === 'certifications' ? styles.certSectionActive : ''}`}
+      ref={sectionRef}
+    >
       {/* Right rail: main tab switcher (Skills / Certifications) */}
       <nav className={`${styles.sideRail} ${sectionVisible ? styles.railVisible : ''}`}>
         <button
