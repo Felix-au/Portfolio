@@ -481,21 +481,38 @@ const getSkillsCardVariants = (index: number): Variants => {
 };
 
 const getCertCardVariants = (index: number): Variants => {
-  // Alternate top and bottom entry/exit
-  const isTop = index % 2 === 0;
-  const entryY = isTop ? -150 : 150;
-  const exitY = isTop ? -200 : 200;
+  const col = index % 3;
+  let exitX = 0;
+  let exitY = 0;
+  let entryX = 0;
+  let entryY = 0;
+
+  if (col === 0) {
+    // Left column slides out left, enters from left
+    entryX = -150;
+    exitX = -250;
+  } else if (col === 2) {
+    // Right column slides out right, enters from right
+    entryX = 150;
+    exitX = 250;
+  } else {
+    // Center column slides out down, enters from top
+    entryY = -120;
+    exitY = 180;
+  }
 
   return {
-    initial: { opacity: 0, y: entryY, scale: 0.95 },
+    initial: { opacity: 0, x: entryX, y: entryY, scale: 0.95 },
     animate: {
       opacity: 1,
+      x: 0,
       y: 0,
       scale: 1,
       transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] }
     },
     exit: {
       opacity: 0,
+      x: exitX,
       y: exitY,
       scale: 0.95,
       transition: { duration: 0.45, ease: [0.25, 1, 0.5, 1] }
