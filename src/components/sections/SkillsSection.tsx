@@ -999,7 +999,8 @@ export const SkillsSection: React.FC = () => {
             >
               {/* Modal Header */}
               <div className={styles.modalHeader}>
-                <div>
+                {/* Left: issuer badge + duration + title */}
+                <div className={styles.modalHeaderLeft}>
                   <div className={styles.modalSubHeader}>
                     <span className={styles.modalIssuerBadge}>{selectedCertModal.issuer}</span>
                     <span className={styles.modalDurationBadge}>
@@ -1008,13 +1009,39 @@ export const SkillsSection: React.FC = () => {
                   </div>
                   <h3 className={styles.modalTitle}>{selectedCertModal.title}</h3>
                 </div>
-                <button
-                  className={styles.modalCloseBtn}
-                  onClick={() => setSelectedCertModal(null)}
-                  title="Close Modal"
-                >
-                  <X size={20} />
-                </button>
+
+                {/* Right: Verify + Download + Close X */}
+                <div className={styles.modalHeaderRight}>
+                  {selectedCertModal.link && (
+                    <a
+                      href={selectedCertModal.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.modalHeaderVerifyBtn}
+                    >
+                      <ExternalLink size={12} />
+                      Verify
+                    </a>
+                  )}
+                  {selectedCertModal.pdfUrl && (
+                    <a
+                      href={selectedCertModal.pdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.modalHeaderPdfBtn}
+                    >
+                      <FileText size={12} />
+                      Download
+                    </a>
+                  )}
+                  <button
+                    className={styles.modalCloseBtn}
+                    onClick={() => setSelectedCertModal(null)}
+                    title="Close Modal"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
               </div>
 
               {/* Modal Body Grid */}
@@ -1069,30 +1096,6 @@ export const SkillsSection: React.FC = () => {
                       </ul>
                     </div>
                   )}
-
-                  {/* Action Buttons Footer */}
-                  <div className={styles.modalActions}>
-                    {selectedCertModal.link && (
-                      <a
-                        href={selectedCertModal.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.modalVerifyBtn}
-                      >
-                        Verify Credential <ExternalLink size={14} />
-                      </a>
-                    )}
-                    {selectedCertModal.pdfUrl && (
-                      <a
-                        href={selectedCertModal.pdfUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.modalPdfBtn}
-                      >
-                        Download PDF <FileText size={14} />
-                      </a>
-                    )}
-                  </div>
                 </div>
               </div>
             </motion.div>

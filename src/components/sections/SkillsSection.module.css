@@ -1191,9 +1191,9 @@
 .modalBackdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 2500;
   display: flex;
   align-items: center;
@@ -1202,35 +1202,57 @@
 }
 
 .modalContent {
-  background: rgba(18, 22, 30, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  /* Glassmorphic — matches card aesthetic */
+  background: rgba(8, 10, 16, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
   width: 100%;
   max-width: 980px;
   max-height: 90vh;
   overflow-y: auto;
-  padding: 2rem;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+  padding: 1.75rem;
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
   color: var(--text-color, #ffffff);
 }
 
 [data-theme='light'] .modalContent {
-  background: rgba(255, 255, 255, 0.96);
-  border-color: rgba(0, 0, 0, 0.12);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+  background: rgba(240, 245, 255, 0.88);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
   color: #0f172a;
 }
 
 .modalHeader {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   padding-bottom: 1rem;
+}
+
+/* Left side: issuer/duration/title stack */
+.modalHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Right side: action buttons + close X grouped together */
+.modalHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 [data-theme='light'] .modalHeader {
@@ -1295,10 +1317,75 @@
   transform: scale(1.08);
 }
 
+/* Modal header action buttons — compact, next to X */
+.modalHeaderVerifyBtn,
+.modalHeaderPdfBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+}
+
+.modalHeaderVerifyBtn {
+  background: rgba(0, 229, 255, 0.12);
+  border-color: rgba(0, 229, 255, 0.4);
+  color: var(--accent, #00e5ff);
+}
+
+.modalHeaderVerifyBtn:hover {
+  background: rgba(0, 229, 255, 0.25);
+  border-color: var(--accent, #00e5ff);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 229, 255, 0.25);
+}
+
+.modalHeaderPdfBtn {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.modalHeaderPdfBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+[data-theme='light'] .modalHeaderVerifyBtn {
+  background: rgba(0, 150, 214, 0.1);
+  border-color: rgba(0, 150, 214, 0.4);
+  color: var(--accent, #0096d6);
+}
+
+[data-theme='light'] .modalHeaderVerifyBtn:hover {
+  background: rgba(0, 150, 214, 0.2);
+}
+
+[data-theme='light'] .modalHeaderPdfBtn {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.75);
+}
+
+[data-theme='light'] .modalHeaderPdfBtn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+
 .modalGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.75rem;
+  gap: 1.5rem;
 }
 
 @media (max-width: 768px) {
@@ -1308,10 +1395,15 @@
 }
 
 .pdfContainer {
-  background: #0d1117;
+  background: rgba(0, 0, 0, 0.45);
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  /* Fill available height, centre content */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
   height: 480px;
 }
 
@@ -1319,6 +1411,7 @@
   width: 100%;
   height: 100%;
   border: none;
+  display: block;
 }
 
 .noPdfPlaceholder {
