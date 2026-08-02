@@ -138,7 +138,7 @@ function getCompanyLogo(issuer: string) {
   const lower = issuer.toLowerCase();
   if (lower.includes('google')) return <GoogleLogoSvg className={styles.companyBgLogo} />;
   if (lower.includes('microsoft')) return <MicrosoftLogoSvg className={styles.companyBgLogo} />;
-  if (lower.includes('ibm')) return <img src="/ibm-logo.svg" className={styles.companyBgLogo} alt="IBM" />;
+  if (lower.includes('ibm')) return <img src="/ibm-logo.webp" className={styles.companyBgLogo} alt="IBM" />;
   return <Award className={styles.companyBgLogo} />;
 }
 
