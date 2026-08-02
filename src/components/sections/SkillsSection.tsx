@@ -407,62 +407,65 @@ export const SkillsSection: React.FC = () => {
       <div className={styles.container}>
 
         {/* TAB 1: SKILLS CONTENT */}
-        <div className={`${styles.tabContent} ${activeTab === 'skills' ? styles.activeTabContent : ''}`}>
-          <div className={styles.skillsLayout}>
-            <div className={styles.categoryGrid}>
-              {SKILL_CATEGORIES.map((cat, catIdx) => (
-                <GlareHover
-                  key={cat.id}
-                  ref={(el) => { cardRefs.current[catIdx] = el; }}
-                  width="100%"
-                  height="100%"
-                  background="transparent"
-                  borderRadius="20px"
-                  borderColor="transparent"
-                  glareColor="#ffffff"
-                  glareOpacity={0.1}
-                  glareAngle={-30}
-                  glareSize={300}
-                  transitionDuration={800}
-                  className={styles.categoryCard}
-                >
+        {activeTab === 'skills' && (
+          <div className={styles.tabFadeIn}>
+            <div className={styles.skillsLayout}>
+              <div className={styles.categoryGrid}>
+                {SKILL_CATEGORIES.map((cat, catIdx) => (
+                  <GlareHover
+                    key={cat.id}
+                    ref={(el) => { cardRefs.current[catIdx] = el; }}
+                    width="100%"
+                    height="100%"
+                    background="transparent"
+                    borderRadius="20px"
+                    borderColor="transparent"
+                    glareColor="#ffffff"
+                    glareOpacity={0.1}
+                    glareAngle={-30}
+                    glareSize={300}
+                    transitionDuration={800}
+                    className={styles.categoryCard}
+                  >
 
-                  {/* Large emoji watermark in the background */}
-                  <span className={styles.cardBgEmoji} aria-hidden="true">{cat.emojiIcon}</span>
+                    {/* Large emoji watermark in the background */}
+                    <span className={styles.cardBgEmoji} aria-hidden="true">{cat.emojiIcon}</span>
 
-                  {/* Badge rows – centered, balanced distribution */}
-                  <div className={styles.techPillRows}>
-                    {distributeItems(cat.items).map((row, rowIdx) => (
-                      <div key={rowIdx} className={styles.techPillRow}>
-                        {row.map((tech, i) => (
-                          <div key={i} className={styles.techPill} title={tech.name}>
-                            <span
-                              className={styles.techIcon}
-                              style={{ color: tech.color || 'var(--accent)' }}
-                            >
-                              {tech.icon}
-                            </span>
-                            <span className={styles.techName}>{tech.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
+                    {/* Badge rows – centered, balanced distribution */}
+                    <div className={styles.techPillRows}>
+                      {distributeItems(cat.items).map((row, rowIdx) => (
+                        <div key={rowIdx} className={styles.techPillRow}>
+                          {row.map((tech, i) => (
+                            <div key={i} className={styles.techPill} title={tech.name}>
+                              <span
+                                className={styles.techIcon}
+                                style={{ color: tech.color || 'var(--accent)' }}
+                              >
+                                {tech.icon}
+                              </span>
+                              <span className={styles.techName}>{tech.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
 
-                  {/* Title centered at bottom — text only */}
-                  <div className={styles.categoryHeader}>
-                    <span className={styles.catTitle}>{cat.title}</span>
-                  </div>
+                    {/* Title centered at bottom — text only */}
+                    <div className={styles.categoryHeader}>
+                      <span className={styles.catTitle}>{cat.title}</span>
+                    </div>
 
-                </GlareHover>
-              ))}
+                  </GlareHover>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* TAB 2: CERTIFICATIONS CONTENT */}
-        <div className={`${styles.tabContent} ${activeTab === 'certifications' ? styles.activeTabContent : ''}`}>
-          <div className={styles.certsContainer}>
+        {activeTab === 'certifications' && (
+          <div className={styles.tabFadeIn}>
+            <div className={styles.certsContainer}>
 
             {/* Sub-Tab: Specialization Certificates */}
             <div className={`${styles.subTabContent} ${certSubTab === 'spec' ? styles.activeSubTabContent : ''}`}>
@@ -553,9 +556,9 @@ export const SkillsSection: React.FC = () => {
                 ))}
               </div>
             </div>
-
           </div>
         </div>
+      )}
       </div>
     </section>
   );
