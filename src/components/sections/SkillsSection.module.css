@@ -977,6 +977,12 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* Override for raster/img logos (e.g. IBM webp) — preserve natural aspect ratio */
+.companyBgLogo[alt] {
+  height: auto;
+  object-fit: contain;
+}
+
 [data-theme='light'] .companyBgLogo {
   opacity: 0.22;
 }
