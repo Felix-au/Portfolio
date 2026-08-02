@@ -38,9 +38,7 @@ const PlaceholderSection: React.FC<SectionProps> = ({ id, title }) => {
   );
 };
 
-export const ProjectsSection: React.FC = () => (
-  <PlaceholderSection id="projects" title="Projects" />
-);
+export { ProjectsSection } from './ProjectsSection';
 
 export const ResumeSection: React.FC = () => (
   <PlaceholderSection id="resume" title="Resume" />
