@@ -67,6 +67,9 @@ import {
   FileCheck,
   Medal,
   FileText,
+  X,
+  Clock,
+  Sparkles,
 } from 'lucide-react';
 
 import styles from './SkillsSection.module.css';
@@ -97,6 +100,56 @@ interface CertificationItem {
   link?: string;
   badgeUrl?: string;
   pdfUrl?: string;
+  whatWasLearnt?: string[];
+}
+
+const GoogleLogoSvg: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+    <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+  </svg>
+);
+
+const MicrosoftLogoSvg: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+    <path d="M0 0h11.429v11.429H0zm12.571 0H24v11.429H12.571zM0 12.571h11.429V24H0zm12.571 0H24V24H12.571z" />
+  </svg>
+);
+
+const IbmLogoSvg: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+    <path d="M0 4h6v2.5H0zm8 0h8v2.5H8zm10 0h6v2.5h-6zM0 8.5h6V11H0zm8 0h2.5V11H8zm5.5 0H16V11h-2.5zm4.5 0h6V11h-6zM0 13h6v2.5H0zm8 0h2.5v2.5H8zm5.5 0H16v2.5h-2.5zm4.5 0h6v2.5h-6zM0 17.5h6V20H0zm8 0h8V20H8zm10 0h6V20h-6z" />
+  </svg>
+);
+
+function getCompanyLogo(issuer: string) {
+  const lower = issuer.toLowerCase();
+  if (lower.includes('google')) return <GoogleLogoSvg className={styles.companyBgLogo} />;
+  if (lower.includes('microsoft')) return <MicrosoftLogoSvg className={styles.companyBgLogo} />;
+  if (lower.includes('ibm')) return <IbmLogoSvg className={styles.companyBgLogo} />;
+  return <Award className={styles.companyBgLogo} />;
+}
+
+function distributeSkillStrings(skills: string[]): string[][] {
+  const n = skills.length;
+  if (n === 0) return [];
+  const ROWS = 3;
+  const base = Math.floor(n / ROWS);
+  const extra = n % ROWS;
+
+  const sorted = [...skills].sort((a, b) => b.length - a.length);
+  const rowSizes = Array.from({ length: ROWS }, (_, i) =>
+    i < ROWS - extra ? base : base + 1
+  );
+
+  const rows: string[][] = [];
+  let cursor = 0;
+  for (const size of rowSizes) {
+    if (size > 0) {
+      rows.push(sorted.slice(cursor, cursor + size));
+      cursor += size;
+    }
+  }
+  return rows;
 }
 
 const SKILL_CATEGORIES: CategoryGroup[] = [
@@ -357,6 +410,17 @@ export const SkillsSection: React.FC = () => {
   activeTabRef.current = activeTab;
   // Prevents overlapping intro sweeps on rapid scroll
   const glareInProgress = useRef(false);
+  const [selectedCertModal, setSelectedCertModal] = useState<CertificationItem | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedCertModal(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -542,47 +606,84 @@ export const SkillsSection: React.FC = () => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className={styles.certGrid}
+                    className={styles.categoryGrid}
                   >
-                    {PROFESSIONAL_CERTS.map((cert, certIdx) => (
-                      <motion.div
-                        key={cert.id}
-                        variants={getCertCardVariants(certIdx)}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                      >
-                        <div className={styles.certCard}>
-                          <div className={styles.certBadgeHeader}>
-                            <Award className={styles.certBadgeIcon} />
-                            <span className={styles.certDate}>{cert.date}</span>
-                          </div>
-                          <h4 className={styles.certTitle}>{cert.title}</h4>
-                          <div className={styles.certIssuer}>{cert.issuer}</div>
-                          {cert.skills && (
-                            <div className={styles.certSkills}>
-                              {cert.skills.map((s, idx) => (
-                                <span key={idx} className={styles.certSkillTag}>
-                                  <CheckCircle2 size={12} /> {s}
-                                </span>
+                    {PROFESSIONAL_CERTS.map((cert, certIdx) => {
+                      const cardVariants = getCertCardVariants(certIdx);
+                      return (
+                        <motion.div
+                          key={cert.id}
+                          variants={cardVariants}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          style={{ height: '100%' }}
+                        >
+                          <GlareHover
+                            width="100%"
+                            height="100%"
+                            background="transparent"
+                            borderRadius="20px"
+                            borderColor="transparent"
+                            glareColor="#ffffff"
+                            glareOpacity={0.1}
+                            glareAngle={-30}
+                            glareSize={300}
+                            transitionDuration={800}
+                            className={styles.categoryCard}
+                            onClick={() => setSelectedCertModal(cert)}
+                          >
+                            {/* Company Vector Logo watermark in background */}
+                            {getCompanyLogo(cert.issuer)}
+
+                            {/* Skills Learned Pills Grid */}
+                            <div className={styles.techPillRows}>
+                              {distributeSkillStrings(cert.skills || []).map((row, rowIdx) => (
+                                <div key={rowIdx} className={styles.techPillRow}>
+                                  {row.map((skillName, i) => (
+                                    <div key={i} className={styles.techPill} title={skillName}>
+                                      <span className={styles.techIcon} style={{ color: 'var(--accent)' }}>
+                                        <CheckCircle2 size={12} />
+                                      </span>
+                                      <span className={styles.techName}>{skillName}</span>
+                                    </div>
+                                  ))}
+                                </div>
                               ))}
                             </div>
-                          )}
-                          <div className={styles.certActions}>
-                            {cert.link && (
-                              <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
-                                Verify <ExternalLink size={14} />
-                              </a>
-                            )}
-                            {cert.pdfUrl && (
-                              <a href={cert.pdfUrl} target="_blank" rel="noopener noreferrer" className={styles.certPdfLink}>
-                                PDF <FileText size={14} />
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
+
+                            {/* Course Title at bottom + Verify & PDF Buttons */}
+                            <div className={styles.categoryHeader}>
+                              <span className={styles.catTitle}>{cert.title}</span>
+                              <div className={styles.certCardActions}>
+                                {cert.link && (
+                                  <button
+                                    className={styles.cardActionBtn}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      window.open(cert.link, '_blank');
+                                    }}
+                                  >
+                                    Verify <ExternalLink size={12} />
+                                  </button>
+                                )}
+                                {cert.pdfUrl && (
+                                  <button
+                                    className={styles.cardActionBtnAlt}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setSelectedCertModal(cert);
+                                    }}
+                                  >
+                                    PDF / Details <FileText size={12} />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </GlareHover>
+                        </motion.div>
+                      );
+                    })}
                   </motion.div>
                 )}
 
@@ -696,6 +797,127 @@ export const SkillsSection: React.FC = () => {
           )}
         </AnimatePresence>
       </motion.div>
+
+      {/* Interactive Specialization Detail Modal */}
+      <AnimatePresence>
+        {selectedCertModal && (
+          <motion.div
+            className={styles.modalBackdrop}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedCertModal(null)}
+          >
+            <motion.div
+              className={styles.modalContent}
+              initial={{ scale: 0.92, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className={styles.modalHeader}>
+                <div>
+                  <div className={styles.modalSubHeader}>
+                    <span className={styles.modalIssuerBadge}>{selectedCertModal.issuer}</span>
+                    <span className={styles.modalDurationBadge}>
+                      <Clock size={12} /> {selectedCertModal.date}
+                    </span>
+                  </div>
+                  <h3 className={styles.modalTitle}>{selectedCertModal.title}</h3>
+                </div>
+                <button
+                  className={styles.modalCloseBtn}
+                  onClick={() => setSelectedCertModal(null)}
+                  title="Close Modal"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Modal Body Grid */}
+              <div className={styles.modalGrid}>
+                {/* Left Column: Embedded PDF Viewer */}
+                <div className={styles.pdfContainer}>
+                  {selectedCertModal.pdfUrl ? (
+                    <iframe
+                      src={selectedCertModal.pdfUrl}
+                      title={selectedCertModal.title}
+                      className={styles.pdfIframe}
+                    />
+                  ) : (
+                    <div className={styles.noPdfPlaceholder}>
+                      <FileText size={48} />
+                      <span>PDF Document Preview Unavailable</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Right Column: Detailed Program Info */}
+                <div className={styles.modalDetails}>
+                  {/* Skills Gained Section */}
+                  {selectedCertModal.skills && selectedCertModal.skills.length > 0 && (
+                    <div>
+                      <h4 className={styles.modalSectionTitle}>
+                        <Sparkles size={14} style={{ color: 'var(--accent)' }} /> Skills Gained
+                      </h4>
+                      <div className={styles.skillsWrap}>
+                        {selectedCertModal.skills.map((skill, sIdx) => (
+                          <span key={sIdx} className={styles.modalSkillTag}>
+                            <CheckCircle2 size={12} /> {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* What Was Learnt Section */}
+                  {selectedCertModal.whatWasLearnt && selectedCertModal.whatWasLearnt.length > 0 && (
+                    <div>
+                      <h4 className={styles.modalSectionTitle}>
+                        <CheckCircle2 size={14} style={{ color: 'var(--accent)' }} /> What Was Learnt
+                      </h4>
+                      <ul className={styles.learntList}>
+                        {selectedCertModal.whatWasLearnt.map((bullet, bIdx) => (
+                          <li key={bIdx} className={styles.learntItem}>
+                            <span className={styles.bulletDot}>•</span>
+                            <span>{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Action Buttons Footer */}
+                  <div className={styles.modalActions}>
+                    {selectedCertModal.link && (
+                      <a
+                        href={selectedCertModal.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.modalVerifyBtn}
+                      >
+                        Verify Credential <ExternalLink size={14} />
+                      </a>
+                    )}
+                    {selectedCertModal.pdfUrl && (
+                      <a
+                        href={selectedCertModal.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.modalPdfBtn}
+                      >
+                        Download PDF <FileText size={14} />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
