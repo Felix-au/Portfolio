@@ -70,40 +70,42 @@ Message Body:
 This email was routed from Felix Au Portfolio Contact Form. Click Reply-To to respond directly to the sender.
 `;
 
-    const adminHtml = `<div style="font-family: sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 8px;">
-  <h2 style="color: #0096d6; margin-top: 0; border-bottom: 2px solid #0096d6; padding-bottom: 10px;">New Contact Inquiry</h2>
-  <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Origin: <a href="https://felixau.in" style="color: #0096d6; text-decoration: none; font-weight: bold;">felixau.in</a></p>
-  
-  <p>You have received a new message from your portfolio contact form.</p>
-  
-  <div style="background-color: #f9f9f9; padding: 15px; border-radius: 6px; margin: 20px 0;">
-    <h3 style="margin-top: 0; font-size: 14px; text-transform: uppercase; color: #888; letter-spacing: 0.05em;">Sender Details</h3>
-    <table style="width: 100%; border-collapse: collapse;">
-      <tr>
-        <td style="padding: 4px 0; font-weight: bold; width: 100px;">Name:</td>
-        <td style="padding: 4px 0;">${cleanName}</td>
-      </tr>
-      <tr>
-        <td style="padding: 4px 0; font-weight: bold;">Email:</td>
-        <td style="padding: 4px 0;"><a href="mailto:${cleanEmail}" style="color: #0096d6; text-decoration: none;">${cleanEmail}</a></td>
-      </tr>
-    </table>
+    const adminHtml = `<div style="background-color: #f6f9fc; padding: 30px 15px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <div style="background-color: #ffffff; border-radius: 12px; max-width: 580px; margin: 0 auto; padding: 32px 40px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); border: 1px solid #e8ebf0;">
+    <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: #0096d6; text-transform: uppercase; margin-bottom: 8px;">Inquiry Notification</div>
+    <h2 style="font-family: inherit; color: #1a1f36; font-size: 22px; font-weight: 700; margin-top: 0; margin-bottom: 20px; line-height: 1.3;">New Contact Inquiry</h2>
+    
+    <p style="color: #4f566b; font-size: 15px; line-height: 1.6; margin-top: 0; margin-bottom: 24px;">You have received a new message from <a href="https://felixau.in" style="color: #0096d6; text-decoration: none; font-weight: 600;">felixau.in</a>.</p>
+    
+    <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #edf2f7; margin-bottom: 24px;">
+      <h3 style="margin-top: 0; margin-bottom: 12px; font-size: 12px; text-transform: uppercase; color: #8792a2; letter-spacing: 0.05em; font-weight: 700;">Sender Details</h3>
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td style="padding: 6px 0; font-size: 14px; color: #8792a2; font-weight: 500; width: 100px; vertical-align: top;">Name:</td>
+          <td style="padding: 6px 0; font-size: 14px; color: #1a1f36; font-weight: 600; vertical-align: top;">${cleanName}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 0; font-size: 14px; color: #8792a2; font-weight: 500; vertical-align: top;">Email:</td>
+          <td style="padding: 6px 0; font-size: 14px; color: #1a1f36; font-weight: 600; vertical-align: top;"><a href="mailto:${cleanEmail}" style="color: #0096d6; text-decoration: none;">${cleanEmail}</a></td>
+        </tr>
+      </table>
+    </div>
+    
+    <div style="margin-bottom: 32px;">
+      <h3 style="margin-top: 0; margin-bottom: 8px; font-size: 12px; text-transform: uppercase; color: #8792a2; letter-spacing: 0.05em; font-weight: 700;">Message Body</h3>
+      <div style="white-space: pre-wrap; background-color: #ffffff; border-left: 4px solid #0096d6; padding: 14px 20px; font-style: italic; color: #4f566b; border-radius: 0 8px 8px 0; font-size: 15px; line-height: 1.6; border-top: 1px solid #f0f4f8; border-right: 1px solid #f0f4f8; border-bottom: 1px solid #f0f4f8;">${cleanMessage}</div>
+    </div>
+    
+    <hr style="border: 0; border-top: 1px solid #e8ebf0; margin: 0 0 20px 0;" />
+    <p style="font-size: 12px; color: #8792a2; text-align: center; margin: 0; line-height: 1.5;">
+      This email was routed from Felix Au Portfolio Contact Form. Click <strong>Reply-To</strong> to respond directly to the sender.
+    </p>
   </div>
-  
-  <div style="margin: 20px 0;">
-    <h3 style="font-size: 14px; text-transform: uppercase; color: #888; letter-spacing: 0.05em; margin-bottom: 8px;">Message Body</h3>
-    <div style="white-space: pre-wrap; background-color: #fff; border-left: 4px solid #0096d6; padding: 10px 15px; font-style: italic; color: #555;">${cleanMessage}</div>
-  </div>
-  
-  <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0 15px 0;" />
-  <p style="font-size: 12px; color: #999; text-align: center; margin: 0;">
-    This email was routed from Felix Au Portfolio Contact Form. Click Reply-To to respond directly to the sender.
-  </p>
 </div>`;
 
     // 2. User Confirmation Email
-    const userSubject = `We received your message - Felix Au`;
-    const userText = `We received your message - Felix Au
+    const userSubject = `I received your message - Felix Au`;
+    const userText = `I received your message - Felix Au
 
 Message Received
 
@@ -130,42 +132,46 @@ hi@felixau.in
 This is an automated confirmation email. Please do not reply directly to this message.
 `;
 
-    const userHtml = `<div style="font-family: sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 8px;">
-  <h2 style="color: #0096d6; margin-top: 0; border-bottom: 2px solid #0096d6; padding-bottom: 10px;">Message Received</h2>
-  
-  <p>Hello ${cleanName},</p>
-  <p>Thank you for getting in touch! I have successfully received your message. I'll get back to you as soon as possible.</p>
-  <p style="margin-bottom: 20px;">For your records, here is a copy of the details you submitted:</p>
-  
-  <div style="background-color: #f9f9f9; padding: 15px; border-radius: 6px; margin: 20px 0;">
-    <h3 style="margin-top: 0; font-size: 14px; text-transform: uppercase; color: #888; letter-spacing: 0.05em;">Your Submitted Message</h3>
-    <table style="width: 100%; border-collapse: collapse;">
-      <tr>
-        <td style="padding: 4px 0; font-weight: bold; width: 100px;">Name:</td>
-        <td style="padding: 4px 0;">${cleanName}</td>
-      </tr>
-      <tr>
-        <td style="padding: 4px 0; font-weight: bold;">Email:</td>
-        <td style="padding: 4px 0;">${cleanEmail}</td>
-      </tr>
-      <tr>
-        <td style="padding: 4px 0; font-weight: bold;">Date:</td>
-        <td style="padding: 4px 0;">${timestamp}</td>
-      </tr>
-    </table>
+    const userHtml = `<div style="background-color: #f6f9fc; padding: 30px 15px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <div style="background-color: #ffffff; border-radius: 12px; max-width: 580px; margin: 0 auto; padding: 32px 40px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); border: 1px solid #e8ebf0;">
+    <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: #0096d6; text-transform: uppercase; margin-bottom: 8px;">Auto-Receipt</div>
+    <h2 style="font-family: inherit; color: #1a1f36; font-size: 22px; font-weight: 700; margin-top: 0; margin-bottom: 20px; line-height: 1.3;">Message Received</h2>
     
-    <h4 style="margin: 15px 0 5px 0; font-size: 13px; color: #666; font-weight: bold;">Message:</h4>
-    <div style="white-space: pre-wrap; background-color: #fff; border-left: 4px solid #ccc; padding: 10px 15px; color: #555; font-size: 14px;">${cleanMessage}</div>
+    <p style="color: #4f566b; font-size: 15px; line-height: 1.6; margin-top: 0; margin-bottom: 12px;">Hello ${cleanName},</p>
+    <p style="color: #4f566b; font-size: 15px; line-height: 1.6; margin-top: 0; margin-bottom: 24px;">Thank you for getting in touch! I have successfully received your message and will review it as soon as possible.</p>
+    <p style="color: #8792a2; font-size: 13px; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Here is a copy of your submitted details:</p>
+    
+    <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #edf2f7; margin-bottom: 24px;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td style="padding: 6px 0; font-size: 14px; color: #8792a2; font-weight: 500; width: 100px; vertical-align: top;">Name:</td>
+          <td style="padding: 6px 0; font-size: 14px; color: #1a1f36; font-weight: 600; vertical-align: top;">${cleanName}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 0; font-size: 14px; color: #8792a2; font-weight: 500; vertical-align: top;">Email:</td>
+          <td style="padding: 6px 0; font-size: 14px; color: #1a1f36; font-weight: 600; vertical-align: top;">${cleanEmail}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 0; font-size: 14px; color: #8792a2; font-weight: 500; vertical-align: top;">Date:</td>
+          <td style="padding: 6px 0; font-size: 14px; color: #1a1f36; font-weight: 600; vertical-align: top;">${timestamp}</td>
+        </tr>
+      </table>
+      
+      <h4 style="margin: 18px 0 8px 0; font-size: 12px; color: #8792a2; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Message Content:</h4>
+      <div style="white-space: pre-wrap; background-color: #ffffff; border-left: 4px solid #cbd5e1; padding: 14px 20px; color: #4f566b; border-radius: 0 8px 8px 0; font-size: 14px; line-height: 1.6; border-top: 1px solid #f0f4f8; border-right: 1px solid #f0f4f8; border-bottom: 1px solid #f0f4f8;">${cleanMessage}</div>
+    </div>
+    
+    <div style="margin-top: 28px; margin-bottom: 0;">
+      <p style="color: #4f566b; font-size: 15px; margin-bottom: 4px; line-height: 1.3;">Best regards,</p>
+      <p style="color: #1a1f36; font-size: 15px; font-weight: 700; margin-top: 0; margin-bottom: 4px;">Felix Au (Harshit Soni)</p>
+      <p style="font-size: 13px; color: #8792a2; margin-top: 0; margin-bottom: 0;"><a href="https://felixau.in" style="color: #0096d6; text-decoration: none;">felixau.in</a></p>
+    </div>
+    
+    <hr style="border: 0; border-top: 1px solid #e8ebf0; margin: 28px 0 15px 0;" />
+    <p style="font-size: 11px; color: #8792a2; text-align: center; margin: 0; line-height: 1.5;">
+      This is an automated confirmation email.
+    </p>
   </div>
-  
-  <p style="margin-top: 25px; margin-bottom: 0;">Best regards,</p>
-  <p style="margin-top: 5px; font-weight: bold; color: #111;">Felix Au (Harshit Soni)</p>
-  <p style="font-size: 13px; color: #666; margin-top: 0;"><a href="https://felixau.in" style="color: #0096d6; text-decoration: none;">felixau.in</a></p>
-  
-  <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0 15px 0;" />
-  <p style="font-size: 12px; color: #999; text-align: center; margin: 0;">
-    This is an automated confirmation email.
-  </p>
 </div>`;
 
     // Concurrently dispatch both emails
