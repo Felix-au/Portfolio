@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Mail, MessageSquare, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { DecoderText } from '../ui/DecoderText';
+import contactIllustration from '../../assets/contact-illustration.png';
 import styles from './ContactSection.module.css';
 
 interface FormInputs {
@@ -132,156 +133,183 @@ export const ContactSection: React.FC = () => {
   return (
     <section id="contact" className={styles.section} ref={sectionRef}>
       <div className={styles.container}>
-        {/* Header Title */}
-        <h2 className={styles.sectionTitle}>
-          {sectionVisible && <DecoderText text="Say hello" delay={300} />}
-        </h2>
-
-        {/* Contact Form Card */}
-        <div className={styles.contactCard}>
-          {/* Subtle watermark background logo */}
-          <Mail className={styles.bgWatermark} />
-
-          <AnimatePresence mode="wait">
-            {status === 'success' ? (
-              <motion.div
-                key="success-card"
-                className={styles.successContainer}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-              >
-                <CheckCircle2 size={56} className={styles.successIcon} />
-                <h3 className={styles.successTitle}>Message Sent!</h3>
-                <p className={styles.successText}>
-                  Thank you for reaching out! Your message has been routed successfully. I will be in touch with you soon.
-                </p>
-                <button onClick={handleReset} className={styles.resetBtn}>
-                  Send Another Message
-                </button>
-              </motion.div>
-            ) : (
-              <motion.form
-                key="contact-form"
-                onSubmit={handleSubmit}
-                className={styles.form}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                noValidate
-              >
-                {/* Global Status Alert on Error */}
-                {status === 'error' && (
-                  <div className={`${styles.statusAlert} ${styles.statusAlertError}`}>
-                    <AlertCircle size={16} className={styles.statusAlertIcon} />
-                    <span>{errorMessage}</span>
-                  </div>
-                )}
-
-                {/* Name Field */}
-                <div className={styles.inputGroup}>
-                  <label htmlFor="name" className={styles.label}>
-                    Name
-                  </label>
-                  <div className={styles.inputWrapper}>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={inputs.name}
-                      onChange={handleInputChange}
-                      onBlur={handleBlur}
-                      disabled={status === 'submitting'}
-                      placeholder="Your Name"
-                      className={`${styles.input} ${errors.name && touched.name ? styles.inputError : ''}`}
-                      required
-                    />
-                    <User size={16} className={styles.inputIcon} />
-                  </div>
-                  {errors.name && touched.name && (
-                    <span className={styles.errorMessage}>
-                      <AlertCircle size={12} /> {errors.name}
-                    </span>
-                  )}
-                </div>
-
-                {/* Email Field */}
-                <div className={styles.inputGroup}>
-                  <label htmlFor="email" className={styles.label}>
-                    Email Address
-                  </label>
-                  <div className={styles.inputWrapper}>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={inputs.email}
-                      onChange={handleInputChange}
-                      onBlur={handleBlur}
-                      disabled={status === 'submitting'}
-                      placeholder="you@example.com"
-                      className={`${styles.input} ${errors.email && touched.email ? styles.inputError : ''}`}
-                      required
-                    />
-                    <Mail size={16} className={styles.inputIcon} />
-                  </div>
-                  {errors.email && touched.email && (
-                    <span className={styles.errorMessage}>
-                      <AlertCircle size={12} /> {errors.email}
-                    </span>
-                  )}
-                </div>
-
-                {/* Message Field */}
-                <div className={styles.inputGroup}>
-                  <label htmlFor="message" className={styles.label}>
-                    Message
-                  </label>
-                  <div className={styles.inputWrapper}>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={inputs.message}
-                      onChange={handleInputChange}
-                      onBlur={handleBlur}
-                      disabled={status === 'submitting'}
-                      placeholder="Your Message..."
-                      className={`${styles.textarea} ${errors.message && touched.message ? styles.inputError : ''}`}
-                      required
-                    />
-                    <MessageSquare size={16} className={styles.inputIcon} style={{ top: '14px' }} />
-                  </div>
-                  {errors.message && touched.message && (
-                    <span className={styles.errorMessage}>
-                      <AlertCircle size={12} /> {errors.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={status === 'submitting'}
-                  className={styles.submitBtn}
-                >
-                  {status === 'submitting' ? (
-                    <>
-                      <span className={styles.spinner} />
-                      Sending Message...
-                    </>
-                  ) : (
-                    <>
-                      <Send size={16} />
-                      Send Message
-                    </>
-                  )}
-                </button>
-              </motion.form>
-            )}
-          </AnimatePresence>
+        
+        {/* Left Panel: Illustration */}
+        <div className={styles.leftPanel}>
+          <motion.div
+            className={styles.illustrationWrapper}
+            initial={{ opacity: 0, y: 30 }}
+            animate={sectionVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }}
+          >
+            <motion.img
+              src={contactIllustration}
+              alt="Say hello"
+              className={styles.illustration}
+              animate={{
+                y: [0, -15, 0],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+          </motion.div>
         </div>
+
+        {/* Right Panel: Title & Form */}
+        <div className={styles.rightPanel}>
+          <h2 className={styles.sectionTitle}>
+            {sectionVisible && <DecoderText text="Say hello" delay={300} />}
+          </h2>
+
+          <div className={styles.contactCard}>
+            {/* Subtle watermark background logo */}
+            <Mail className={styles.bgWatermark} />
+
+            <AnimatePresence mode="wait">
+              {status === 'success' ? (
+                <motion.div
+                  key="success-card"
+                  className={styles.successContainer}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                >
+                  <CheckCircle2 size={56} className={styles.successIcon} />
+                  <h3 className={styles.successTitle}>Message Sent!</h3>
+                  <p className={styles.successText}>
+                    Thank you for reaching out! Your message has been routed successfully. I will be in touch with you soon.
+                  </p>
+                  <button onClick={handleReset} className={styles.resetBtn}>
+                    Send Another Message
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="contact-form"
+                  onSubmit={handleSubmit}
+                  className={styles.form}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  noValidate
+                >
+                  {/* Global Status Alert on Error */}
+                  {status === 'error' && (
+                    <div className={`${styles.statusAlert} ${styles.statusAlertError}`}>
+                      <AlertCircle size={16} className={styles.statusAlertIcon} />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
+                  {/* Name Field */}
+                  <div className={styles.inputGroup}>
+                    <label htmlFor="name" className={styles.label}>
+                      Name
+                    </label>
+                    <div className={styles.inputWrapper}>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={inputs.name}
+                        onChange={handleInputChange}
+                        onBlur={handleBlur}
+                        disabled={status === 'submitting'}
+                        placeholder="Your Name"
+                        className={`${styles.input} ${errors.name && touched.name ? styles.inputError : ''}`}
+                        required
+                      />
+                      <User size={16} className={styles.inputIcon} />
+                    </div>
+                    {errors.name && touched.name && (
+                      <span className={styles.errorMessage}>
+                        <AlertCircle size={12} /> {errors.name}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Email Field */}
+                  <div className={styles.inputGroup}>
+                    <label htmlFor="email" className={styles.label}>
+                      Email Address
+                    </label>
+                    <div className={styles.inputWrapper}>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={inputs.email}
+                        onChange={handleInputChange}
+                        onBlur={handleBlur}
+                        disabled={status === 'submitting'}
+                        placeholder="you@example.com"
+                        className={`${styles.input} ${errors.email && touched.email ? styles.inputError : ''}`}
+                        required
+                      />
+                      <Mail size={16} className={styles.inputIcon} />
+                    </div>
+                    {errors.email && touched.email && (
+                      <span className={styles.errorMessage}>
+                        <AlertCircle size={12} /> {errors.email}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Message Field */}
+                  <div className={styles.inputGroup}>
+                    <label htmlFor="message" className={styles.label}>
+                      Message
+                    </label>
+                    <div className={styles.inputWrapper}>
+                      <textarea
+                        id="message"
+                        name="message"
+                        value={inputs.message}
+                        onChange={handleInputChange}
+                        onBlur={handleBlur}
+                        disabled={status === 'submitting'}
+                        placeholder="Your Message..."
+                        className={`${styles.textarea} ${errors.message && touched.message ? styles.inputError : ''}`}
+                        required
+                      />
+                      <MessageSquare size={16} className={styles.inputIcon} style={{ top: '14px' }} />
+                    </div>
+                    {errors.message && touched.message && (
+                      <span className={styles.errorMessage}>
+                        <AlertCircle size={12} /> {errors.message}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    disabled={status === 'submitting'}
+                    className={styles.submitBtn}
+                  >
+                    {status === 'submitting' ? (
+                      <>
+                        <span className={styles.spinner} />
+                        Sending Message...
+                      </>
+                    ) : (
+                      <>
+                        <Send size={16} />
+                        Send Message
+                      </>
+                    )}
+                  </button>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
       </div>
     </section>
   );
