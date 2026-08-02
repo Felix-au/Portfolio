@@ -811,8 +811,7 @@ export const SkillsSection: React.FC = () => {
                             glareAngle={-30}
                             glareSize={300}
                             transitionDuration={800}
-                            className={styles.categoryCard}
-                            onClick={() => setSelectedCertModal(cert)}
+                            className={`${styles.categoryCard} ${styles.certCategoryCard}`}
                           >
                             {/* Company Vector Logo watermark in background */}
                             {getCompanyLogo(cert.issuer)}
@@ -837,9 +836,30 @@ export const SkillsSection: React.FC = () => {
                               ))}
                             </div>
 
-                            {/* Title centered at bottom — clean text matching Skills card */}
-                            <div className={styles.categoryHeader}>
-                              <span className={styles.catTitle}>{formatCertTitle(cert.title)}</span>
+                            {/* Cert card footer: title + two action buttons */}
+                            <div className={styles.certCardFooter}>
+                              <span className={styles.certCardTitle}>{formatCertTitle(cert.title)}</span>
+                              <div className={styles.certCardActions}>
+                                {cert.link && (
+                                  <a
+                                    href={cert.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`${styles.certActionBtn} ${styles.verifyBtn}`}
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <ExternalLink size={10} />
+                                    Verify
+                                  </a>
+                                )}
+                                <button
+                                  className={`${styles.certActionBtn} ${styles.detailsBtn}`}
+                                  onClick={(e) => { e.stopPropagation(); setSelectedCertModal(cert); }}
+                                >
+                                  <FileText size={10} />
+                                  View Details
+                                </button>
+                              </div>
                             </div>
                           </GlareHover>
                         </motion.div>

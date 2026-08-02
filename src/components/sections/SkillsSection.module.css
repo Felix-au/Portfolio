@@ -377,6 +377,132 @@
   color: var(--text-color, #0a0a0a);
 }
 
+/* ─── Certification card subclass ────────────────────────────────────────────
+   Extends .categoryCard only for the Specialization cert cards.
+   The footer here holds a title + two action buttons, so needs more height.   */
+.certCategoryCard {
+  /* Override base bottom padding to fit title + two-button row */
+  padding-bottom: 5.5rem;
+  min-height: 200px;
+}
+
+/* Footer pinned at bottom — column layout: title on top, buttons below */
+.certCardFooter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+[data-theme='light'] .certCardFooter {
+  border-top-color: rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* Title row inside cert card footer */
+.certCardTitle {
+  font-size: 0.735rem;
+  font-weight: 700;
+  color: var(--text-color, #ffffff);
+  white-space: normal;
+  text-align: center;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  padding: 0.45rem 0.85rem 0.3rem;
+  width: 100%;
+}
+
+[data-theme='light'] .certCardTitle {
+  color: var(--text-color, #0a0a0a);
+}
+
+/* Two-button action row */
+.certCardActions {
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.3rem 0.75rem 0.55rem;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Shared button base */
+.certActionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 0.67rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  border: 1px solid transparent;
+  flex: 1;
+  justify-content: center;
+  max-width: 120px;
+}
+
+/* Verify Credential — accent ghost */
+.certActionBtn.verifyBtn {
+  background: rgba(0, 229, 255, 0.1);
+  border-color: rgba(0, 229, 255, 0.35);
+  color: var(--accent, #00e5ff);
+}
+
+.certActionBtn.verifyBtn:hover {
+  background: rgba(0, 229, 255, 0.22);
+  border-color: var(--accent, #00e5ff);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 229, 255, 0.25);
+}
+
+/* View Details — solid subtle */
+.certActionBtn.detailsBtn {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.certActionBtn.detailsBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+[data-theme='light'] .certActionBtn.verifyBtn {
+  background: rgba(0, 150, 214, 0.1);
+  border-color: rgba(0, 150, 214, 0.4);
+  color: var(--accent, #0096d6);
+}
+
+[data-theme='light'] .certActionBtn.verifyBtn:hover {
+  background: rgba(0, 150, 214, 0.2);
+  border-color: var(--accent, #0096d6);
+}
+
+[data-theme='light'] .certActionBtn.detailsBtn {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme='light'] .certActionBtn.detailsBtn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000000;
+}
+
 /* Badge rows — each row centered, block vertically centered in card */
 .techPillRows {
   display: flex;
