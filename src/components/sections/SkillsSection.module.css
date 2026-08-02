@@ -1,6 +1,6 @@
 .section {
   min-height: 100vh;
-  padding: 5rem 90px;
+  padding: 5rem 72px;
   position: relative;
   z-index: 10;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -16,8 +16,9 @@
   box-sizing: border-box;
 }
 
+/* Certifications tab: extra right offset for the certRail (right:68px + width:44px = 112px + 10px gap) */
 .certSectionActive {
-  padding: 5rem 122px 5rem 90px;
+  padding: 5rem 122px 5rem 72px;
 }
 
 [data-theme='light'] .section {
@@ -26,7 +27,7 @@
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1150px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -363,10 +364,10 @@
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--text-color, #ffffff);
-  text-align: center;
-  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   letter-spacing: 0.01em;
-  word-break: break-word;
 }
 
 [data-theme='light'] .catTitle {
@@ -407,7 +408,6 @@
   cursor: default;
   flex-shrink: 1;
   min-width: 0;
-  max-width: 100%;
 }
 
 [data-theme='light'] .techPill {
@@ -456,16 +456,17 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 140px;
 }
 
 
-/* Certifications Tab */
+/* Certifications Tab — inherits full .container width (1150px), no inner cap */
 .certsContainer {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  width: 100%;
   margin: 0 auto;
+  width: 100%;
   position: relative;
 }
 

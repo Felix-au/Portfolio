@@ -184,12 +184,12 @@ function shortenSkillName(skill: string): string {
 
 function formatCardSkills(rawSkills: string[] = []): string[] {
   const shortened = rawSkills.map(shortenSkillName);
-  if (shortened.length <= 11) {
+  if (shortened.length <= 8) {
     return shortened;
   }
-  const top10 = shortened.slice(0, 10);
-  const extraCount = shortened.length - 10;
-  return [...top10, `+${extraCount} more`];
+  const top7 = shortened.slice(0, 7);
+  const extraCount = shortened.length - 7;
+  return [...top7, `+${extraCount} more`];
 }
 
 function formatCertTitle(title: string): string {
