@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Mail, MessageSquare, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { DecoderText } from '../ui/DecoderText';
+import { useTheme } from '../../context/ThemeContext';
 import styles from './ContactSection.module.css';
 
 interface FormInputs {
@@ -17,6 +18,7 @@ interface FormErrors {
 }
 
 export const ContactSection: React.FC = () => {
+  const { theme } = useTheme();
   const [inputs, setInputs] = useState<FormInputs>({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
@@ -31,9 +33,7 @@ export const ContactSection: React.FC = () => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setSectionVisible(true);
-        }
+        setSectionVisible(entry.isIntersecting);
       },
       { threshold: 0.1 }
     );
@@ -138,9 +138,10 @@ export const ContactSection: React.FC = () => {
   return (
     <section id="contact" className={styles.section} ref={sectionRef}>
       <div className={styles.container}>
-        {/* Header Title */}
         <h2 className={styles.sectionTitle}>
-          {sectionVisible && <DecoderText text="Say hello" delay={300} />}
+          {sectionVisible && (
+            <DecoderText key={`${theme}-${sectionVisible}`} text="Say hello" delay={300} />
+          )}
         </h2>
 
         {/* Contact Form Card */}

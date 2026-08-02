@@ -599,7 +599,13 @@ export const SkillsSection: React.FC = () => {
   const certGlareInProgress = useRef(false);
   const [selectedCertModal, setSelectedCertModal] = useState<CertificationItem | null>(null);
 
+  const isMounted = useRef(false);
+
   useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
+      return;
+    }
     if (sectionRef.current) {
       sectionRef.current.scrollIntoView({ behavior: 'auto', block: 'start' });
     }

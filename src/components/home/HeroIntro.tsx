@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DecoderText } from '../ui/DecoderText';
 import profile from '../../config/profile';
 import { useTheme } from '../../context/ThemeContext';
@@ -10,6 +10,22 @@ export const HeroIntro: React.FC = () => {
   const [disciplineIndex, setDisciplineIndex] = useState(0);
   const [prevDisciplineIndex, setPrevDisciplineIndex] = useState<number | null>(null);
   const [stats, setStats] = useState<GitHubStatsData | null>(null);
+  const [sectionVisible, setSectionVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setSectionVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     setDisciplineIndex(0);
@@ -40,10 +56,12 @@ export const HeroIntro: React.FC = () => {
       : null;
 
   return (
-    <section id="intro" className={styles.intro}>
+    <section id="intro" className={styles.intro} ref={sectionRef}>
       <header key={theme} className={styles.text}>
         <h1 className={styles.name} data-visible="true">
-          <DecoderText text={profile.name} delay={300} />
+          {sectionVisible && (
+            <DecoderText key={`${theme}-${sectionVisible}`} text={profile.name} delay={300} />
+          )}
         </h1>
 
         <h2 className={styles.title}>
