@@ -7,7 +7,7 @@ import styles from './Navbar.module.css';
 
 const navLinks = [
   { label: 'Projects', href: '#projects' },
-  { label: 'Credentials', href: '#skills' },
+  { label: 'Credentials', href: '#credentials' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -18,18 +18,22 @@ export const Navbar: React.FC = () => {
 
   const SelectedLogo = theme === 'light' ? LogoLightSvg : LogoSvg;
 
-  // Active section scroll tracking
+  // Active section scroll tracking with getBoundingClientRect for 100% reliability
   useEffect(() => {
-    const sectionIds = ['intro', 'projects', 'resume', 'skills', 'contact'];
+    const sectionIds = ['intro', 'projects', 'resume', 'credentials', 'contact'];
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 3;
+      const triggerLine = window.innerHeight / 3;
       for (const id of sectionIds) {
         const el = document.getElementById(id);
         if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveHash(`#${id}`);
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= triggerLine && rect.bottom >= triggerLine) {
+            const newHash = `#${id}`;
+            setActiveHash(newHash);
+            // Quietly update the browser address bar deep link
+            if (window.location.hash !== newHash) {
+              window.history.replaceState(null, '', newHash);
+            }
             break;
           }
         }

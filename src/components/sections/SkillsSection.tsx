@@ -416,7 +416,7 @@ export const SkillsSection: React.FC = () => {
   }, []);
 
   return (
-    <section id="skills" className={styles.section} ref={sectionRef}>
+    <section id="credentials" className={styles.section} ref={sectionRef}>
       {/* Right rail: main tab switcher (Skills / Certifications) */}
       <nav className={`${styles.sideRail} ${sectionVisible ? styles.railVisible : ''}`}>
         <button
