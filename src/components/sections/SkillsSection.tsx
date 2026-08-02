@@ -509,7 +509,6 @@ export const SkillsSection: React.FC = () => {
   const [selectedCertModal, setSelectedCertModal] = useState<CertificationItem | null>(null);
 
   const fireSkillsGlareSweep = (delayMs = 150) => {
-    if (glareInProgress.current) return;
     glareInProgress.current = true;
 
     // Group A (0,2,4 = Languages, Backend, Databases)
@@ -523,18 +522,21 @@ export const SkillsSection: React.FC = () => {
         setTimeout(() => {
           const card = cardRefs.current[cardIdx];
           if (!card) return;
-          card.classList.add('glare-intro');
-          setTimeout(() => card.classList.remove('glare-intro'), 900);
+          card.classList.remove('glare-intro');
+          void card.offsetWidth;
+          requestAnimationFrame(() => {
+            card.classList.add('glare-intro');
+            setTimeout(() => card.classList.remove('glare-intro'), 950);
+          });
         }, step * 250);
       });
       setTimeout(() => {
         glareInProgress.current = false;
-      }, 3 * 250 + 950);
+      }, 3 * 250 + 1000);
     }, delayMs);
   };
 
   const fireSpecGlareSweep = (delayMs = 150) => {
-    if (certGlareInProgress.current) return;
     certGlareInProgress.current = true;
 
     // Group A (0,2,4 = Google Data Analytics, Google Cybersecurity, Google AI)
@@ -548,13 +550,17 @@ export const SkillsSection: React.FC = () => {
         setTimeout(() => {
           const card = certCardRefs.current[cardIdx];
           if (!card) return;
-          card.classList.add('glare-intro');
-          setTimeout(() => card.classList.remove('glare-intro'), 900);
+          card.classList.remove('glare-intro');
+          void card.offsetWidth;
+          requestAnimationFrame(() => {
+            card.classList.add('glare-intro');
+            setTimeout(() => card.classList.remove('glare-intro'), 950);
+          });
         }, step * 250);
       });
       setTimeout(() => {
         certGlareInProgress.current = false;
-      }, 3 * 250 + 950);
+      }, 3 * 250 + 1000);
     }, delayMs);
   };
 
@@ -571,10 +577,13 @@ export const SkillsSection: React.FC = () => {
   // Trigger glare sweep when activeTab or certSubTab changes
   useEffect(() => {
     if (!sectionVisible) return;
+    glareInProgress.current = false;
+    certGlareInProgress.current = false;
+
     if (activeTab === 'skills') {
-      fireSkillsGlareSweep(400);
+      fireSkillsGlareSweep(550);
     } else if (activeTab === 'certifications' && certSubTab === 'spec') {
-      fireSpecGlareSweep(400);
+      fireSpecGlareSweep(550);
     }
   }, [activeTab, certSubTab, sectionVisible]);
 
