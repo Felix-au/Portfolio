@@ -599,14 +599,15 @@ export const SkillsSection: React.FC = () => {
   const certGlareInProgress = useRef(false);
   const [selectedCertModal, setSelectedCertModal] = useState<CertificationItem | null>(null);
 
-  const isMounted = useRef(false);
+  const prevActiveTab = useRef(activeTab);
+  const prevCertSubTab = useRef(certSubTab);
 
   useEffect(() => {
-    if (!isMounted.current) {
-      isMounted.current = true;
-      return;
-    }
-    if (sectionRef.current) {
+    const hasChanged = activeTab !== prevActiveTab.current || certSubTab !== prevCertSubTab.current;
+    prevActiveTab.current = activeTab;
+    prevCertSubTab.current = certSubTab;
+
+    if (hasChanged && sectionRef.current) {
       sectionRef.current.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
   }, [activeTab, certSubTab]);

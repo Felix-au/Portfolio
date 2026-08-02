@@ -130,7 +130,7 @@
 /* Reserved fixed layout space for name header to prevent layout shift */
 .name {
   text-transform: uppercase;
-  font-size: calc((17.5 / 16) * 1rem);
+  font-size: calc((21.875 / 16) * 1rem);
   letter-spacing: 0.28em;
   color: var(--text-light, rgba(255, 255, 255, 0.6));
   margin-bottom: 18px;
@@ -146,7 +146,7 @@
 
 @media (max-width: 1200px) {
   .name {
-    font-size: calc((16 / 16) * 1rem);
+    font-size: calc((20 / 16) * 1rem);
     margin-bottom: 14px;
     margin-left: -0.7rem;
     min-height: 1.2em;
@@ -155,7 +155,7 @@
 
 @media (max-width: 1024px) {
   .name {
-    font-size: calc((15 / 16) * 1rem);
+    font-size: calc((18.75 / 16) * 1rem);
     margin-left: -0.5rem;
   }
 }
@@ -165,7 +165,7 @@
     margin-bottom: 10px;
     margin-left: 0;
     letter-spacing: 0.18em;
-    font-size: 0.8rem;
+    font-size: 1rem;
     white-space: nowrap;
     overflow: hidden;
   }
