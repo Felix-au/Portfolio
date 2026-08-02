@@ -94,7 +94,7 @@ interface CertificationItem {
   id: string;
   title: string;
   issuer: string;
-  date: string;
+  date?: string;
   credentialId?: string;
   skills?: string[];
   link?: string;
@@ -134,7 +134,10 @@ const MicrosoftLogoSvg: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 
-function getCompanyLogo(issuer: string) {
+function getCompanyLogo(issuer: string, badgeUrl?: string) {
+  if (badgeUrl) {
+    return <img src={badgeUrl} className={styles.companyBgLogo} alt="Badge" style={{ filter: 'grayscale(1) opacity(0.06) contrast(1.1)' }} />;
+  }
   const lower = issuer.toLowerCase();
   if (lower.includes('google')) return <GoogleLogoSvg className={styles.companyBgLogo} />;
   if (lower.includes('microsoft')) return <MicrosoftLogoSvg className={styles.companyBgLogo} />;
@@ -406,22 +409,84 @@ const OTHER_CERTS: CertificationItem[] = rawCourseCerts.map((item, idx) => ({
   id: `course-${idx}`,
   title: item.name,
   issuer: item.provider || 'Coursera',
-  date: 'Course Cert',
   skills: item.skills ? item.skills.slice(0, 6) : undefined,
   link: item.verification_url,
   pdfUrl: `/credentials/${item.pdf_path_relative_to_root}`,
+  whatWasLearnt: item.what_was_learnt,
 }));
 
 const BADGES_DATA: CertificationItem[] = rawBadges.map((badge, idx) => ({
   id: `badge-${idx}`,
   title: badge.name,
   issuer: 'Credly Verified',
-  date: 'Digital Badge',
   skills: badge.skills ? badge.skills.slice(0, 5) : undefined,
   link: badge.verification_url,
   badgeUrl: `/credentials/${badge.image_path_relative_to_root}`,
   pdfUrl: `/credentials/${badge.pdf_path_relative_to_root}`,
+  whatWasLearnt: (badge as any).what_was_learnt,
 }));
+
+const getOrderedOtherCerts = (): (CertificationItem | null)[] => {
+  const ibm = OTHER_CERTS.filter(c => c.issuer.toLowerCase().includes('ibm'));
+  const micro = OTHER_CERTS.filter(c => c.issuer.toLowerCase().includes('microsoft'));
+  const google = OTHER_CERTS.filter(c => c.issuer.toLowerCase().includes('google'));
+  const rest = OTHER_CERTS.filter(c => {
+    const l = c.issuer.toLowerCase();
+    return !l.includes('ibm') && !l.includes('microsoft') && !l.includes('google');
+  });
+
+  const ordered: (CertificationItem | null)[] = [];
+  const ibmQueue = [...ibm];
+  const microQueue = [...micro];
+  const googleQueue = [...google];
+  const restQueue = [...rest];
+
+  while (ibmQueue.length > 0 || microQueue.length > 0 || googleQueue.length > 0 || restQueue.length > 0) {
+    const activeQueuesCount = [ibmQueue.length > 0, microQueue.length > 0, googleQueue.length > 0].filter(Boolean).length;
+    if (activeQueuesCount <= 1 && restQueue.length === 0) {
+      const lastQueue = ibmQueue.length > 0 ? ibmQueue : (microQueue.length > 0 ? microQueue : googleQueue);
+      while (lastQueue.length > 0) {
+        ordered.push(lastQueue.shift()!);
+      }
+      break;
+    }
+
+    // Column 1: IBM
+    if (ibmQueue.length > 0) {
+      ordered.push(ibmQueue.shift()!);
+    } else if (restQueue.length > 0) {
+      ordered.push(restQueue.shift()!);
+    } else {
+      ordered.push(null);
+    }
+
+    // Column 2: Microsoft
+    if (microQueue.length > 0) {
+      ordered.push(microQueue.shift()!);
+    } else if (restQueue.length > 0) {
+      ordered.push(restQueue.shift()!);
+    } else {
+      ordered.push(null);
+    }
+
+    // Column 3: Google
+    if (googleQueue.length > 0) {
+      ordered.push(googleQueue.shift()!);
+    } else if (restQueue.length > 0) {
+      ordered.push(restQueue.shift()!);
+    } else {
+      ordered.push(null);
+    }
+  }
+
+  while (restQueue.length > 0) {
+    ordered.push(restQueue.shift()!);
+  }
+
+  return ordered;
+};
+
+const ORDERED_OTHER_CERTS = getOrderedOtherCerts();
 
 /**
  * Distributes items into exactly 3 rows.
@@ -911,47 +976,89 @@ export const SkillsSection: React.FC = () => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className={styles.certGrid}
+                    className={styles.categoryGrid}
                   >
-                    {OTHER_CERTS.map((cert, certIdx) => (
-                      <motion.div
-                        key={cert.id}
-                        variants={getCertCardVariants(certIdx)}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                      >
-                        <div className={styles.certCard}>
-                          <div className={styles.certBadgeHeader}>
-                            <FileCheck className={styles.certBadgeIcon} />
-                            <span className={styles.certDate}>{cert.date}</span>
-                          </div>
-                          <h4 className={styles.certTitle}>{cert.title}</h4>
-                          <div className={styles.certIssuer}>{cert.issuer}</div>
-                          {cert.skills && (
-                            <div className={styles.certSkills}>
-                              {cert.skills.map((s, idx) => (
-                                <span key={idx} className={styles.certSkillTag}>
-                                  <CheckCircle2 size={12} /> {s}
-                                </span>
+                    {ORDERED_OTHER_CERTS.map((cert, certIdx) => {
+                      if (!cert) {
+                        return <div key={`placeholder-${certIdx}`} style={{ height: '100%' }} />;
+                      }
+                      const cardVariants = getCertCardVariants(certIdx);
+                      return (
+                        <motion.div
+                          key={cert.id}
+                          variants={cardVariants}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          style={{ height: '100%' }}
+                        >
+                          <GlareHover
+                            ref={(el) => { certCardRefs.current[certIdx] = el; }}
+                            width="100%"
+                            height="100%"
+                            background="transparent"
+                            borderRadius="20px"
+                            borderColor="transparent"
+                            glareColor="#ffffff"
+                            glareOpacity={0.1}
+                            glareAngle={-30}
+                            glareSize={300}
+                            transitionDuration={800}
+                            className={`${styles.categoryCard} ${styles.certCategoryCard}`}
+                            onClick={() => setSelectedCertModal(cert)}
+                          >
+                            {/* Company Vector Logo watermark in background */}
+                            {getCompanyLogo(cert.issuer)}
+
+                            {/* Skills Learned Pills Grid */}
+                            <div className={styles.techPillRows}>
+                              {distributeSkillStrings(formatCardSkills(cert.skills || [])).map((row, rowIdx) => (
+                                <div key={rowIdx} className={styles.techPillRow}>
+                                  {row.map((skillName, i) => (
+                                    <div
+                                      key={i}
+                                      className={`${styles.techPill} ${skillName.startsWith('+') ? styles.extraPill : ''}`}
+                                      title={skillName}
+                                    >
+                                      <span className={styles.techIcon} style={{ color: 'var(--accent)' }}>
+                                        {skillName.startsWith('+') ? <Sparkles size={12} /> : <CheckCircle2 size={12} />}
+                                      </span>
+                                      <span className={styles.techName}>{skillName}</span>
+                                    </div>
+                                  ))}
+                                </div>
                               ))}
                             </div>
-                          )}
-                          <div className={styles.certActions}>
-                            {cert.link && (
-                              <a href={cert.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
-                                Verify <ExternalLink size={14} />
-                              </a>
-                            )}
-                            {cert.pdfUrl && (
-                              <a href={cert.pdfUrl} target="_blank" rel="noopener noreferrer" className={styles.certPdfLink}>
-                                PDF <FileText size={14} />
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
+
+                            {/* Cert card footer: title + two action buttons */}
+                            <div className={styles.certCardFooter}>
+                              <span className={styles.certCardTitle}>{formatCertTitle(cert.title)}</span>
+                              <div className={styles.certCardActions}>
+                                {cert.link && (
+                                  <a
+                                    href={cert.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`${styles.certActionBtn} ${styles.verifyBtn}`}
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <ExternalLink size={10} />
+                                    Verify
+                                  </a>
+                                )}
+                                <button
+                                  className={`${styles.certActionBtn} ${styles.detailsBtn}`}
+                                  onClick={(e) => { e.stopPropagation(); setSelectedCertModal(cert); }}
+                                >
+                                  <FileText size={10} />
+                                  View Details
+                                </button>
+                              </div>
+                            </div>
+                          </GlareHover>
+                        </motion.div>
+                      );
+                    })}
                   </motion.div>
                 )}
 
@@ -962,51 +1069,72 @@ export const SkillsSection: React.FC = () => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className={styles.certGrid}
+                    className={styles.categoryGrid}
                   >
-                    {BADGES_DATA.map((badge, badgeIdx) => (
-                      <motion.div
-                        key={badge.id}
-                        variants={getCertCardVariants(badgeIdx)}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                      >
-                        <div className={styles.certCard}>
-                          <div className={styles.certBadgeHeader}>
-                            {badge.badgeUrl ? (
-                              <img src={badge.badgeUrl} alt={badge.title} className={styles.badgeImg} />
-                            ) : (
-                              <Medal className={styles.certBadgeIconAlt} />
-                            )}
-                            <span className={styles.certDate}>{badge.date}</span>
-                          </div>
-                          <h4 className={styles.certTitle}>{badge.title}</h4>
-                          <div className={styles.certIssuer}>{badge.issuer}</div>
-                          {badge.skills && (
-                            <div className={styles.certSkills}>
-                              {badge.skills.map((s, idx) => (
-                                <span key={idx} className={styles.certSkillTag}>
-                                  <CheckCircle2 size={12} /> {s}
-                                </span>
-                              ))}
+                    {BADGES_DATA.map((badge, badgeIdx) => {
+                      const cardVariants = getCertCardVariants(badgeIdx);
+                      return (
+                        <motion.div
+                          key={badge.id}
+                          variants={cardVariants}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          style={{ height: '100%' }}
+                        >
+                          <GlareHover
+                            ref={(el) => { certCardRefs.current[badgeIdx] = el; }}
+                            width="100%"
+                            height="100%"
+                            background="transparent"
+                            borderRadius="20px"
+                            borderColor="transparent"
+                            glareColor="#ffffff"
+                            glareOpacity={0.1}
+                            glareAngle={-30}
+                            glareSize={300}
+                            transitionDuration={800}
+                            className={`${styles.categoryCard} ${styles.certCategoryCard}`}
+                            onClick={() => setSelectedCertModal(badge)}
+                          >
+                            {/* Centered Digital Badge Image */}
+                            <div className={styles.badgeCardImageContainer}>
+                              {badge.badgeUrl ? (
+                                <img src={badge.badgeUrl} alt={badge.title} className={styles.badgeCardImg} />
+                              ) : (
+                                <Medal className={styles.badgeCardIconAlt} size={44} />
+                              )}
                             </div>
-                          )}
-                          <div className={styles.certActions}>
-                            {badge.link && (
-                              <a href={badge.link} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
-                                Credly <ExternalLink size={14} />
-                              </a>
-                            )}
-                            {badge.pdfUrl && (
-                              <a href={badge.pdfUrl} target="_blank" rel="noopener noreferrer" className={styles.certPdfLink}>
-                                PDF <FileText size={14} />
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
+
+                            {/* Cert card footer: title + two action buttons */}
+                            <div className={styles.certCardFooter}>
+                              <span className={styles.certCardTitle}>{formatCertTitle(badge.title)}</span>
+                              <div className={styles.certCardActions}>
+                                {badge.link && (
+                                  <a
+                                    href={badge.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`${styles.certActionBtn} ${styles.verifyBtn}`}
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <ExternalLink size={10} />
+                                    Verify
+                                  </a>
+                                )}
+                                <button
+                                  className={`${styles.certActionBtn} ${styles.detailsBtn}`}
+                                  onClick={(e) => { e.stopPropagation(); setSelectedCertModal(badge); }}
+                                >
+                                  <FileText size={10} />
+                                  View Details
+                                </button>
+                              </div>
+                            </div>
+                          </GlareHover>
+                        </motion.div>
+                      );
+                    })}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1033,20 +1161,31 @@ export const SkillsSection: React.FC = () => {
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Absolute Close Button */}
+              <button
+                className={styles.modalCloseBtn}
+                onClick={() => setSelectedCertModal(null)}
+                title="Close Modal"
+              >
+                <X size={20} />
+              </button>
+
               {/* Modal Header */}
               <div className={styles.modalHeader}>
                 {/* Left: issuer badge + duration + title */}
                 <div className={styles.modalHeaderLeft}>
                   <div className={styles.modalSubHeader}>
                     <span className={styles.modalIssuerBadge}>{selectedCertModal.issuer}</span>
-                    <span className={styles.modalDurationBadge}>
-                      <Clock size={12} /> {selectedCertModal.date}
-                    </span>
+                    {selectedCertModal.date && (
+                      <span className={styles.modalDurationBadge}>
+                        <Clock size={12} /> {selectedCertModal.date}
+                      </span>
+                    )}
                   </div>
                   <h3 className={styles.modalTitle}>{selectedCertModal.title}</h3>
                 </div>
 
-                {/* Right: Verify + Download + Close X */}
+                {/* Right: Verify + Download (Close X is absolutely positioned) */}
                 <div className={styles.modalHeaderRight}>
                   {selectedCertModal.link && (
                     <a
@@ -1070,13 +1209,6 @@ export const SkillsSection: React.FC = () => {
                       Download
                     </a>
                   )}
-                  <button
-                    className={styles.modalCloseBtn}
-                    onClick={() => setSelectedCertModal(null)}
-                    title="Close Modal"
-                  >
-                    <X size={20} />
-                  </button>
                 </div>
               </div>
 
@@ -1106,15 +1238,11 @@ export const SkillsSection: React.FC = () => {
                       <h4 className={styles.modalSectionTitle}>
                         <Sparkles size={14} style={{ color: 'var(--accent)' }} /> Skills Gained
                       </h4>
-                      <div className={styles.skillsWrap}>
-                        {distributeModalSkills(selectedCertModal.skills).map((row, rowIdx) => (
-                          <div key={rowIdx} style={{ display: 'flex', flexWrap: 'nowrap', gap: '6px', justifyContent: 'center', width: '100%' }}>
-                            {row.map((skill, sIdx) => (
-                              <span key={sIdx} className={styles.modalSkillTag}>
-                                <CheckCircle2 size={12} /> {skill}
-                              </span>
-                            ))}
-                          </div>
+                      <div className={styles.modalSkillsList}>
+                        {selectedCertModal.skills.map((skill, sIdx) => (
+                          <span key={sIdx} className={styles.modalSkillTag}>
+                            <CheckCircle2 size={12} /> {skill}
+                          </span>
                         ))}
                       </div>
                     </div>
@@ -1137,6 +1265,32 @@ export const SkillsSection: React.FC = () => {
                     </div>
                   )}
                 </div>
+              </div>
+
+              {/* Mobile Action Buttons */}
+              <div className={styles.modalMobileActions}>
+                {selectedCertModal.link && (
+                  <a
+                    href={selectedCertModal.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.modalMobileBtn}
+                  >
+                    <ExternalLink size={14} />
+                    Verify Credential
+                  </a>
+                )}
+                {selectedCertModal.pdfUrl && (
+                  <a
+                    href={selectedCertModal.pdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.modalMobileBtn}
+                  >
+                    <FileText size={14} />
+                    View Certificate PDF
+                  </a>
+                )}
               </div>
             </motion.div>
           </motion.div>
