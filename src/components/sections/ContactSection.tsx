@@ -107,10 +107,16 @@ export const ContactSection: React.FC = () => {
         }),
       });
       
-      const data = await response.json();
+      let data;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        throw new Error(`Server returned status ${response.status}. Please check your connection or try again later.`);
+      }
       
       if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Failed to submit form.');
+        throw new Error(data?.error || 'Failed to submit form.');
       }
       
       setStatus('success');
