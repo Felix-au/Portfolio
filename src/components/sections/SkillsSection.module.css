@@ -285,8 +285,8 @@
   background: rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  /* Extra bottom padding makes room for the pinned title footer */
-  padding: 1.5rem 1.25rem 4rem;
+  /* Extra bottom padding makes room for the pinned title footer (allow 2 lines) */
+  padding: 1.5rem 1.25rem 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -351,7 +351,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 0.65rem 1rem;
+  padding: 0.55rem 0.85rem 0.65rem;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   z-index: 1;
 }
@@ -361,12 +361,15 @@
 }
 
 .catTitle {
-  font-size: 0.81rem;
+  font-size: 0.735rem;
   font-weight: 700;
   color: var(--text-color, #ffffff);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* Allow full title to display — wrap up to 2 lines */
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  text-align: center;
+  line-height: 1.35;
   letter-spacing: 0.01em;
 }
 

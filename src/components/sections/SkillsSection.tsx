@@ -134,8 +134,16 @@ const MicrosoftLogoSvg: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 const IbmLogoSvg: React.FC<{ className?: string }> = ({ className }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="#0f62fe">
-    <path d="M0 4h6v2.5H0zm8 0h8v2.5H8zm10 0h6v2.5h-6zM0 8.5h6V11H0zm8 0h2.5V11H8zm5.5 0H16V11h-2.5zm4.5 0h6V11h-6zM0 13h6v2.5H0zm8 0h2.5v2.5H8zm5.5 0H16v2.5h-2.5zm4.5 0h6v2.5h-6zM0 17.5h6V20H0zm8 0h8V20H8zm10 0h6V20h-6z" />
+  <svg viewBox="0 0 64 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* IBM 8-bar logo — official horizontal stripe pattern */}
+    <rect x="0"  y="4"  width="64" height="6"  fill="#0f62fe" rx="1"/>
+    <rect x="8"  y="14" width="48" height="6"  fill="#0f62fe" rx="1"/>
+    <rect x="8"  y="24" width="16" height="6"  fill="#0f62fe" rx="1"/>
+    <rect x="40" y="24" width="16" height="6"  fill="#0f62fe" rx="1"/>
+    <rect x="8"  y="34" width="16" height="6"  fill="#0f62fe" rx="1"/>
+    <rect x="40" y="34" width="16" height="6"  fill="#0f62fe" rx="1"/>
+    <rect x="8"  y="44" width="48" height="6"  fill="#0f62fe" rx="1"/>
+    <rect x="0"  y="54" width="64" height="6"  fill="#0f62fe" rx="1"/>
   </svg>
 );
 
@@ -195,6 +203,7 @@ function formatCardSkills(rawSkills: string[] = []): string[] {
 function formatCertTitle(title: string): string {
   let formatted = title;
   formatted = formatted.replace(/\bGenerative\b/g, 'Gen');
+  formatted = formatted.replace(/\bEngineering\b/g, 'Eng.');
   formatted = formatted.replace(/\band\b/g, '&');
   return formatted;
 }
