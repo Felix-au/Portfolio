@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Mail, MessageSquare, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { DecoderText } from '../ui/DecoderText';
 import styles from './ContactSection.module.css';
 
 interface FormInputs {
@@ -21,6 +22,24 @@ export const ContactSection: React.FC = () => {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [sectionVisible, setSectionVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSectionVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const validate = (fields: FormInputs): FormErrors => {
     const nextErrors: FormErrors = {};
@@ -111,13 +130,12 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className={styles.section}>
+    <section id="contact" className={styles.section} ref={sectionRef}>
       <div className={styles.container}>
-        {/* Header Title & Subtitle */}
-        <h2 className={styles.sectionTitle}>Get In Touch</h2>
-        <p className={styles.sectionSubtitle}>
-          Have a project in mind, want to collaborate, or just say hello? Drop me a message and I'll get back to you shortly.
-        </p>
+        {/* Header Title */}
+        <h2 className={styles.sectionTitle}>
+          {sectionVisible && <DecoderText text="Say hello" delay={300} />}
+        </h2>
 
         {/* Contact Form Card */}
         <div className={styles.contactCard}>
