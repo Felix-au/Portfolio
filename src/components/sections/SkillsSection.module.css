@@ -285,15 +285,15 @@
   background: rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  /* Bottom padding = height of 2-line title footer */
-  padding: 1.25rem 1.25rem 3.75rem;
+  /* Bottom padding reserves space for title + buttons footer */
+  padding: 1.25rem 1.25rem 6.25rem;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
   backdrop-filter: blur(12px);
   transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
-  min-height: 190px;
+  min-height: 185px;
 }
 
 .categoryCard:hover {
@@ -348,10 +348,9 @@
   left: 0;
   right: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 0.45rem 0.85rem 0.55rem;
+  gap: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   z-index: 1;
 }
@@ -360,11 +359,17 @@
   border-top-color: rgba(0, 0, 0, 0.06);
 }
 
+.catTitleRow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.4rem 0.85rem 0.3rem;
+}
+
 .catTitle {
   font-size: 0.735rem;
   font-weight: 700;
   color: var(--text-color, #ffffff);
-  /* Allow full title to display — wrap up to 2 lines */
   white-space: normal;
   overflow: visible;
   text-overflow: unset;
@@ -375,6 +380,54 @@
 
 [data-theme='light'] .catTitle {
   color: var(--text-color, #0a0a0a);
+}
+
+/* Card action buttons row below title */
+.cardActions {
+  width: 100%;
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem 0.55rem;
+  justify-content: center;
+}
+
+.cardActionBtn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 26px;
+  padding: 0 0.55rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.67rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+
+.cardActionBtn:hover {
+  background: rgba(0, 229, 255, 0.12);
+  border-color: var(--accent, #00e5ff);
+  color: var(--accent, #00e5ff);
+}
+
+[data-theme='light'] .cardActionBtn {
+  border-color: rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.03);
+  color: rgba(0, 0, 0, 0.55);
+}
+
+[data-theme='light'] .cardActionBtn:hover {
+  background: rgba(0, 150, 214, 0.1);
+  border-color: var(--accent, #0096d6);
+  color: var(--accent, #0096d6);
 }
 
 /* Badge rows — each row centered, block vertically centered in card */
