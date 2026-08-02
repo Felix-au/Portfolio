@@ -599,6 +599,12 @@ export const SkillsSection: React.FC = () => {
   const certGlareInProgress = useRef(false);
   const [selectedCertModal, setSelectedCertModal] = useState<CertificationItem | null>(null);
 
+  useEffect(() => {
+    if (sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
+  }, [activeTab, certSubTab]);
+
   const fireSkillsGlareSweep = (delayMs = 150) => {
     glareInProgress.current = true;
 

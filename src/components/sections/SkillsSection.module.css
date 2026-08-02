@@ -1212,6 +1212,7 @@
 
 .modalContent {
   /* Glassmorphic — matches card aesthetic */
+  position: relative;
   background: rgba(8, 10, 16, 0.82);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
