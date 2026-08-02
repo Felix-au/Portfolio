@@ -16,6 +16,7 @@ interface GlareHoverProps {
   playOnce?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 const GlareHover = React.forwardRef<HTMLDivElement, GlareHoverProps>(
@@ -35,6 +36,7 @@ const GlareHover = React.forwardRef<HTMLDivElement, GlareHoverProps>(
       playOnce = false,
       className = '',
       style = {},
+      onClick,
     },
     ref
   ) => {
@@ -70,6 +72,7 @@ const GlareHover = React.forwardRef<HTMLDivElement, GlareHoverProps>(
         ref={ref}
         className={`glare-hover ${playOnce ? 'glare-hover--play-once' : ''} ${className}`.trim()}
         style={{ ...vars, ...style }}
+        onClick={onClick}
       >
         {children}
       </div>
