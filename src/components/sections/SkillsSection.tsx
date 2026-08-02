@@ -104,19 +104,37 @@ interface CertificationItem {
 }
 
 const GoogleLogoSvg: React.FC<{ className?: string }> = ({ className }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
-    <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+  <svg viewBox="0 0 24 24" className={className}>
+    <path
+      fill="#4285F4"
+      d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"
+    />
+    <path
+      fill="#34A853"
+      d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.15C3.26 21.3 7.31 24 12 24z"
+    />
+    <path
+      fill="#FBBC05"
+      d="M5.28 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.61H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.39l3.99-3.15z"
+    />
+    <path
+      fill="#EA4335"
+      d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.61l3.99 3.15c.95-2.85 3.6-4.96 6.72-4.96z"
+    />
   </svg>
 );
 
 const MicrosoftLogoSvg: React.FC<{ className?: string }> = ({ className }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
-    <path d="M0 0h11.429v11.429H0zm12.571 0H24v11.429H12.571zM0 12.571h11.429V24H0zm12.571 0H24V24H12.571z" />
+  <svg viewBox="0 0 24 24" className={className}>
+    <rect x="1" y="1" width="10.5" height="10.5" fill="#F25022" />
+    <rect x="12.5" y="1" width="10.5" height="10.5" fill="#7FBA00" />
+    <rect x="1" y="12.5" width="10.5" height="10.5" fill="#00A4EF" />
+    <rect x="12.5" y="12.5" width="10.5" height="10.5" fill="#FFB900" />
   </svg>
 );
 
 const IbmLogoSvg: React.FC<{ className?: string }> = ({ className }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+  <svg viewBox="0 0 24 24" className={className} fill="#0f62fe">
     <path d="M0 4h6v2.5H0zm8 0h8v2.5H8zm10 0h6v2.5h-6zM0 8.5h6V11H0zm8 0h2.5V11H8zm5.5 0H16V11h-2.5zm4.5 0h6V11h-6zM0 13h6v2.5H0zm8 0h2.5v2.5H8zm5.5 0H16v2.5h-2.5zm4.5 0h6v2.5h-6zM0 17.5h6V20H0zm8 0h8V20H8zm10 0h6V20h-6z" />
   </svg>
 );
@@ -127,6 +145,51 @@ function getCompanyLogo(issuer: string) {
   if (lower.includes('microsoft')) return <MicrosoftLogoSvg className={styles.companyBgLogo} />;
   if (lower.includes('ibm')) return <IbmLogoSvg className={styles.companyBgLogo} />;
   return <Award className={styles.companyBgLogo} />;
+}
+
+function shortenSkillName(skill: string): string {
+  const map: Record<string, string> = {
+    'Retrieval-Augmented Generation': 'RAG',
+    'Retrieval Augmented Generation': 'RAG',
+    'Artificial Intelligence': 'AI',
+    'Artificial Intelligence and Machine Learning (AI/ML)': 'AI/ML',
+    'Machine Learning': 'ML',
+    'Generative AI': 'Gen AI',
+    'Large Language Models': 'LLMs',
+    'Generative Adversarial Networks (GANs)': 'GANs',
+    'Convolutional Neural Networks': 'CNNs',
+    'Recurrent Neural Networks': 'RNNs',
+    'Natural Language Processing': 'NLP',
+    'Computer Vision': 'CV',
+    'Deep Learning': 'DL',
+    'Interactive Data Visualization': 'Data Viz',
+    'Data Visualization': 'Data Viz',
+    'Spreadsheet Software': 'Spreadsheets',
+    'Bash (Scripting Language)': 'Bash',
+    'Intrusion Detection and Prevention': 'IDPS',
+    'Computer Security Incident Management': 'Incident Mgmt',
+    'Cyber Threat Intelligence': 'Threat Intel',
+    'Vulnerability Management': 'Vulnerability Mgmt',
+    'Endpoint Detection and Response': 'EDR',
+  };
+
+  if (map[skill]) return map[skill];
+
+  let cleaned = skill;
+  cleaned = cleaned.replace(/Retrieval-Augmented Generation/gi, 'RAG');
+  cleaned = cleaned.replace(/Artificial Intelligence/gi, 'AI');
+  cleaned = cleaned.replace(/Machine Learning/gi, 'ML');
+  return cleaned;
+}
+
+function formatCardSkills(rawSkills: string[] = []): string[] {
+  const shortened = rawSkills.map(shortenSkillName);
+  if (shortened.length <= 8) {
+    return shortened;
+  }
+  const top7 = shortened.slice(0, 7);
+  const extraCount = shortened.length - 7;
+  return [...top7, `+${extraCount} more`];
 }
 
 function distributeSkillStrings(skills: string[]): string[][] {
@@ -263,7 +326,13 @@ const PROFESSIONAL_CERTS: CertificationItem[] = rawSpecializationCerts.map((item
   const nameLower = item.name.toLowerCase();
   if (nameLower.includes('google')) provider = 'Google';
   else if (nameLower.includes('microsoft')) provider = 'Microsoft';
-  else if (nameLower.includes('ibm')) provider = 'IBM';
+  else if (
+    nameLower.includes('ibm') ||
+    nameLower.includes('building ai agents') ||
+    nameLower.includes('agentic')
+  ) {
+    provider = 'IBM';
+  }
 
   return {
     id: `spec-${idx}`,
@@ -273,6 +342,7 @@ const PROFESSIONAL_CERTS: CertificationItem[] = rawSpecializationCerts.map((item
     skills: item.skills,
     link: item.verification_url,
     pdfUrl: `/credentials/${item.pdf_path_relative_to_root}`,
+    whatWasLearnt: item.what_was_learnt,
   };
 });
 
@@ -638,12 +708,16 @@ export const SkillsSection: React.FC = () => {
 
                             {/* Skills Learned Pills Grid */}
                             <div className={styles.techPillRows}>
-                              {distributeSkillStrings(cert.skills || []).map((row, rowIdx) => (
+                              {distributeSkillStrings(formatCardSkills(cert.skills || [])).map((row, rowIdx) => (
                                 <div key={rowIdx} className={styles.techPillRow}>
                                   {row.map((skillName, i) => (
-                                    <div key={i} className={styles.techPill} title={skillName}>
+                                    <div
+                                      key={i}
+                                      className={`${styles.techPill} ${skillName.startsWith('+') ? styles.extraPill : ''}`}
+                                      title={skillName}
+                                    >
                                       <span className={styles.techIcon} style={{ color: 'var(--accent)' }}>
-                                        <CheckCircle2 size={12} />
+                                        {skillName.startsWith('+') ? <Sparkles size={12} /> : <CheckCircle2 size={12} />}
                                       </span>
                                       <span className={styles.techName}>{skillName}</span>
                                     </div>
