@@ -236,30 +236,6 @@ function distributeSkillStrings(skills: string[]): string[][] {
   return rows.map((r) => r.items).filter((items) => items.length > 0);
 }
 
-/**
- * Distributes modal skill tags into balanced rows.
- * Uses a greedy bin-packing approach: fewer rows, similar widths.
- * Target: ~3 items per row to minimise row count while balancing widths.
- */
-function distributeModalSkills(skills: string[]): string[][] {
-  if (skills.length === 0) return [];
-  const sorted = [...skills].sort((a, b) => b.length - a.length);
-  // Aim for ceil(n/3) rows so we always prefer fewer rows
-  const targetRows = Math.max(1, Math.ceil(sorted.length / 3));
-  const rows: { items: string[]; totalLen: number }[] = Array.from({ length: targetRows }, () => ({
-    items: [],
-    totalLen: 0,
-  }));
-  sorted.forEach((skill) => {
-    let minIdx = 0;
-    for (let i = 1; i < targetRows; i++) {
-      if (rows[i].totalLen < rows[minIdx].totalLen) minIdx = i;
-    }
-    rows[minIdx].items.push(skill);
-    rows[minIdx].totalLen += skill.length;
-  });
-  return rows.map((r) => r.items).filter((r) => r.length > 0);
-}
 
 const SKILL_CATEGORIES: CategoryGroup[] = [
   {
