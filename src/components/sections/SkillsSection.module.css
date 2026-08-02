@@ -452,22 +452,25 @@
   position: relative;
 }
 
-/* ─── Tab fade-in on mount animation (avoids jarring height snaps/clashes) ─── */
-.tabFadeIn {
+/* ─── Tab & Sub-tab cross-fade transitions ─── */
+.tabContent {
   width: 100%;
-  animation: tabFadeInAnim 0.35s ease-out forwards;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.55s ease-in-out, visibility 0.55s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
 }
 
-@keyframes tabFadeInAnim {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.activeTabContent {
+  opacity: 1;
+  pointer-events: auto;
+  position: relative;
+  visibility: visible;
 }
 
-/* ─── Sub-tab cross-fade transitions (works beautifully due to similar layouts) ─── */
 .subTabContent {
   width: 100%;
   opacity: 0;
