@@ -331,7 +331,28 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
   },
 ];
 
-const PROFESSIONAL_CERTS: CertificationItem[] = rawSpecializationCerts.map((item, idx) => {
+const DESIRED_SPEC_ORDER = [
+  'google-data-analytics',
+  'microsoft-generative-ai',
+  'google-cybersecurity',
+  'building-ai-agents',
+  'google-ai-professional',
+  'ibm-rag',
+];
+
+function getSpecOrderIndex(name: string): number {
+  const n = name.toLowerCase();
+  for (let i = 0; i < DESIRED_SPEC_ORDER.length; i++) {
+    if (n.includes(DESIRED_SPEC_ORDER[i])) return i;
+  }
+  return 99;
+}
+
+const sortedRawSpecializationCerts = [...rawSpecializationCerts].sort(
+  (a, b) => getSpecOrderIndex(a.name) - getSpecOrderIndex(b.name)
+);
+
+const PROFESSIONAL_CERTS: CertificationItem[] = sortedRawSpecializationCerts.map((item, idx) => {
   let provider = 'Coursera';
   const nameLower = item.name.toLowerCase();
   if (nameLower.includes('google')) provider = 'Google';
@@ -490,7 +511,8 @@ export const SkillsSection: React.FC = () => {
   activeTabRef.current = activeTab;
   // Prevents overlapping intro sweeps on rapid scroll
   const glareInProgress = useRef(false);
-  const [selectedCertModal, setSelectedCertModal] = useState<CertificationItem | null>(null);
+  const certCardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const certGlareInProgress = useRef(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -501,6 +523,24 @@ export const SkillsSection: React.FC = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  useEffect(() => {
+    if (activeTab === 'certifications' && certSubTab === 'spec' && sectionVisible && !certGlareInProgress.current) {
+      certGlareInProgress.current = true;
+      const group = [0, 1, 2, 3, 4, 5];
+      group.forEach((cardIdx, step) => {
+        setTimeout(() => {
+          const card = certCardRefs.current[cardIdx];
+          if (!card) return;
+          card.classList.add('glare-intro');
+          setTimeout(() => card.classList.remove('glare-intro'), 900);
+        }, step * 200);
+      });
+      setTimeout(() => {
+        certGlareInProgress.current = false;
+      }, 6 * 200 + 950);
+    }
+  }, [activeTab, certSubTab, sectionVisible]);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -700,6 +740,7 @@ export const SkillsSection: React.FC = () => {
                           style={{ height: '100%' }}
                         >
                           <GlareHover
+                            ref={(el) => { certCardRefs.current[certIdx] = el; }}
                             width="100%"
                             height="100%"
                             background="transparent"
