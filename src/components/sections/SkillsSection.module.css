@@ -1,6 +1,6 @@
 .section {
   min-height: 100vh;
-  padding: 5rem 4rem;
+  padding: 5rem 155px 5rem 100px;
   position: relative;
   z-index: 10;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -8,11 +8,12 @@
   scroll-snap-stop: always;
   color: var(--text-color);
   transition: background-color 0.4s ease, color 0.4s ease;
-  /* Vertically center content in the viewport */
+  /* Vertically & horizontally center content in available main area */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 [data-theme='light'] .section {
@@ -22,6 +23,7 @@
 .container {
   width: 100%;
   max-width: 1150px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -667,6 +669,10 @@
 }
 
 @media (max-width: 900px) {
+  .section {
+    padding: 5rem 1.5rem 4rem;
+  }
+
   .skillsLayout {
     grid-template-columns: 1fr;
   }
