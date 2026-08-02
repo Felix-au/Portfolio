@@ -615,6 +615,93 @@
   .skillsLayout {
     grid-template-columns: 1fr;
   }
+
+  /* Responsive Main Rail & Sub-Tab Rail */
+  .sideRail {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    right: auto;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 1.25rem;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    height: auto;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .certRail {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    right: auto;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 1.75rem;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    height: auto;
+    opacity: 1;
+    pointer-events: auto;
+    border-right: none;
+    border-bottom: 1px dashed var(--accent, #00e5ff);
+    padding-bottom: 0.5rem;
+    filter: drop-shadow(0 4px 4px rgba(0, 229, 255, 0.15));
+  }
+
+  [data-theme='light'] .certRail {
+    border-bottom-color: var(--accent, #0096d6);
+    filter: drop-shadow(0 4px 4px rgba(0, 150, 214, 0.1));
+  }
+
+  .certRail::after {
+    display: none;
+  }
+
+  .railBtn,
+  .certRailBtn {
+    flex: none;
+    width: auto;
+    padding: 10px 16px;
+    flex-direction: row;
+    gap: 8px;
+    border-radius: 20px;
+    height: auto;
+  }
+
+  .railLabel,
+  .certRailLabel {
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    transform: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* Horizontal Active Underline Indicators */
+  .railActive::after {
+    right: 15%;
+    left: 15%;
+    top: auto;
+    bottom: 0;
+    height: 2px;
+    width: 70%;
+    border-radius: 2px 2px 0 0;
+  }
+
+  .certRailActive::after {
+    right: 15%;
+    left: 15%;
+    top: auto;
+    bottom: 0;
+    height: 2px;
+    width: 70%;
+    border-radius: 2px 2px 0 0;
+  }
 }
 
 @media (max-width: 600px) {
