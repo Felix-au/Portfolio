@@ -513,6 +513,7 @@ export const SkillsSection: React.FC = () => {
   const glareInProgress = useRef(false);
   const certCardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const certGlareInProgress = useRef(false);
+  const [selectedCertModal, setSelectedCertModal] = useState<CertificationItem | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
