@@ -425,7 +425,10 @@ export const SkillsSection: React.FC = () => {
           title="Skills & Expertise"
         >
           <Brain className={styles.railIcon} />
-          <span className={styles.railLabel}>Skills & Expertise</span>
+          <span className={styles.railLabel}>
+            <span className={styles.desktopLabel}>Skills & Expertise</span>
+            <span className={styles.mobileLabel}>Skills</span>
+          </span>
         </button>
 
         <button
@@ -434,39 +437,44 @@ export const SkillsSection: React.FC = () => {
           title="Certifications & Badges"
         >
           <Award className={styles.railIcon} />
-          <span className={styles.railLabel}>Certifications & Badges</span>
+          <span className={styles.railLabel}>
+            <span className={styles.desktopLabel}>Certifications & Badges</span>
+            <span className={styles.mobileLabel}>Certifications</span>
+          </span>
         </button>
       </nav>
 
       {/* Left rail: cert sub-tabs — visible only on the Certifications tab */}
-      <nav className={`${styles.certRail} ${(sectionVisible && activeTab === 'certifications') ? styles.railVisible : ''}`}>
-        <button
-          className={`${styles.certRailBtn} ${certSubTab === 'spec' ? styles.certRailActive : ''}`}
-          onClick={() => setCertSubTab('spec')}
-          title="Specialization Certificates"
-        >
-          <GraduationCap className={styles.railIcon} />
-          <span className={styles.certRailLabel}>Specialization</span>
-        </button>
+      {activeTab === 'certifications' && (
+        <nav className={`${styles.certRail} ${sectionVisible ? styles.railVisible : ''}`}>
+          <button
+            className={`${styles.certRailBtn} ${certSubTab === 'spec' ? styles.certRailActive : ''}`}
+            onClick={() => setCertSubTab('spec')}
+            title="Specialization Certificates"
+          >
+            <GraduationCap className={styles.railIcon} />
+            <span className={styles.certRailLabel}>Specialization</span>
+          </button>
 
-        <button
-          className={`${styles.certRailBtn} ${certSubTab === 'other' ? styles.certRailActive : ''}`}
-          onClick={() => setCertSubTab('other')}
-          title="Other Certificates"
-        >
-          <FileCheck className={styles.railIcon} />
-          <span className={styles.certRailLabel}>Other Certs</span>
-        </button>
+          <button
+            className={`${styles.certRailBtn} ${certSubTab === 'other' ? styles.certRailActive : ''}`}
+            onClick={() => setCertSubTab('other')}
+            title="Other Certificates"
+          >
+            <FileCheck className={styles.railIcon} />
+            <span className={styles.certRailLabel}>Other Certs</span>
+          </button>
 
-        <button
-          className={`${styles.certRailBtn} ${certSubTab === 'badges' ? styles.certRailActive : ''}`}
-          onClick={() => setCertSubTab('badges')}
-          title="Badges"
-        >
-          <Medal className={styles.railIcon} />
-          <span className={styles.certRailLabel}>Badges</span>
-        </button>
-      </nav>
+          <button
+            className={`${styles.certRailBtn} ${certSubTab === 'badges' ? styles.certRailActive : ''}`}
+            onClick={() => setCertSubTab('badges')}
+            title="Badges"
+          >
+            <Medal className={styles.railIcon} />
+            <span className={styles.certRailLabel}>Badges</span>
+          </button>
+        </nav>
+      )}
 
       <motion.div layout className={styles.container}>
         <AnimatePresence mode="wait">

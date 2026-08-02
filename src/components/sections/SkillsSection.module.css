@@ -126,6 +126,14 @@
   line-height: 1;
 }
 
+.desktopLabel {
+  display: inline;
+}
+
+.mobileLabel {
+  display: none;
+}
+
 /* ─── Left Cert Sub-Tab Rail ─── */
 /*
   Mirrors sideRail but sits on the LEFT side, just right of the left navbar.
@@ -861,6 +869,14 @@
     font-size: 0.775rem;
     font-weight: 600;
     letter-spacing: 0.03em;
+  }
+
+  .desktopLabel {
+    display: none;
+  }
+
+  .mobileLabel {
+    display: inline;
   }
 }
 
