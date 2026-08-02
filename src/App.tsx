@@ -38,7 +38,7 @@ export const App: React.FC = () => {
       )}
 
       <div
-        id="intro"
+        id="app-root"
         style={{
           minHeight: '100vh',
           backgroundColor: 'var(--bg-color)',

@@ -40,7 +40,7 @@ export const HeroIntro: React.FC = () => {
       : null;
 
   return (
-    <section className={styles.intro}>
+    <section id="intro" className={styles.intro}>
       <header key={theme} className={styles.text}>
         <h1 className={styles.name} data-visible="true">
           <DecoderText text={profile.name} delay={300} />
