@@ -977,8 +977,9 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Override for raster/img logos (e.g. IBM webp) — preserve natural aspect ratio */
+/* Override for raster/img logos (e.g. IBM webp) — preserve natural aspect ratio, 2.25x scale */
 .companyBgLogo[alt] {
+  width: 191px;
   height: auto;
   object-fit: contain;
 }
