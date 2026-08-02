@@ -46,6 +46,4 @@ export const ResumeSection: React.FC = () => (
   <PlaceholderSection id="resume" title="Resume" />
 );
 
-export const ContactSection: React.FC = () => (
-  <PlaceholderSection id="contact" title="Contact" />
-);
+export { ContactSection } from './ContactSection';
