@@ -331,25 +331,17 @@ const SKILL_CATEGORIES: CategoryGroup[] = [
   },
 ];
 
-const DESIRED_SPEC_ORDER = [
-  'google-data-analytics',
-  'microsoft-generative-ai',
-  'google-cybersecurity',
-  'building-ai-agents',
-  'google-ai-professional',
-  'ibm-rag',
-];
-
-function getSpecOrderIndex(name: string): number {
-  const n = name.toLowerCase();
-  for (let i = 0; i < DESIRED_SPEC_ORDER.length; i++) {
-    if (n.includes(DESIRED_SPEC_ORDER[i])) return i;
-  }
-  return 99;
-}
+const EXACT_SPEC_ORDER: Record<string, number> = {
+  'Google Data Analytics Professional Certificate': 0,
+  'Microsoft Generative AI Engineering Professional Certificate': 1,
+  'Google Cybersecurity Professional Certificate': 2,
+  'IBM RAG and Agentic AI Professional Certificate': 3,
+  'Google AI Professional Certificate': 4,
+  'Building AI Agents and Agentic Workflows Specialization': 5,
+};
 
 const sortedRawSpecializationCerts = [...rawSpecializationCerts].sort(
-  (a, b) => getSpecOrderIndex(a.name) - getSpecOrderIndex(b.name)
+  (a, b) => (EXACT_SPEC_ORDER[a.name] ?? 99) - (EXACT_SPEC_ORDER[b.name] ?? 99)
 );
 
 const PROFESSIONAL_CERTS: CertificationItem[] = sortedRawSpecializationCerts.map((item, idx) => {
