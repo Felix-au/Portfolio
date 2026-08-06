@@ -4,6 +4,7 @@ import { ExternalLink, Globe, Monitor, Brain } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import CardSwap, { Card } from '../ui/CardSwap';
 import {
+  PROJECTS,
   PROJECT_TABS,
   getProjectsByCategory,
   type ProjectCategory,
@@ -16,6 +17,20 @@ export const ProjectsSection: React.FC = () => {
   const [activeProjectIdx, setActiveProjectIdx] = useState(0);
   const [sectionVisible, setSectionVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const projectColors = useRef<Record<string, string>>({});
+
+  // Initialize random accent colors once per mount session (guaranteeing unique neighboring colors)
+  if (Object.keys(projectColors.current).length === 0) {
+    const PRESET_COLORS = ['#6366f1', '#8b5cf6', '#00e5ff', '#f59e0b', '#10b981', '#ec4899'];
+    const shuffled = [...PRESET_COLORS].sort(() => Math.random() - 0.5);
+    PROJECTS.forEach((project, idx) => {
+      if (project.accentColor) {
+        projectColors.current[project.id] = project.accentColor;
+      } else {
+        projectColors.current[project.id] = shuffled[idx % shuffled.length];
+      }
+    });
+  }
 
   const projects = getProjectsByCategory(activeTab);
   const activeProject: Project | undefined = projects[activeProjectIdx];
@@ -115,7 +130,7 @@ export const ProjectsSection: React.FC = () => {
                   >
                     <span
                       className={styles.projectTagline}
-                      style={{ color: activeProject.accentColor }}
+                      style={{ color: projectColors.current[activeProject.id] || activeProject.accentColor || '#00e5ff' }}
                     >
                       {activeProject.tagline}
                     </span>
@@ -179,14 +194,14 @@ export const ProjectsSection: React.FC = () => {
                 {projects.map((project, i) => (
                   <Card
                     key={project.id}
-                    style={{ '--accent-color': project.accentColor } as React.CSSProperties}
+                    style={{ '--accent-color': projectColors.current[project.id] || project.accentColor || '#00e5ff' } as React.CSSProperties}
                   >
                     <div className={styles.projectCard}>
                       {/* Accent bar at card top */}
                       <div
                         className={styles.cardAccent}
                         style={{
-                          background: `linear-gradient(90deg, ${project.accentColor}, ${project.accentColor}88)`,
+                          background: `linear-gradient(90deg, ${projectColors.current[project.id] || project.accentColor || '#00e5ff'}, ${projectColors.current[project.id] || project.accentColor || '#00e5ff'}88)`,
                         }}
                       />
 
