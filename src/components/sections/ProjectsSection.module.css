@@ -232,6 +232,11 @@
   user-select: none;
 }
 
+[data-theme='light'] .cardIndex {
+  opacity: 0.32;
+  color: var(--text-color, #111111);
+}
+
 .cardTitle {
   font-size: 1.5rem;
   font-weight: 800;
