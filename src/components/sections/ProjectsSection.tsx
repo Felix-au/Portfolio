@@ -166,8 +166,8 @@ export const ProjectsSection: React.FC = () => {
             {/* ─── Right Column: CardSwap Stack ─── */}
             <div className={styles.cardSwapCol}>
               <CardSwap
-                cardDistance={63}
-                verticalDistance={69}
+                cardDistance={62}
+                verticalDistance={68}
                 delay={5000}
                 pauseOnHover
                 width={525}
