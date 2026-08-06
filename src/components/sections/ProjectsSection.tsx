@@ -177,7 +177,10 @@ export const ProjectsSection: React.FC = () => {
                 onCardClick={handleCardClick}
               >
                 {projects.map((project, i) => (
-                  <Card key={project.id}>
+                  <Card
+                    key={project.id}
+                    style={{ '--accent-color': project.accentColor } as React.CSSProperties}
+                  >
                     <div className={styles.projectCard}>
                       {/* Accent bar at card top */}
                       <div
