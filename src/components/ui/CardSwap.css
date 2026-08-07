@@ -24,8 +24,8 @@
 }
 
 .card-swap-card:hover {
-  border-color: rgba(0, 229, 255, 0.35);
-  box-shadow: 0 8px 32px rgba(0, 229, 255, 0.12);
+  border-color: var(--card-accent, rgba(0, 229, 255, 0.35));
+  box-shadow: 0 8px 32px var(--card-accent-glow, rgba(0, 229, 255, 0.12));
 }
 
 [data-theme='light'] .card-swap-card {
@@ -34,8 +34,8 @@
 }
 
 [data-theme='light'] .card-swap-card:hover {
-  border-color: rgba(0, 150, 214, 0.4);
-  box-shadow: 0 8px 32px rgba(0, 150, 214, 0.1);
+  border-color: var(--card-accent, rgba(0, 150, 214, 0.4));
+  box-shadow: 0 8px 32px var(--card-accent-glow-light, rgba(0, 150, 214, 0.1));
 }
 
 @media (max-width: 768px) {

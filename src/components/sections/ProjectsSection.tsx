@@ -192,37 +192,47 @@ export const ProjectsSection: React.FC = () => {
                 onIndexChange={setActiveProjectIdx}
                 onCardClick={handleCardClick}
               >
-                {projects.map((project, i) => (
-                  <Card key={project.id}>
-                    <div className={styles.projectCard}>
-                      {/* Accent bar at card top */}
-                      <div
-                        className={styles.cardAccent}
-                        style={{
-                          background: `linear-gradient(90deg, ${getProjectAccent(i, theme)}, ${getProjectAccent(i, theme)}88)`,
-                        }}
-                      />
+                {projects.map((project, i) => {
+                  const cardAccentColor = getProjectAccent(i, theme);
+                  return (
+                    <Card
+                      key={project.id}
+                      style={{
+                        ['--card-accent' as any]: cardAccentColor,
+                        ['--card-accent-glow' as any]: `${cardAccentColor}26`, // 15% opacity hex
+                        ['--card-accent-glow-light' as any]: `${cardAccentColor}1a`, // 10% opacity hex
+                      }}
+                    >
+                      <div className={styles.projectCard}>
+                        {/* Accent bar at card top */}
+                        <div
+                          className={styles.cardAccent}
+                          style={{
+                            background: `linear-gradient(90deg, ${cardAccentColor}, ${cardAccentColor}88)`,
+                          }}
+                        />
 
-                      {/* Large index watermark */}
-                      <span className={styles.cardIndex}>
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
+                        {/* Large index watermark */}
+                        <span className={styles.cardIndex}>
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
 
-                      {/* Card content (bottom-aligned) */}
-                      <div className="card-content-wrap">
-                        <h3 className={styles.cardTitle}>{project.title}</h3>
-                        <p className={styles.cardTagline}>{project.tagline}</p>
-                        <div className={styles.cardTechRow}>
-                          {project.techStack.slice(0, 3).map((tech) => (
-                            <span key={tech} className={styles.cardTechBadge}>
-                              {tech}
-                            </span>
-                          ))}
+                        {/* Card content (bottom-aligned) */}
+                        <div className="card-content-wrap">
+                          <h3 className={styles.cardTitle}>{project.title}</h3>
+                          <p className={styles.cardTagline}>{project.tagline}</p>
+                          <div className={styles.cardTechRow}>
+                            {project.techStack.slice(0, 3).map((tech) => (
+                              <span key={tech} className={styles.cardTechBadge}>
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Card>
-                ))}
+                    </Card>
+                  );
+                })}
               </CardSwap>
             </div>
           </motion.div>
