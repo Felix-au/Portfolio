@@ -53,7 +53,8 @@ export const ProjectsSection: React.FC = () => {
 
   const getProjectStars = (githubUrl?: string): number | undefined => {
     if (!githubUrl || !gitHubStats || !gitHubStats.repoStars) return undefined;
-    const parts = githubUrl.split('/');
+    const cleanUrl = githubUrl.endsWith('/') ? githubUrl.slice(0, -1) : githubUrl;
+    const parts = cleanUrl.split('/');
     const repoName = parts[parts.length - 1]?.toLowerCase();
     return gitHubStats.repoStars[repoName];
   };
