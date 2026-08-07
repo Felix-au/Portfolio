@@ -8,6 +8,7 @@ import styles from './Navbar.module.css';
 const navLinks = [
   { label: 'Projects', href: '#projects' },
   { label: 'Credentials', href: '#credentials' },
+  { label: 'Experience', href: '#experience' },
 ];
 
 export const Navbar: React.FC = () => {
@@ -19,7 +20,7 @@ export const Navbar: React.FC = () => {
 
   // Active section scroll tracking with getBoundingClientRect for 100% reliability
   useEffect(() => {
-    const sectionIds = ['intro', 'projects', 'credentials', 'contact', 'resume'];
+    const sectionIds = ['intro', 'projects', 'credentials', 'experience', 'contact', 'resume'];
     const handleScroll = () => {
       const triggerLine = window.innerHeight / 3;
       for (const id of sectionIds) {

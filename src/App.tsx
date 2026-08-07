@@ -12,6 +12,7 @@ import {
   SkillsSection,
   ContactSection,
 } from './components/sections/PlaceholderSections';
+import { ExperienceSection } from './components/sections/ExperienceSection';
 
 export const App: React.FC = () => {
   const { theme } = useTheme();
@@ -56,6 +57,7 @@ export const App: React.FC = () => {
             <HeroIntro />
             <ProjectsSection />
             <SkillsSection />
+            <ExperienceSection />
             <ContactSection />
             <ResumeSection />
           </>

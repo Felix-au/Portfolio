@@ -1,0 +1,216 @@
+.section {
+  min-height: 100vh;
+  padding: 5rem 72px;
+  position: relative;
+  z-index: 10;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  color: var(--text-color);
+  transition: background-color 0.4s ease, color 0.4s ease, padding 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+[data-theme='light'] .section {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.sectionTitle {
+  text-transform: uppercase;
+  font-size: 2.5rem;
+  letter-spacing: 0.28em;
+  color: var(--text-light, rgba(255, 255, 255, 0.6));
+  margin-bottom: 0.25rem;
+  margin-top: 0;
+  font-weight: 500;
+  line-height: 1;
+  min-height: 1.25em;
+  display: block;
+  transition: color 0.4s ease;
+  text-align: center;
+}
+
+/* Timeline Layout */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  padding-left: 2rem;
+  box-sizing: border-box;
+}
+
+/* Vertical timeline trace line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='light'] .timeline::before {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.timelineItem {
+  position: relative;
+  width: 100%;
+}
+
+.timelineBadge {
+  position: absolute;
+  left: -2rem;
+  top: 1.25rem;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent, #00e5ff);
+  border: 4px solid #111111;
+  color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-sizing: content-box;
+}
+
+[data-theme='light'] .timelineBadge {
+  border-color: #ffffff;
+}
+
+.timelineCard {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 1.75rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.35s ease;
+}
+
+[data-theme='light'] .timelineCard {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+.timelineCard:hover {
+  border-color: var(--accent, #00e5ff);
+  transform: translateY(-2px);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.role {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color, #ffffff);
+}
+
+.duration {
+  font-size: 0.8rem;
+  color: var(--text-light, rgba(255, 255, 255, 0.5));
+  display: inline-flex;
+  align-items: center;
+}
+
+.cardSubHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.company {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--accent, #00e5ff);
+}
+
+.location {
+  font-size: 0.8rem;
+  color: var(--text-light, rgba(255, 255, 255, 0.5));
+  display: inline-flex;
+  align-items: center;
+}
+
+.description {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-light, rgba(255, 255, 255, 0.7));
+}
+
+@media (max-width: 1200px) {
+  .sectionTitle {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding: 5rem 1.5rem 4rem;
+  }
+}
+
+@media (max-width: 696px) {
+  .sectionTitle {
+    letter-spacing: 0.22em;
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline {
+    padding-left: 1.5rem;
+  }
+  .timeline::before {
+    left: 8px;
+  }
+  .timelineBadge {
+    left: -1.5rem;
+  }
+  .timelineCard {
+    padding: 1.25rem;
+  }
+  .cardHeader {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}

@@ -380,3 +380,94 @@
     padding: 1.75rem;
   }
 }
+
+/* OR Separator and Quick Buttons styling */
+.separatorContainer {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0 1.25rem;
+  width: 100%;
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='light'] .line {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.orText {
+  padding: 0 1rem;
+  font-size: 0.85rem;
+  color: var(--text-light, rgba(255, 255, 255, 0.4));
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.quickContactButtons {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.quickContactBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-color, #ffffff);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+[data-theme='light'] .quickContactBtn {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--text-color, #000000);
+}
+
+.quickContactBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--accent, #00e5ff);
+  transform: translateY(-2px);
+}
+
+[data-theme='light'] .quickContactBtn:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: var(--accent, #0096d6);
+}
+
+.quickContactIcon {
+  width: 18px;
+  height: 18px;
+  color: var(--text-light, rgba(255, 255, 255, 0.6));
+  transition: color 0.3s ease;
+}
+
+.quickContactBtn:hover .quickContactIcon {
+  color: var(--accent, #00e5ff);
+}
+
+[data-theme='light'] .quickContactBtn:hover .quickContactIcon {
+  color: var(--accent, #0096d6);
+}
+
+@media (max-width: 480px) {
+  .quickContactButtons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
