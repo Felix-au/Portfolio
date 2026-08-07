@@ -14,10 +14,6 @@ import styles from './ProjectsSection.module.css';
 export const ProjectsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ProjectCategory>('websites');
   const [activeProjectIdx, setActiveProjectIdx] = useState(0);
-  const [layoutApproach, setLayoutApproach] = useState<'linear' | 'smooshed' | 'capped' | 'damped' | 'arc'>('linear');
-  const [rotation3d, setRotation3d] = useState<'none' | 'isometric' | 'tilted' | 'flat-isometric'>('none');
-  const [layoutDirection, setLayoutDirection] = useState<'bottom-right' | 'top-right' | 'up' | 'right'>('bottom-right');
-  const [cardRotation, setCardRotation] = useState<'default' | 'slanted' | 'straight'>('default');
   const [sectionVisible, setSectionVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -64,33 +60,6 @@ export const ProjectsSection: React.FC = () => {
     }
   };
 
-  const getLayoutOffsets = (dir: string) => {
-    switch (dir) {
-      case 'top-right':
-        return { x: 62, y: -68 };
-      case 'up':
-        return { x: 0, y: 68 };
-      case 'right':
-        return { x: 62, y: 0 };
-      default: // 'bottom-right'
-        return { x: 62, y: 68 };
-    }
-  };
-
-  const getCardRotationValues = (type: string) => {
-    switch (type) {
-      case 'slanted':
-        return { skew: 0, rotate: -6 };
-      case 'straight':
-        return { skew: 0, rotate: 0 };
-      default: // 'default'
-        return { skew: 5, rotate: 0 };
-    }
-  };
-
-  const offsets = getLayoutOffsets(layoutDirection);
-  const cardRot = getCardRotationValues(cardRotation);
-
   return (
     <section id="projects" className={styles.section} ref={sectionRef}>
       {/* Right Side Rail — Tab Navigation (desktop) */}
@@ -109,124 +78,6 @@ export const ProjectsSection: React.FC = () => {
       </nav>
 
       <div className={styles.container}>
-        {/* Temporary Layout Selector Panel */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '12px',
-          marginBottom: '20px',
-          background: 'rgba(255, 255, 255, 0.02)',
-          border: '1px solid rgba(255, 255, 255, 0.06)',
-          borderRadius: '12px',
-          padding: '16px',
-          zIndex: 100,
-          position: 'relative'
-        }}>
-          {/* 1. Layout Strategy */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <span style={{ fontSize: '0.75rem', opacity: 0.5, fontWeight: 600 }}>Stack Strategy:</span>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              {(['linear', 'smooshed', 'capped', 'damped', 'arc'] as const).map((approach) => (
-                <button
-                  key={approach}
-                  onClick={() => setLayoutApproach(approach)}
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    background: layoutApproach === approach ? 'var(--accent, #00e5ff)' : 'rgba(255,255,255,0.05)',
-                    color: layoutApproach === approach ? '#000' : 'var(--text-color)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    cursor: 'pointer',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    textTransform: 'capitalize',
-                  }}
-                >
-                  {approach}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* 2. 3D Perspective Tilt */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <span style={{ fontSize: '0.75rem', opacity: 0.5, fontWeight: 600 }}>3D Perspective:</span>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              {(['none', 'isometric', 'tilted', 'flat-isometric'] as const).map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setRotation3d(type)}
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    background: rotation3d === type ? 'var(--accent, #00e5ff)' : 'rgba(255,255,255,0.05)',
-                    color: rotation3d === type ? '#000' : 'var(--text-color)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    cursor: 'pointer',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    textTransform: 'capitalize',
-                  }}
-                >
-                  {type.replace('-', ' ')}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* 3. Stack Growth Direction */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <span style={{ fontSize: '0.75rem', opacity: 0.5, fontWeight: 600 }}>Growth Direction:</span>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              {(['bottom-right', 'top-right', 'up', 'right'] as const).map((dir) => (
-                <button
-                  key={dir}
-                  onClick={() => setLayoutDirection(dir)}
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    background: layoutDirection === dir ? 'var(--accent, #00e5ff)' : 'rgba(255,255,255,0.05)',
-                    color: layoutDirection === dir ? '#000' : 'var(--text-color)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    cursor: 'pointer',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    textTransform: 'capitalize',
-                  }}
-                >
-                  {dir.replace('-', ' ')}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* 4. Individual Card Rotation */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <span style={{ fontSize: '0.75rem', opacity: 0.5, fontWeight: 600 }}>Card Slant:</span>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              {(['default', 'slanted', 'straight'] as const).map((rot) => (
-                <button
-                  key={rot}
-                  onClick={() => setCardRotation(rot)}
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    background: cardRotation === rot ? 'var(--accent, #00e5ff)' : 'rgba(255,255,255,0.05)',
-                    color: cardRotation === rot ? '#000' : 'var(--text-color)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    cursor: 'pointer',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    textTransform: 'capitalize',
-                  }}
-                >
-                  {rot}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
         {/* Mobile Tab Bar (shown on small screens) */}
         <div className={styles.mobileTabBar}>
           {PROJECT_TABS.map((tab) => (
@@ -315,17 +166,15 @@ export const ProjectsSection: React.FC = () => {
             {/* ─── Right Column: CardSwap Stack ─── */}
             <div className={styles.cardSwapCol}>
               <CardSwap
-                cardDistance={offsets.x}
-                verticalDistance={offsets.y}
+                cardDistance={62}
+                verticalDistance={68}
                 delay={5000}
                 pauseOnHover
                 width={525}
                 height={400}
-                skewAmount={cardRot.skew}
-                cardRotateZ={cardRot.rotate}
+                skewAmount={5}
                 easing="elastic"
                 layoutApproach={layoutApproach}
-                rotation3d={rotation3d}
                 onCardClick={handleCardClick}
               >
                 {projects.map((project, i) => (

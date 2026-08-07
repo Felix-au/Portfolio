@@ -39,92 +39,42 @@ interface Slot {
   zIndex: number;
 }
 
-const makeSlot = (
-  i: number,
-  distX: number,
-  distY: number,
-  total: number,
-  approach: 'linear' | 'smooshed' | 'capped' | 'damped' | 'arc'
-): Slot => {
-  // Option 1: Smooshed (First two cards separate, middle cards overlapping with micro-offset, back cards separate)
-  if (approach === 'smooshed') {
-    const N = total;
-    if (N <= 4) {
-      // Linear fallback if too few cards
-      return {
-        x: i * distX,
-        y: -i * distY,
-        z: -i * distX * 1.5,
-        zIndex: N - i,
-      };
-    }
-
-    const microStep = 0.08; // 8% offset so outlines are visible
-    let val = i;
-
-    if (i < 2) {
-      val = i;
-    } else if (i < N - 2) {
-      // Middle cards stacked closely
-      val = 2 + (i - 2) * microStep;
-    } else {
-      // Last and second-to-last cards spaced normally after the stack
-      const smooshedEndVal = 2 + (N - 5) * microStep;
-      const stepIndex = i - (N - 2); // 0 for N-2, 1 for N-1
-      val = smooshedEndVal + 1 + stepIndex;
-    }
-
+const makeSlot = (i: number, distX: number, distY: number, total: number): Slot => {
+  const N = total;
+  if (N <= 4) {
+    // Linear fallback if too few cards
     return {
-      x: val * distX,
-      y: -val * distY,
-      z: -val * distX * 1.5,
+      x: i * distX,
+      y: -i * distY,
+      z: -i * distX * 1.5,
       zIndex: N - i,
     };
   }
 
-  // Option 2: Capped (Keep cards at slot >= 3 stacked on top of slot 3, capping the stack depth at 4)
-  if (approach === 'capped') {
-    const effectiveIndex = Math.min(i, 3);
-    return {
-      x: effectiveIndex * distX,
-      y: -effectiveIndex * distY,
-      z: -effectiveIndex * distX * 1.5,
-      zIndex: total - i,
-    };
+  const microStep = 0.08; // 8% offset so outlines are visible
+  let val = i;
+
+  if (i < 2) {
+    val = i;
+  } else if (i < N - 2) {
+    // Middle cards stacked closely
+    val = 2 + (i - 2) * microStep;
+  } else {
+    // Last and second-to-last cards spaced normally after the stack
+    const smooshedEndVal = 2 + (N - 5) * microStep;
+    const stepIndex = i - (N - 2); // 0 for N-2, 1 for N-1
+    val = smooshedEndVal + 1 + stepIndex;
   }
 
-  // Option 3: Damped (Logarithmic compression of visual offsets)
-  if (approach === 'damped') {
-    const factor = Math.log2(i + 1); // slot 0->0, slot 1->1, slot 2->1.58, slot 9->3.32
-    return {
-      x: factor * distX,
-      y: -factor * distY,
-      z: -factor * distX * 1.5,
-      zIndex: total - i,
-    };
-  }
-
-  // Option 4: Horizontal Stack Arc (Curve along Z-depth with slight height arc)
-  if (approach === 'arc') {
-    const curveY = -Math.pow(i - 2.5, 2) * 4; // slight vertical curve
-    return {
-      x: i * distX * 0.85,
-      y: curveY,
-      z: -i * distX * 1.5,
-      zIndex: total - i,
-    };
-  }
-
-  // Default (Linear)
   return {
-    x: i * distX,
-    y: -i * distY,
-    z: -i * distX * 1.5,
-    zIndex: total - i,
+    x: val * distX,
+    y: -val * distY,
+    z: -val * distX * 1.5,
+    zIndex: N - i,
   };
 };
 
-const placeNow = (el: HTMLElement, slot: Slot, skew: number, rotateZ: number) =>
+const placeNow = (el: HTMLElement, slot: Slot, skew: number) =>
   gsap.set(el, {
     x: slot.x,
     y: slot.y,
@@ -132,7 +82,6 @@ const placeNow = (el: HTMLElement, slot: Slot, skew: number, rotateZ: number) =>
     xPercent: -50,
     yPercent: -50,
     skewY: skew,
-    rotateZ: rotateZ,
     transformOrigin: 'center center',
     zIndex: slot.zIndex,
     force3D: true,
@@ -150,10 +99,7 @@ interface CardSwapProps {
   pauseOnHover?: boolean;
   onCardClick?: (idx: number) => void;
   skewAmount?: number;
-  cardRotateZ?: number;
   easing?: 'linear' | 'elastic';
-  layoutApproach?: 'linear' | 'smooshed' | 'capped' | 'damped' | 'arc';
-  rotation3d?: 'none' | 'isometric' | 'tilted' | 'flat-isometric';
   children: React.ReactNode;
 }
 
@@ -166,10 +112,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   pauseOnHover = false,
   onCardClick,
   skewAmount = 6,
-  cardRotateZ = 0,
   easing = 'elastic',
-  layoutApproach = 'linear',
-  rotation3d = 'none',
   children,
 }) => {
   const config =
@@ -207,7 +150,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
     const total = refs.length;
     refs.forEach((r, i) => {
       if (r.current) {
-        placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total, layoutApproach), skewAmount, cardRotateZ);
+        placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount);
         
         // Hide text content (opacity 0) for cards deeper than slot 1
         const wrap = r.current.querySelector('.card-content-wrap');
@@ -249,7 +192,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       rest.forEach((idx, i) => {
         const el = refs[idx].current;
         if (!el) return;
-        const slot = makeSlot(i, cardDistance, verticalDistance, refs.length, layoutApproach);
+        const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
         tl.set(el, { zIndex: slot.zIndex }, 'promote');
         tl.to(
           el,
@@ -280,7 +223,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
         }
       }
 
-      const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length, layoutApproach);
+      const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
       tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
       tl.call(
         () => {
@@ -328,7 +271,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
     }
     return () => clearInterval(intervalRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, cardRotateZ, easing, layoutApproach, rotation3d]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
@@ -344,30 +287,8 @@ const CardSwap: React.FC<CardSwapProps> = ({
       : child,
   );
 
-  const getContainer3dTransform = (type: string) => {
-    switch (type) {
-      case 'isometric':
-        return 'rotateX(25deg) rotateY(-35deg) rotateZ(12deg)';
-      case 'tilted':
-        return 'rotateX(15deg) rotateY(20deg) rotateZ(-5deg)';
-      case 'flat-isometric':
-        return 'rotateX(30deg) rotateY(-10deg) rotateZ(-15deg)';
-      default:
-        return 'none';
-    }
-  };
-
   return (
-    <div
-      ref={container}
-      className="card-swap-container"
-      style={{
-        width,
-        height,
-        transform: getContainer3dTransform(rotation3d),
-        transition: 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)',
-      }}
-    >
+    <div ref={container} className="card-swap-container" style={{ width, height }}>
       {rendered}
     </div>
   );
