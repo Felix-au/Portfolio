@@ -165,7 +165,11 @@ export const ProjectsSection: React.FC = () => {
                           className={`${styles.actionBtn} ${styles.actionBtnPrimary}`}
                         >
                           <ExternalLink size={14} />
-                          {activeProject.category === 'applications' ? 'Download' : 'Website'}
+                          {activeProject.category === 'applications'
+                            ? 'Download'
+                            : activeProject.category === 'ai-ml'
+                            ? 'Access'
+                            : 'Website'}
                         </a>
                       )}
                       {activeProject.githubUrl && (
