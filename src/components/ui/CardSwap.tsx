@@ -99,11 +99,9 @@ interface CardSwapProps {
   pauseOnHover?: boolean;
   onCardClick?: (idx: number) => void;
   onIndexChange?: (idx: number) => void;
-  onGlideStart?: (idx: number) => void;
-  onGlideComplete?: (idx: number) => void;
-  onGlideEnd?: (idx: number) => void;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
+  isSectionVisible?: boolean;
   children: React.ReactNode;
 }
 
@@ -116,11 +114,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
   pauseOnHover = false,
   onCardClick,
   onIndexChange,
-  onGlideStart,
-  onGlideComplete,
-  onGlideEnd,
   skewAmount = 6,
   easing = 'elastic',
+  isSectionVisible = true,
   children,
 }) => {
   const config =
@@ -145,8 +141,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const childArr = useMemo(() => Children.toArray(children), [children]);
   const refs = useMemo(
     () => childArr.map(() => React.createRef<HTMLDivElement>()),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [childArr.length],
+    [childArr],
   );
 
   const order = useRef(Array.from({ length: childArr.length }, (_, i) => i));
@@ -168,68 +163,29 @@ const CardSwap: React.FC<CardSwapProps> = ({
       const el = r.current;
       if (!el) return;
 
-      let glideTimeout: any = null;
-
       const onEnter = () => {
         if (order.current[0] === idx) {
           cardHoverStates.set(idx, true);
           const w = typeof width === 'number' ? width : parseFloat(width as string) || 525;
           const h = typeof height === 'number' ? height : parseFloat(height as string) || 400;
 
-          if (glideTimeout) clearTimeout(glideTimeout);
-
-          // Trigger glide start callback
-          onGlideStart?.(idx);
-
-          // 1. Initial Hover Pop (0.45s to scale 1.2x, biased center)
+          // Animate card to absolute center with a 10% leftward bias
           gsap.to(el, {
-            x: (0.05 - 0.10) * w,
+            x: (0.05 - 0.10) * w, // -5% of container width (unbiased center minus 10% left shift)
             y: -0.1 * h,
             skewY: 0,
-            scale: 1.2,
-            zIndex: 999,
+            scale: 1.2, // 1.2x zoom as requested
+            zIndex: 999, // Ensure it floats on top of other elements
             duration: 0.45,
             ease: 'power2.out',
             overwrite: 'auto',
           });
-
-          // 2. Cinematic Center Glide: slowly glides to true horizontal center of the screen, zooming to 1.35x over 3 seconds
-          glideTimeout = setTimeout(() => {
-            if (!cardHoverStates.get(idx)) return;
-            const parent = el.parentElement;
-            if (parent) {
-              const parentRect = parent.getBoundingClientRect();
-              const parentCenterX = parentRect.left + parentRect.width / 2;
-              const viewportCenterX = window.innerWidth / 2;
-              const targetX = viewportCenterX - parentCenterX;
-
-              gsap.to(el, {
-                x: targetX,
-                y: -0.15 * h,
-                scale: 1.35,
-                duration: 3.0,
-                ease: 'power1.inOut',
-                overwrite: 'auto',
-                onComplete: () => {
-                  if (cardHoverStates.get(idx)) {
-                    onGlideComplete?.(idx);
-                  }
-                },
-              });
-            }
-          }, 450);
         }
       };
 
       const onLeave = () => {
-        if (glideTimeout) {
-          clearTimeout(glideTimeout);
-          glideTimeout = null;
-        }
-
         if (cardHoverStates.get(idx)) {
           cardHoverStates.set(idx, false);
-          onGlideEnd?.(idx);
 
           // Animate card back to original Slot 0 stack position
           gsap.to(el, {
@@ -257,7 +213,6 @@ const CardSwap: React.FC<CardSwapProps> = ({
       el.addEventListener('click', onClick);
 
       cardCleanups.push(() => {
-        if (glideTimeout) clearTimeout(glideTimeout);
         el.removeEventListener('mouseenter', onEnter);
         el.removeEventListener('mouseleave', onLeave);
         el.removeEventListener('click', onClick);
@@ -429,7 +384,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
       intervalRef.current = window.setTimeout(swap, delay);
     };
 
-    scheduleNext();
+    if (isSectionVisible) {
+      scheduleNext();
+    }
 
     if (pauseOnHover && container.current) {
       const node = container.current;
@@ -439,7 +396,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       };
       const resume = () => {
         isHoveredRef.current = false;
-        if (!tlRef.current || !tlRef.current.isActive()) {
+        if (isSectionVisible && (!tlRef.current || !tlRef.current.isActive())) {
           scheduleNext();
         }
       };
@@ -457,7 +414,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       cardCleanups.forEach((c) => c());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height, onCardClick, onIndexChange]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height, onCardClick, onIndexChange, isSectionVisible, childArr]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
