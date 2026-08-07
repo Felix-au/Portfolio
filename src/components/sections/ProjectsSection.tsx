@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Globe, Monitor, Brain } from 'lucide-react';
+import { ExternalLink, Globe, Monitor, Brain, Star } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import CardSwap, { Card } from '../ui/CardSwap';
 import {
@@ -155,6 +155,7 @@ export const ProjectsSection: React.FC = () => {
                     >
                       {activeProject.tagline}
                     </span>
+
                     <h2 className={styles.projectTitle}>{activeProject.title}</h2>
 
                     <p className={styles.projectDescription}>
@@ -225,6 +226,16 @@ export const ProjectsSection: React.FC = () => {
                           }}
                         />
 
+                        {/* Large stars watermark (top-left) */}
+                        {(() => {
+                          const stars = getProjectStars(project.githubUrl);
+                          return stars !== undefined ? (
+                            <span className={styles.cardStars}>
+                              ★{stars}
+                            </span>
+                          ) : null;
+                        })()}
+
                         {/* Large index watermark */}
                         <span className={styles.cardIndex}>
                           {String(i + 1).padStart(2, '0')}
@@ -244,16 +255,6 @@ export const ProjectsSection: React.FC = () => {
                             justifyContent: 'center',
                           }}
                         >
-                          {/* Top Left floating stars watermark */}
-                          {(() => {
-                            const stars = getProjectStars(project.githubUrl);
-                            return stars !== undefined ? (
-                              <span className={styles.cardStars}>
-                                ★{stars}
-                              </span>
-                            ) : null;
-                          })()}
-
                           {/* Centered Transparent Background Logo (fit not fill, maximized size) */}
                           {project.logoLight && project.logoDark && (
                             <img
