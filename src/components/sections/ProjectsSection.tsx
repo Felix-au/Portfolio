@@ -126,12 +126,19 @@ export const ProjectsSection: React.FC = () => {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.35, ease: 'easeOut' }}
                   >
-                    <span
-                      className={styles.projectTagline}
-                      style={{ color: getProjectAccent(activeProjectIdx, theme) }}
-                    >
-                      {activeProject.tagline}
-                    </span>
+                     {/* Details Panel Logo */}
+                     {theme === 'dark' && activeProject.logoDark ? (
+                       <img src={activeProject.logoDark} alt="" className={styles.projectLogo} />
+                     ) : theme === 'light' && activeProject.logoLight ? (
+                       <img src={activeProject.logoLight} alt="" className={styles.projectLogo} />
+                     ) : null}
+
+                     <span
+                       className={styles.projectTagline}
+                       style={{ color: getProjectAccent(activeProjectIdx, theme) }}
+                     >
+                       {activeProject.tagline}
+                     </span>
 
                     <h2 className={styles.projectTitle}>{activeProject.title}</h2>
 
@@ -210,6 +217,13 @@ export const ProjectsSection: React.FC = () => {
                           }}
                         />
 
+                        {/* Card Logo (top-left) */}
+                        {theme === 'dark' && project.logoDark ? (
+                          <img src={project.logoDark} alt="" className={styles.cardLogo} />
+                        ) : theme === 'light' && project.logoLight ? (
+                          <img src={project.logoLight} alt="" className={styles.cardLogo} />
+                        ) : null}
+
                         {/* Large index watermark */}
                         <span className={styles.cardIndex}>
                           {String(i + 1).padStart(2, '0')}
@@ -220,7 +234,7 @@ export const ProjectsSection: React.FC = () => {
                           <h3 className={styles.cardTitle}>{project.title}</h3>
                           <p className={styles.cardTagline}>{project.tagline}</p>
                           <div className={styles.cardTechRow}>
-                            {project.techStack.slice(0, 3).map((tech) => (
+                            {project.techStack.map((tech) => (
                               <span key={tech} className={styles.cardTechBadge}>
                                 {tech}
                               </span>
