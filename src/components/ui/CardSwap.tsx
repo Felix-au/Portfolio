@@ -46,26 +46,39 @@ const makeSlot = (
   total: number,
   approach: 'linear' | 'smooshed' | 'capped' | 'damped' | 'arc'
 ): Slot => {
-  // Option 1: Smooshed (First two cards separate, middle cards slightly offset to show outlines, back cards separate)
+  // Option 1: Smooshed (First two cards separate, middle cards overlapping with micro-offset, back cards separate)
   if (approach === 'smooshed') {
-    const microFactor = 0.15;
-    let effectiveIndex = i;
-    
-    if (i >= 2 && i < total - 2) {
-      // Middle cards are slightly offset to show card outlines
-      effectiveIndex = 2 + (i - 2) * microFactor;
-    } else if (i >= total - 2) {
-      // Last two cards take into account the accumulated height/width of middle cards to avoid overshadowing
-      const lastMiddleOffset = 2 + (total - 3 - 2) * microFactor;
-      const stepIndex = i - (total - 2); // 0 for last-to-last, 1 for last
-      effectiveIndex = lastMiddleOffset + 1 + stepIndex;
+    const N = total;
+    if (N <= 4) {
+      // Linear fallback if too few cards
+      return {
+        x: i * distX,
+        y: -i * distY,
+        z: -i * distX * 1.5,
+        zIndex: N - i,
+      };
     }
-    
+
+    const microStep = 0.08; // 8% offset so outlines are visible
+    let val = i;
+
+    if (i < 2) {
+      val = i;
+    } else if (i < N - 2) {
+      // Middle cards stacked closely
+      val = 2 + (i - 2) * microStep;
+    } else {
+      // Last and second-to-last cards spaced normally after the stack
+      const smooshedEndVal = 2 + (N - 5) * microStep;
+      const stepIndex = i - (N - 2); // 0 for N-2, 1 for N-1
+      val = smooshedEndVal + 1 + stepIndex;
+    }
+
     return {
-      x: effectiveIndex * distX,
-      y: -effectiveIndex * distY,
-      z: -effectiveIndex * distX * 1.5,
-      zIndex: total - i,
+      x: val * distX,
+      y: -val * distY,
+      z: -val * distX * 1.5,
+      zIndex: N - i,
     };
   }
 
