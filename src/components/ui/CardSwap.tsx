@@ -166,9 +166,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
           const w = typeof width === 'number' ? width : parseFloat(width as string) || 525;
           const h = typeof height === 'number' ? height : parseFloat(height as string) || 400;
           
-          // Animate card to absolute center with a 70% leftward bias
+          // Animate card to absolute center with a 10% leftward bias
           gsap.to(el, {
-            x: (0.05 - 0.70) * w, // -65% of container width (unbiased center minus 70% left shift)
+            x: (0.05 - 0.10) * w, // -5% of container width (unbiased center minus 10% left shift)
             y: -0.1 * h,
             skewY: 0,
             scale: 1.2, // 1.2x zoom as requested
