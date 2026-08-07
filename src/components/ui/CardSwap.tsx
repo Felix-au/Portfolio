@@ -101,7 +101,7 @@ interface CardSwapProps {
   onIndexChange?: (idx: number) => void;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
-  isSectionVisible?: boolean;
+  isActive?: boolean;
   children: React.ReactNode;
 }
 
@@ -116,7 +116,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   onIndexChange,
   skewAmount = 6,
   easing = 'elastic',
-  isSectionVisible = true,
+  isActive = true,
   children,
 }) => {
   const config =
@@ -141,7 +141,8 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const childArr = useMemo(() => Children.toArray(children), [children]);
   const refs = useMemo(
     () => childArr.map(() => React.createRef<HTMLDivElement>()),
-    [childArr],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [childArr.length],
   );
 
   const order = useRef(Array.from({ length: childArr.length }, (_, i) => i));
@@ -367,7 +368,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
       // 5. Schedule next normal auto-rotation when timeline finishes, if not hovered
       tl.call(() => {
-        if (!isHoveredRef.current) {
+        if (isActive && !isHoveredRef.current) {
           scheduleNext();
         }
       });
@@ -384,7 +385,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       intervalRef.current = window.setTimeout(swap, delay);
     };
 
-    if (isSectionVisible) {
+    if (isActive) {
       scheduleNext();
     }
 
@@ -396,7 +397,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       };
       const resume = () => {
         isHoveredRef.current = false;
-        if (isSectionVisible && (!tlRef.current || !tlRef.current.isActive())) {
+        if (isActive && (!tlRef.current || !tlRef.current.isActive())) {
           scheduleNext();
         }
       };
@@ -414,7 +415,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       cardCleanups.forEach((c) => c());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height, onCardClick, onIndexChange, isSectionVisible, childArr]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height, onCardClick, onIndexChange, isActive]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)

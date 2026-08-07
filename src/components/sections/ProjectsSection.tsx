@@ -203,7 +203,7 @@ export const ProjectsSection: React.FC = () => {
                 height={400}
                 skewAmount={5}
                 easing="elastic"
-                isSectionVisible={sectionVisible}
+                isActive={sectionVisible}
                 onIndexChange={setActiveProjectIdx}
                 onCardClick={handleCardClick}
               >
