@@ -9,13 +9,28 @@ import {
   type ProjectCategory,
   type Project,
 } from '../../data/projects/projectsData';
+import { useTheme } from '../../context/ThemeContext';
 import styles from './ProjectsSection.module.css';
+
+const ACCENT_PALETTES = [
+  { dark: '#00e5ff', light: '#00a3c4' }, // Cyan
+  { dark: '#a855f7', light: '#7c3aed' }, // Purple
+  { dark: '#10b981', light: '#059669' }, // Green
+  { dark: '#ff4b91', light: '#db2777' }, // Rose
+  { dark: '#ffb300', light: '#d97706' }, // Amber
+];
+
+const getProjectAccent = (index: number, theme: 'light' | 'dark'): string => {
+  const palette = ACCENT_PALETTES[index % ACCENT_PALETTES.length];
+  return theme === 'dark' ? palette.dark : palette.light;
+};
 
 export const ProjectsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ProjectCategory>('websites');
   const [activeProjectIdx, setActiveProjectIdx] = useState(0);
   const [sectionVisible, setSectionVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const { theme } = useTheme();
 
   const projects = getProjectsByCategory(activeTab);
   const activeProject: Project | undefined = projects[activeProjectIdx];
@@ -115,7 +130,7 @@ export const ProjectsSection: React.FC = () => {
                   >
                     <span
                       className={styles.projectTagline}
-                      style={{ color: activeProject.accentColor }}
+                      style={{ color: getProjectAccent(activeProjectIdx, theme) }}
                     >
                       {activeProject.tagline}
                     </span>
@@ -183,7 +198,7 @@ export const ProjectsSection: React.FC = () => {
                       <div
                         className={styles.cardAccent}
                         style={{
-                          background: `linear-gradient(90deg, ${project.accentColor}, ${project.accentColor}88)`,
+                          background: `linear-gradient(90deg, ${getProjectAccent(i, theme)}, ${getProjectAccent(i, theme)}88)`,
                         }}
                       />
 
