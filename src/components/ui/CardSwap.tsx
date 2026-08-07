@@ -101,6 +101,7 @@ interface CardSwapProps {
   onIndexChange?: (idx: number) => void;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
+  rapidAnimation?: 'default' | 'roll' | 'fadeslide' | 'shuffle';
   children: React.ReactNode;
 }
 
@@ -115,6 +116,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   onIndexChange,
   skewAmount = 6,
   easing = 'elastic',
+  rapidAnimation = 'default',
   children,
 }) => {
   const config =
@@ -248,83 +250,268 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
       const tl = gsap.timeline();
       tlRef.current = tl;
-      if (targetCardRef.current !== null) {
-        tl.timeScale(8); // Speed up transition by 8x during rapid swaps
-      }
 
-      tl.to(elFront, {
-        y: '+=500',
-        duration: config.durDrop,
-        ease: config.ease,
-      });
+      if (targetCardRef.current !== null && rapidAnimation !== 'default') {
+        // --- Custom Snappy Rapid Animations ---
 
-      // Fade out front card text wrapper if there are more than 2 cards
-      if (total > 2) {
-        const frontWrap = elFront.querySelector('.card-content-wrap');
-        if (frontWrap) {
-          tl.to(frontWrap, {
+        if (rapidAnimation === 'roll') {
+          // 1. Roll: Front card rolls down slightly and fades out
+          tl.to(elFront, {
+            y: '+=160',
             opacity: 0,
-            duration: config.durDrop * 0.4,
+            scale: 0.8,
+            duration: 0.25,
+            ease: 'power2.in',
+          });
+
+          // Text wrap fades out
+          if (total > 2) {
+            const frontWrap = elFront.querySelector('.card-content-wrap');
+            if (frontWrap) {
+              tl.to(frontWrap, { opacity: 0, duration: 0.1 }, 0);
+            }
+          }
+
+          // Shift rest cards forward smoothly
+          rest.forEach((idx, i) => {
+            const el = refs[idx].current;
+            if (!el) return;
+            const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
+            tl.set(el, { zIndex: slot.zIndex }, 0);
+            tl.to(el, {
+              x: slot.x,
+              y: slot.y,
+              z: slot.z,
+              duration: 0.3,
+              ease: 'power2.out',
+            }, 0.04 * i);
+          });
+
+          // Promote next visible card text wrapper
+          if (total > 2) {
+            const nextVisibleCardIdx = rest[1];
+            if (nextVisibleCardIdx !== undefined) {
+              const nextVisibleEl = refs[nextVisibleCardIdx].current;
+              const nextVisibleWrap = nextVisibleEl?.querySelector('.card-content-wrap');
+              if (nextVisibleWrap) {
+                tl.to(nextVisibleWrap, { opacity: 1, duration: 0.2 }, 0.1);
+              }
+            }
+          }
+
+          // Return card instantly to back slot and fade it back in
+          const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
+          tl.call(() => {
+            gsap.set(elFront, {
+              x: backSlot.x,
+              y: backSlot.y,
+              z: backSlot.z,
+              zIndex: backSlot.zIndex,
+              scale: 1,
+            });
+          });
+          tl.to(elFront, {
+            opacity: 1,
+            duration: 0.15,
             ease: 'power1.out',
-          }, 0);
+          });
         }
-      }
 
-      tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
-      rest.forEach((idx, i) => {
-        const el = refs[idx].current;
-        if (!el) return;
-        const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
-        tl.set(el, { zIndex: slot.zIndex }, 'promote');
-        tl.to(
-          el,
-          {
-            x: slot.x,
-            y: slot.y,
-            z: slot.z,
-            duration: config.durMove,
-            ease: config.ease,
-          },
-          `promote+=${i * 0.15}`,
-        );
-      });
+        else if (rapidAnimation === 'fadeslide') {
+          // 2. Fadeslide: Front card slides left slightly and fades out
+          tl.to(elFront, {
+            x: '-=150',
+            opacity: 0,
+            duration: 0.25,
+            ease: 'power2.out',
+          });
 
-      // Fade in the text wrap of the card moving to slot 1 (idx at rest[1], which was slot 2)
-      if (total > 2) {
-        const nextVisibleCardIdx = rest[1];
-        if (nextVisibleCardIdx !== undefined) {
-          const nextVisibleEl = refs[nextVisibleCardIdx].current;
-          const nextVisibleWrap = nextVisibleEl?.querySelector('.card-content-wrap');
-          if (nextVisibleWrap) {
-            tl.to(nextVisibleWrap, {
-              opacity: 1,
-              duration: config.durMove * 0.7,
-              ease: 'power1.inOut',
-            }, 'promote');
+          if (total > 2) {
+            const frontWrap = elFront.querySelector('.card-content-wrap');
+            if (frontWrap) {
+              tl.to(frontWrap, { opacity: 0, duration: 0.1 }, 0);
+            }
+          }
+
+          // Shift rest forward
+          rest.forEach((idx, i) => {
+            const el = refs[idx].current;
+            if (!el) return;
+            const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
+            tl.set(el, { zIndex: slot.zIndex }, 0);
+            tl.to(el, {
+              x: slot.x,
+              y: slot.y,
+              z: slot.z,
+              duration: 0.25,
+              ease: 'power2.out',
+            }, 0.04 * i);
+          });
+
+          if (total > 2) {
+            const nextVisibleCardIdx = rest[1];
+            if (nextVisibleCardIdx !== undefined) {
+              const nextVisibleEl = refs[nextVisibleCardIdx].current;
+              const nextVisibleWrap = nextVisibleEl?.querySelector('.card-content-wrap');
+              if (nextVisibleWrap) {
+                tl.to(nextVisibleWrap, { opacity: 1, duration: 0.2 }, 0.1);
+              }
+            }
+          }
+
+          // Teleport back
+          const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
+          tl.call(() => {
+            gsap.set(elFront, {
+              x: backSlot.x,
+              y: backSlot.y,
+              z: backSlot.z,
+              zIndex: backSlot.zIndex,
+            });
+          });
+          tl.to(elFront, {
+            opacity: 1,
+            duration: 0.15,
+            ease: 'power1.out',
+          });
+        }
+
+        else if (rapidAnimation === 'shuffle') {
+          // 3. Shuffle: dealer shuffle to the right and insert back
+          tl.to(elFront, {
+            x: '+=200',
+            y: '-=30',
+            rotation: 12,
+            duration: 0.22,
+            ease: 'power2.out',
+          });
+
+          if (total > 2) {
+            const frontWrap = elFront.querySelector('.card-content-wrap');
+            if (frontWrap) {
+              tl.to(frontWrap, { opacity: 0, duration: 0.1 }, 0);
+            }
+          }
+
+          // Shift rest forward
+          rest.forEach((idx, i) => {
+            const el = refs[idx].current;
+            if (!el) return;
+            const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
+            tl.set(el, { zIndex: slot.zIndex }, 0);
+            tl.to(el, {
+              x: slot.x,
+              y: slot.y,
+              z: slot.z,
+              duration: 0.25,
+              ease: 'power2.out',
+            }, 0.04 * i);
+          });
+
+          if (total > 2) {
+            const nextVisibleCardIdx = rest[1];
+            if (nextVisibleCardIdx !== undefined) {
+              const nextVisibleEl = refs[nextVisibleCardIdx].current;
+              const nextVisibleWrap = nextVisibleEl?.querySelector('.card-content-wrap');
+              if (nextVisibleWrap) {
+                tl.to(nextVisibleWrap, { opacity: 1, duration: 0.25 }, 0.15);
+              }
+            }
+          }
+
+          // Return to back slot
+          const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
+          tl.to(elFront, {
+            x: backSlot.x,
+            y: backSlot.y,
+            z: backSlot.z,
+            rotation: 0,
+            zIndex: backSlot.zIndex,
+            duration: 0.25,
+            ease: 'power2.in',
+          }, 0.18);
+        }
+
+      } else {
+        // --- Standard Swap Animation (Option: default) ---
+        if (targetCardRef.current !== null) {
+          tl.timeScale(8); // Speed up transition by 8x during rapid swaps
+        }
+
+        tl.to(elFront, {
+          y: '+=500',
+          duration: config.durDrop,
+          ease: config.ease,
+        });
+
+        // Fade out front card text wrapper if there are more than 2 cards
+        if (total > 2) {
+          const frontWrap = elFront.querySelector('.card-content-wrap');
+          if (frontWrap) {
+            tl.to(frontWrap, {
+              opacity: 0,
+              duration: config.durDrop * 0.4,
+              ease: 'power1.out',
+            }, 0);
           }
         }
-      }
 
-      const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
-      tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
-      tl.call(
-        () => {
-          gsap.set(elFront, { zIndex: backSlot.zIndex });
-        },
-        undefined,
-        'return',
-      );
-      tl.to(
-        elFront,
-        {
-          x: backSlot.x,
-          y: backSlot.y,
-          z: backSlot.z,
-          duration: config.durReturn,
-          ease: config.ease,
-        },
-        'return',
-      );
+        tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
+        rest.forEach((idx, i) => {
+          const el = refs[idx].current;
+          if (!el) return;
+          const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
+          tl.set(el, { zIndex: slot.zIndex }, 'promote');
+          tl.to(
+            el,
+            {
+              x: slot.x,
+              y: slot.y,
+              z: slot.z,
+              duration: config.durMove,
+              ease: config.ease,
+            },
+            `promote+=${i * 0.15}`,
+          );
+        });
+
+        // Fade in the text wrap of the card moving to slot 1 (idx at rest[1], which was slot 2)
+        if (total > 2) {
+          const nextVisibleCardIdx = rest[1];
+          if (nextVisibleCardIdx !== undefined) {
+            const nextVisibleEl = refs[nextVisibleCardIdx].current;
+            const nextVisibleWrap = nextVisibleEl?.querySelector('.card-content-wrap');
+            if (nextVisibleWrap) {
+              tl.to(nextVisibleWrap, {
+                opacity: 1,
+                duration: config.durMove * 0.7,
+                ease: 'power1.inOut',
+              }, 'promote');
+            }
+          }
+        }
+
+        const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
+        tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
+        tl.call(
+          () => {
+            gsap.set(elFront, { zIndex: backSlot.zIndex });
+          },
+          undefined,
+          'return',
+        );
+        tl.to(
+          elFront,
+          {
+            x: backSlot.x,
+            y: backSlot.y,
+            z: backSlot.z,
+            duration: config.durReturn,
+            ease: config.ease,
+          },
+          'return',
+        );
+      }
 
       // Decides the next transition sequence once the current swap finishes and settles
       tl.call(() => {
@@ -386,7 +573,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       cardCleanups.forEach((c) => c());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height, onCardClick, onIndexChange]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height, onCardClick, onIndexChange, rapidAnimation]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
