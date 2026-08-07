@@ -184,14 +184,6 @@ export const ProjectsSection: React.FC = () => {
                         >
                           <SiGithub size={14} />
                           Source Code
-                          {(() => {
-                            const stars = getProjectStars(activeProject.githubUrl);
-                            return stars !== undefined ? (
-                              <span style={{ marginLeft: '6px', fontSize: '0.8rem', opacity: 0.8, display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
-                                • <Star size={10} fill="currentColor" /> {stars}
-                              </span>
-                            ) : null;
-                          })()}
                         </a>
                       )}
                     </div>
@@ -239,7 +231,6 @@ export const ProjectsSection: React.FC = () => {
                           {String(i + 1).padStart(2, '0')}
                         </span>
 
-                        {/* Card content (bottom-aligned) */}
                         <div
                           className="card-content-wrap"
                           style={{
@@ -267,6 +258,31 @@ export const ProjectsSection: React.FC = () => {
                               }}
                             />
                           )}
+
+                          {/* Stars count watermark badge in bottom right (like the index watermark but smaller) */}
+                          {(() => {
+                            const stars = getProjectStars(project.githubUrl);
+                            return stars !== undefined ? (
+                              <div
+                                style={{
+                                  position: 'absolute',
+                                  bottom: '1rem',
+                                  right: '1.25rem',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '4px',
+                                  fontSize: '0.85rem',
+                                  fontWeight: 700,
+                                  color: theme === 'dark' ? 'rgba(255, 255, 255, 0.45)' : 'rgba(0, 0, 0, 0.55)',
+                                  pointerEvents: 'none',
+                                  userSelect: 'none',
+                                }}
+                              >
+                                <Star size={12} fill="currentColor" style={{ opacity: 0.8 }} />
+                                <span>{stars}</span>
+                              </div>
+                            ) : null;
+                          })()}
                         </div>
                       </div>
                     </Card>
