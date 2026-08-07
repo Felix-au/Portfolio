@@ -280,27 +280,20 @@
 
 .cardStars {
   position: absolute;
-  top: 1.5rem;
+  top: 1rem;
   left: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  background: rgba(255, 179, 0, 0.1);
-  border: 1px solid rgba(255, 179, 0, 0.2);
-  color: #ffb300;
-  backdrop-filter: blur(4px);
-  z-index: 10;
+  font-size: 5rem;
+  font-weight: 900;
   line-height: 1;
+  opacity: 0.18;
+  color: var(--text-color, #ffffff);
+  pointer-events: none;
+  user-select: none;
 }
 
 [data-theme='light'] .cardStars {
-  background: rgba(217, 119, 6, 0.08);
-  border: 1px solid rgba(217, 119, 6, 0.2);
-  color: #b45309;
+  opacity: 0.32;
+  color: var(--text-color, #111111);
 }
 
 /* ─── Right Side Rail (Tab Navigation) ──────────────────────────────────── */

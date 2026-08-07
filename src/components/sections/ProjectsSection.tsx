@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Globe, Monitor, Brain, Star } from 'lucide-react';
+import { ExternalLink, Globe, Monitor, Brain } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import CardSwap, { Card } from '../ui/CardSwap';
 import {
@@ -244,14 +244,13 @@ export const ProjectsSection: React.FC = () => {
                             justifyContent: 'center',
                           }}
                         >
-                          {/* Top Left floating stars count */}
+                          {/* Top Left floating stars watermark */}
                           {(() => {
                             const stars = getProjectStars(project.githubUrl);
                             return stars !== undefined ? (
-                              <div className={styles.cardStars}>
-                                <Star size={11} fill="currentColor" />
-                                <span>{stars}</span>
-                              </div>
+                              <span className={styles.cardStars}>
+                                ★{stars}
+                              </span>
                             ) : null;
                           })()}
 
