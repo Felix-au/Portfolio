@@ -249,7 +249,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       tlRef.current = tl;
 
       if (isRapid) {
-        tl.timeScale(3); // Snappy but extremely smooth multi-card cascade
+        tl.timeScale(2.25); // 25% slower than 3.0x speed for smoother cascade
       }
 
       // 1. Fade out text wrapper of all cards dropping to the back
