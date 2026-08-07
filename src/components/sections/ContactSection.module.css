@@ -442,12 +442,14 @@
 .quickContactBtn:hover {
   background: rgba(255, 255, 255, 0.06);
   border-color: var(--accent, #00e5ff);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
   transform: translateY(-2px);
 }
 
 [data-theme='light'] .quickContactBtn:hover {
   background: rgba(0, 0, 0, 0.04);
   border-color: var(--accent, #0096d6);
+  box-shadow: 0 0 15px rgba(0, 150, 214, 0.12);
 }
 
 .quickContactIcon {
@@ -465,7 +467,7 @@
   color: var(--accent, #0096d6);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .quickContactButtons {
     flex-direction: column;
     gap: 0.75rem;
