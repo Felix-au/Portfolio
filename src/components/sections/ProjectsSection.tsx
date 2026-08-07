@@ -172,7 +172,7 @@ export const ProjectsSection: React.FC = () => {
                           className={`${styles.actionBtn} ${styles.actionBtnPrimary}`}
                         >
                           <ExternalLink size={14} />
-                          Live Demo
+                          Website
                         </a>
                       )}
                       {activeProject.githubUrl && (
@@ -183,7 +183,7 @@ export const ProjectsSection: React.FC = () => {
                           className={`${styles.actionBtn} ${styles.actionBtnSecondary}`}
                         >
                           <SiGithub size={14} />
-                          Source Code
+                          Repository
                         </a>
                       )}
                     </div>
