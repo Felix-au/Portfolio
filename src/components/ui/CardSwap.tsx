@@ -124,7 +124,7 @@ const makeSlot = (
   };
 };
 
-const placeNow = (el: HTMLElement, slot: Slot, skew: number) =>
+const placeNow = (el: HTMLElement, slot: Slot, skew: number, rotateZ: number) =>
   gsap.set(el, {
     x: slot.x,
     y: slot.y,
@@ -132,6 +132,7 @@ const placeNow = (el: HTMLElement, slot: Slot, skew: number) =>
     xPercent: -50,
     yPercent: -50,
     skewY: skew,
+    rotateZ: rotateZ,
     transformOrigin: 'center center',
     zIndex: slot.zIndex,
     force3D: true,
@@ -149,8 +150,10 @@ interface CardSwapProps {
   pauseOnHover?: boolean;
   onCardClick?: (idx: number) => void;
   skewAmount?: number;
+  cardRotateZ?: number;
   easing?: 'linear' | 'elastic';
   layoutApproach?: 'linear' | 'smooshed' | 'capped' | 'damped' | 'arc';
+  rotation3d?: 'none' | 'isometric' | 'tilted' | 'flat-isometric';
   children: React.ReactNode;
 }
 
@@ -163,8 +166,10 @@ const CardSwap: React.FC<CardSwapProps> = ({
   pauseOnHover = false,
   onCardClick,
   skewAmount = 6,
+  cardRotateZ = 0,
   easing = 'elastic',
   layoutApproach = 'linear',
+  rotation3d = 'none',
   children,
 }) => {
   const config =
@@ -202,7 +207,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
     const total = refs.length;
     refs.forEach((r, i) => {
       if (r.current) {
-        placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total, layoutApproach), skewAmount);
+        placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total, layoutApproach), skewAmount, cardRotateZ);
         
         // Hide text content (opacity 0) for cards deeper than slot 1
         const wrap = r.current.querySelector('.card-content-wrap');
@@ -323,7 +328,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
     }
     return () => clearInterval(intervalRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, layoutApproach]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, cardRotateZ, easing, layoutApproach, rotation3d]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
@@ -339,8 +344,30 @@ const CardSwap: React.FC<CardSwapProps> = ({
       : child,
   );
 
+  const getContainer3dTransform = (type: string) => {
+    switch (type) {
+      case 'isometric':
+        return 'rotateX(25deg) rotateY(-35deg) rotateZ(12deg)';
+      case 'tilted':
+        return 'rotateX(15deg) rotateY(20deg) rotateZ(-5deg)';
+      case 'flat-isometric':
+        return 'rotateX(30deg) rotateY(-10deg) rotateZ(-15deg)';
+      default:
+        return 'none';
+    }
+  };
+
   return (
-    <div ref={container} className="card-swap-container" style={{ width, height }}>
+    <div
+      ref={container}
+      className="card-swap-container"
+      style={{
+        width,
+        height,
+        transform: getContainer3dTransform(rotation3d),
+        transition: 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)',
+      }}
+    >
       {rendered}
     </div>
   );

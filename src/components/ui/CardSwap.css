@@ -1,6 +1,7 @@
 .card-swap-container {
   position: relative;
   perspective: 900px;
+  transform-style: preserve-3d;
   overflow: visible;
 }
 
@@ -9,7 +10,7 @@
   top: 50%;
   left: 50%;
   border-radius: 16px;
-  border: 1px solid color-mix(in srgb, var(--accent-color, rgba(255, 255, 255, 0.12)) 20%, transparent);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(13, 15, 26, 0.05);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -23,18 +24,18 @@
 }
 
 .card-swap-card:hover {
-  border-color: color-mix(in srgb, var(--accent-color, #00e5ff) 60%, transparent);
-  box-shadow: 0 8px 32px color-mix(in srgb, var(--accent-color, #00e5ff) 18%, transparent);
+  border-color: rgba(0, 229, 255, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 229, 255, 0.12);
 }
 
 [data-theme='light'] .card-swap-card {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid color-mix(in srgb, var(--accent-color, rgba(0, 0, 0, 0.08)) 25%, transparent);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 [data-theme='light'] .card-swap-card:hover {
-  border-color: color-mix(in srgb, var(--accent-color, #0096d6) 70%, transparent);
-  box-shadow: 0 8px 32px color-mix(in srgb, var(--accent-color, #0096d6) 15%, transparent);
+  border-color: rgba(0, 150, 214, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 150, 214, 0.1);
 }
 
 @media (max-width: 768px) {
