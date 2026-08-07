@@ -384,7 +384,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
     };
 
     const scheduleNext = () => {
-      clearInterval(intervalRef.current);
+      clearTimeout(intervalRef.current);
       if (!isActive) return;
       intervalRef.current = window.setTimeout(swap, delay);
     };
@@ -395,7 +395,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       const node = container.current;
       const pause = () => {
         isHoveredRef.current = true;
-        clearInterval(intervalRef.current);
+        clearTimeout(intervalRef.current);
       };
       const resume = () => {
         isHoveredRef.current = false;
@@ -408,12 +408,14 @@ const CardSwap: React.FC<CardSwapProps> = ({
       return () => {
         node.removeEventListener('mouseenter', pause);
         node.removeEventListener('mouseleave', resume);
-        clearInterval(intervalRef.current);
+        clearTimeout(intervalRef.current);
+        tlRef.current?.kill();
         cardCleanups.forEach((c) => c());
       };
     }
     return () => {
-      clearInterval(intervalRef.current);
+      clearTimeout(intervalRef.current);
+      tlRef.current?.kill();
       cardCleanups.forEach((c) => c());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
