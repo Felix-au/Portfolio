@@ -149,24 +149,12 @@ export const ProjectsSection: React.FC = () => {
                     transition={{ duration: 0.35, ease: 'easeOut' }}
                   >
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                      <span
-                        className={styles.projectTagline}
-                        style={{ color: getProjectAccent(activeProjectIdx, theme) }}
-                      >
-                        {activeProject.tagline}
-                      </span>
-                      {(() => {
-                        const stars = getProjectStars(activeProject.githubUrl);
-                        return stars !== undefined ? (
-                          <span className={styles.starsBadge}>
-                            <Star size={11} fill="currentColor" style={{ marginRight: '4px' }} />
-                            {stars} stars
-                          </span>
-                        ) : null;
-                      })()}
-                    </div>
-
+                    <span
+                      className={styles.projectTagline}
+                      style={{ color: getProjectAccent(activeProjectIdx, theme) }}
+                    >
+                      {activeProject.tagline}
+                    </span>
                     <h2 className={styles.projectTitle}>{activeProject.title}</h2>
 
                     <p className={styles.projectDescription}>
@@ -256,6 +244,17 @@ export const ProjectsSection: React.FC = () => {
                             justifyContent: 'center',
                           }}
                         >
+                          {/* Top Left floating stars count */}
+                          {(() => {
+                            const stars = getProjectStars(project.githubUrl);
+                            return stars !== undefined ? (
+                              <div className={styles.cardStars}>
+                                <Star size={11} fill="currentColor" />
+                                <span>{stars}</span>
+                              </div>
+                            ) : null;
+                          })()}
+
                           {/* Centered Transparent Background Logo (fit not fill, maximized size) */}
                           {project.logoLight && project.logoDark && (
                             <img
