@@ -509,7 +509,7 @@ export const PROJECTS: Project[] = [
       'typescript',
     ],
     accentColor: '#10b981',
-    liveUrl: 'https://github.com/Felix-au/SyncZen-Local/releases',
+    liveUrl: 'https://synczen.felixau.in',
     githubUrl: 'https://github.com/Felix-au/SyncZen-Local',
     logoLight: '/logos/synczen-light.png',
     logoDark: '/logos/synczen-dark.png',
@@ -578,7 +578,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'codemate',
     title: 'CodeMate',
-    tagline: 'Local Code Companion',
+    tagline: 'Your COding Companion',
     description:
       'An AI-powered Windows desktop code debugger and explainer that monitors your clipboard system-wide. Copy code anywhere, click the floating bubble, and get instant, local-first AI analysis with parallel web context enrichment.',
     techStack: [
