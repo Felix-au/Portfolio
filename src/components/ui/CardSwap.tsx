@@ -259,12 +259,12 @@ const CardSwap: React.FC<CardSwapProps> = ({
       if (!el) return;
 
       const onEnter = () => {
-        // Only animate the card if it is currently at the front
-        if (order.current[0] !== idx) return;
+        // Bring up the project details on the left side of the screen immediately on hover
+        onCardClick?.(idx);
 
         const isDesktop = window.innerWidth > 768;
         gsap.to(el, {
-          x: isDesktop ? '-30%' : '0%',
+          x: isDesktop ? '-20%' : '0%',
           y: isDesktop ? 0 : -30,
           z: 150,
           scale: 1.1,
@@ -277,10 +277,10 @@ const CardSwap: React.FC<CardSwapProps> = ({
       };
 
       const onLeave = () => {
-        // Reset only if it is the front card returning to slot 0
-        if (order.current[0] !== idx) return;
-
-        const slot = makeSlot(0, cardDistance, verticalDistance, refs.length);
+        // Find the card's current position index in the deck
+        const currentSlotIdx = order.current.indexOf(idx);
+        const slot = makeSlot(currentSlotIdx !== -1 ? currentSlotIdx : 0, cardDistance, verticalDistance, refs.length);
+        
         gsap.to(el, {
           x: slot.x,
           y: slot.y,
