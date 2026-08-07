@@ -248,6 +248,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
       const tl = gsap.timeline();
       tlRef.current = tl;
+      if (targetCardRef.current !== null) {
+        tl.timeScale(2); // Speed up transition by 2x during rapid swaps
+      }
 
       tl.to(elFront, {
         y: '+=500',
@@ -333,7 +336,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
               scheduleNext(false);
             }
           } else {
-            // Target not reached, trigger next rapid swap after 250ms (ignoring hover)
+            // Target not reached, trigger next rapid swap after 125ms (ignoring hover)
             scheduleNext(true);
           }
         } else {
@@ -347,7 +350,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
     const scheduleNext = (isRapid: boolean) => {
       clearInterval(intervalRef.current);
-      const currentDelay = isRapid ? 250 : delay;
+      const currentDelay = isRapid ? 125 : delay;
       intervalRef.current = window.setTimeout(swap, currentDelay);
     };
 
