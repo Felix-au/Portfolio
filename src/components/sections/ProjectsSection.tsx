@@ -262,8 +262,6 @@ export const ProjectsSection: React.FC = () => {
 
                           {/* Foreground text content */}
                           <div style={{ position: 'relative', zIndex: 2 }}>
-                            <h3 className={styles.cardTitle}>{project.title}</h3>
-                            <p className={styles.cardTagline}>{project.tagline}</p>
                             <div className={styles.cardTechRow}>
                               {project.techStack.map((tech) => (
                                 <span key={tech} className={styles.cardTechBadge}>
