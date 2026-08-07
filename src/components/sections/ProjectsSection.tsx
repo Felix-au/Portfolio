@@ -225,51 +225,24 @@ export const ProjectsSection: React.FC = () => {
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            padding: '2rem',
                             display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'flex-end',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                           }}
                         >
-                          {/* Centered Transparent Background Logo watermark (fit not fill) */}
+                          {/* Centered Transparent Background Logo (fit not fill, maximized size) */}
                           {project.logoLight && project.logoDark && (
-                            <div
+                            <img
+                              src={theme === 'dark' ? project.logoDark : project.logoLight}
+                              alt=""
                               style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                pointerEvents: 'none',
-                                zIndex: 1,
+                                maxWidth: '85%',
+                                maxHeight: '85%',
+                                objectFit: 'contain',
+                                opacity: 1,
                               }}
-                            >
-                              <img
-                                src={theme === 'dark' ? project.logoDark : project.logoLight}
-                                alt=""
-                                style={{
-                                  maxWidth: '65%',
-                                  maxHeight: '65%',
-                                  objectFit: 'contain',
-                                  opacity: 1,
-                                }}
-                              />
-                            </div>
+                            />
                           )}
-
-                          {/* Foreground text content */}
-                          <div style={{ position: 'relative', zIndex: 2 }}>
-                            <div className={styles.cardTechRow}>
-                              {project.techStack.map((tech) => (
-                                <span key={tech} className={styles.cardTechBadge}>
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </Card>
