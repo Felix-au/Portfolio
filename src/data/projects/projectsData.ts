@@ -33,7 +33,7 @@ export const PROJECTS: Project[] = [
     title: 'OmniKey AI',
     tagline: 'AI Model Hosting & Unified API Gateway',
     description:
-      'Processed 26K+ API requests & routed 290M+ tokens with 99%+ success rate. A self-hosted LLM proxy and failover gateway supporting OpenAI & Gemini compatible endpoints. Routes requests dynamically across 12+ LLM platforms with automatic fallback, key scheduling, rate-limit tracking and encrypted credential storage.',
+      'A self-hosted LLM proxy and failover gateway supporting OpenAI & Gemini compatible endpoints, having processed 26K+ API requests and routed 290M+ tokens with a 99%+ success rate. It routes requests dynamically across 12+ LLM platforms with automatic fallback, key scheduling, rate-limit tracking and encrypted credential storage.',
     techStack: [
       'ai-gateway',
       'auto-routing',
@@ -63,7 +63,7 @@ export const PROJECTS: Project[] = [
     title: 'PrashnaSetu',
     tagline: 'Think. Compete. Conquer.',
     description:
-      'Conducted 12,000+ evaluations among 1,500+ students. A secure, local-first quiz management system for academic institutions featuring a proctored JavaFX desktop client, an mDNS-discoverable Spring Boot local database server, and a React results web portal synced with MongoDB Atlas.',
+      'A secure, local-first quiz management system for academic institutions, having conducted 12,000+ evaluations among 1,500+ students. It features a proctored JavaFX desktop client, an mDNS-discoverable Spring Boot local database server, and a React results web portal synced with MongoDB Atlas.',
     techStack: [
       'academic-software',
       'desktop-application',
