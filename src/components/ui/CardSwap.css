@@ -11,26 +11,10 @@
   left: 50%;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: transparent;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  background: rgba(13, 15, 26, 0.05);
   overflow: hidden;
   cursor: pointer;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Frosted glass layer — isolated from GSAP 3D transforms */
-.card-swap-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: rgba(13, 15, 26, 0.05);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  z-index: -1;
-  pointer-events: none;
 }
 
 .card-swap-card:hover {
@@ -39,11 +23,8 @@
 }
 
 [data-theme='light'] .card-swap-card {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-[data-theme='light'] .card-swap-card::before {
   background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 [data-theme='light'] .card-swap-card:hover {

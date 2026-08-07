@@ -235,6 +235,17 @@ const CardSwap: React.FC<CardSwapProps> = ({
       }
     });
 
+    // Apply frosted glass AFTER GSAP creates compositing layers,
+    // so backdrop-filter isn't broken by force3D inline transforms.
+    requestAnimationFrame(() => {
+      refs.forEach((r) => {
+        if (r.current) {
+          r.current.style.backdropFilter = 'blur(16px)';
+          r.current.style.setProperty('-webkit-backdrop-filter', 'blur(16px)');
+        }
+      });
+    });
+
     const performSwap = (targetIdx: number, isRapid: boolean = false) => {
       if (order.current.length < 2) return;
       if (tlRef.current && tlRef.current.isActive()) return; // Block trigger if transition is active
