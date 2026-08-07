@@ -220,15 +220,14 @@ const CardSwap: React.FC<CardSwapProps> = ({
       });
     });
 
-    refs.forEach((r, idx) => {
+    refs.forEach((r, i) => {
       if (r.current) {
-        const slotIndex = order.current.indexOf(idx);
-        placeNow(r.current, makeSlot(slotIndex, cardDistance, verticalDistance, total), skewAmount);
+        placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount);
 
         // Hide text content (opacity 0) for cards deeper than slot 1
         const wrap = r.current.querySelector('.card-content-wrap');
         if (wrap) {
-          gsap.set(wrap, { opacity: slotIndex < 2 ? 1 : 0 });
+          gsap.set(wrap, { opacity: i < 2 ? 1 : 0 });
         }
       }
     });
@@ -369,7 +368,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
       // 5. Schedule next normal auto-rotation when timeline finishes, if not hovered
       tl.call(() => {
-        if (isActive && !isHoveredRef.current) {
+        if (!isHoveredRef.current) {
           scheduleNext();
         }
       });
@@ -383,12 +382,11 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
     const scheduleNext = () => {
       clearInterval(intervalRef.current);
+      if (!isActive) return;
       intervalRef.current = window.setTimeout(swap, delay);
     };
 
-    if (isActive) {
-      scheduleNext();
-    }
+    scheduleNext();
 
     if (pauseOnHover && container.current) {
       const node = container.current;
@@ -398,7 +396,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       };
       const resume = () => {
         isHoveredRef.current = false;
-        if (isActive && (!tlRef.current || !tlRef.current.isActive())) {
+        if (!tlRef.current || !tlRef.current.isActive()) {
           scheduleNext();
         }
       };
