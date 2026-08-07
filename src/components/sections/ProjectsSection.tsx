@@ -29,7 +29,6 @@ export const ProjectsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ProjectCategory>('websites');
   const [activeProjectIdx, setActiveProjectIdx] = useState(0);
   const [sectionVisible, setSectionVisible] = useState(false);
-  const [rapidAnimation, setRapidAnimation] = useState<'default' | 'roll' | 'fadeslide' | 'shuffle'>('default');
   const sectionRef = useRef<HTMLElement>(null);
   const { theme } = useTheme();
 
@@ -179,43 +178,6 @@ export const ProjectsSection: React.FC = () => {
 
             {/* ─── Right Column: CardSwap Stack ─── */}
             <div className={styles.cardSwapCol}>
-              {/* Temporary Debug Selector for Rapid Animation Options */}
-              <div style={{
-                display: 'flex',
-                gap: '8px',
-                marginBottom: '20px',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                zIndex: 10,
-                position: 'relative'
-              }}>
-                <span style={{ fontSize: '0.75rem', opacity: 0.6, fontWeight: 500, marginRight: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Rapid Anim:
-                </span>
-                {(['default', 'roll', 'fadeslide', 'shuffle'] as const).map((anim) => (
-                  <button
-                    key={anim}
-                    onClick={() => setRapidAnimation(anim)}
-                    style={{
-                      padding: '5px 12px',
-                      borderRadius: '6px',
-                      background: rapidAnimation === anim ? 'var(--accent, #00e5ff)' : 'rgba(255,255,255,0.06)',
-                      color: rapidAnimation === anim ? '#000' : 'var(--text-color, #fff)',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      cursor: 'pointer',
-                      fontSize: '0.75rem',
-                      fontWeight: 600,
-                      textTransform: 'capitalize',
-                      transition: 'all 0.2s ease',
-                      boxShadow: rapidAnimation === anim ? '0 0 10px rgba(0, 229, 255, 0.4)' : 'none'
-                    }}
-                  >
-                    {anim}
-                  </button>
-                ))}
-              </div>
-
               <CardSwap
                 cardDistance={62}
                 verticalDistance={68}
@@ -225,7 +187,6 @@ export const ProjectsSection: React.FC = () => {
                 height={400}
                 skewAmount={5}
                 easing="elastic"
-                rapidAnimation={rapidAnimation}
                 onIndexChange={setActiveProjectIdx}
                 onCardClick={handleCardClick}
               >

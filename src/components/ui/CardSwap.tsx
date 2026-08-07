@@ -101,7 +101,6 @@ interface CardSwapProps {
   onIndexChange?: (idx: number) => void;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
-  rapidAnimation?: 'default' | 'roll' | 'fadeslide' | 'shuffle';
   children: React.ReactNode;
 }
 
@@ -116,7 +115,6 @@ const CardSwap: React.FC<CardSwapProps> = ({
   onIndexChange,
   skewAmount = 6,
   easing = 'elastic',
-  rapidAnimation = 'default',
   children,
 }) => {
   const config =
@@ -150,7 +148,6 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const intervalRef = useRef<number>();
   const container = useRef<HTMLDivElement>(null);
 
-  const targetCardRef = useRef<number | null>(null);
   const isHoveredRef = useRef(false);
 
   useEffect(() => {
@@ -205,9 +202,8 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
       const onClick = () => {
         const pos = order.current.indexOf(idx);
-        if (pos > 0 && targetCardRef.current === null) {
-          targetCardRef.current = idx;
-          swap();
+        if (pos > 0) {
+          swap(pos);
         }
       };
 
@@ -234,330 +230,123 @@ const CardSwap: React.FC<CardSwapProps> = ({
       }
     });
 
-    const swap = () => {
+    const swap = (K: number = 1) => {
       if (order.current.length < 2) return;
 
-      const [front, ...rest] = order.current;
+      const oldOrder = [...order.current];
+      const newOrder = [...oldOrder.slice(K), ...oldOrder.slice(0, K)];
       
       // Update order immediately so hover checks pass instantly for the new front card
-      order.current = [...rest, front];
+      order.current = newOrder;
       
-      // Notify parent about the new front card index (which is rest[0])
-      onIndexChange?.(rest[0]);
+      // Notify parent about the new front card index (which is newOrder[0])
+      onIndexChange?.(newOrder[0]);
 
-      const elFront = refs[front].current;
+      const elFront = refs[oldOrder[0]].current;
       if (!elFront) return;
 
       const tl = gsap.timeline();
       tlRef.current = tl;
 
-      if (targetCardRef.current !== null && rapidAnimation !== 'default') {
-        // --- Custom Snappy Rapid Animations ---
+      // If rotating multiple cards, speed up timeline by 1.6x for a snappy cascade
+      if (K > 1) {
+        tl.timeScale(1.6);
+      }
 
-        if (rapidAnimation === 'roll') {
-          // 1. Roll: Front card rolls down slightly and fades out
-          tl.to(elFront, {
-            y: '+=160',
-            opacity: 0,
-            scale: 0.8,
-            duration: 0.25,
-            ease: 'power2.in',
-          });
+      // 1. Dropping cards (old slots 0 to K-1)
+      for (let i = 0; i < K; i++) {
+        const idx = oldOrder[i];
+        const el = refs[idx].current;
+        if (!el) continue;
 
-          // Text wrap fades out
-          if (total > 2) {
-            const frontWrap = elFront.querySelector('.card-content-wrap');
-            if (frontWrap) {
-              tl.to(frontWrap, { opacity: 0, duration: 0.1 }, 0);
-            }
-          }
+        const newSlotIdx = (i - K + total) % total;
+        const targetSlot = makeSlot(newSlotIdx, cardDistance, verticalDistance, total);
 
-          // Shift rest cards forward smoothly
-          rest.forEach((idx, i) => {
-            const el = refs[idx].current;
-            if (!el) return;
-            const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
-            tl.set(el, { zIndex: slot.zIndex }, 0);
-            tl.to(el, {
-              x: slot.x,
-              y: slot.y,
-              z: slot.z,
-              duration: 0.3,
-              ease: 'power2.out',
-            }, 0.04 * i);
-          });
+        // Staggered drop start time
+        const dropStart = i * 0.12;
 
-          // Promote next visible card text wrapper
-          if (total > 2) {
-            const nextVisibleCardIdx = rest[1];
-            if (nextVisibleCardIdx !== undefined) {
-              const nextVisibleEl = refs[nextVisibleCardIdx].current;
-              const nextVisibleWrap = nextVisibleEl?.querySelector('.card-content-wrap');
-              if (nextVisibleWrap) {
-                tl.to(nextVisibleWrap, { opacity: 1, duration: 0.2 }, 0.1);
-              }
-            }
-          }
-
-          // Return card instantly to back slot and fade it back in
-          const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
-          tl.call(() => {
-            gsap.set(elFront, {
-              x: backSlot.x,
-              y: backSlot.y,
-              z: backSlot.z,
-              zIndex: backSlot.zIndex,
-              scale: 1,
-            });
-          });
-          tl.to(elFront, {
-            opacity: 1,
-            duration: 0.15,
-            ease: 'power1.out',
-          });
+        // Fade out text wrap
+        const wrap = el.querySelector('.card-content-wrap');
+        if (wrap) {
+          tl.to(wrap, { opacity: 0, duration: 0.25 }, dropStart);
         }
 
-        else if (rapidAnimation === 'fadeslide') {
-          // 2. Fadeslide: Front card slides left slightly and fades out
-          tl.to(elFront, {
-            x: '-=150',
-            opacity: 0,
-            duration: 0.25,
-            ease: 'power2.out',
-          });
-
-          if (total > 2) {
-            const frontWrap = elFront.querySelector('.card-content-wrap');
-            if (frontWrap) {
-              tl.to(frontWrap, { opacity: 0, duration: 0.1 }, 0);
-            }
-          }
-
-          // Shift rest forward
-          rest.forEach((idx, i) => {
-            const el = refs[idx].current;
-            if (!el) return;
-            const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
-            tl.set(el, { zIndex: slot.zIndex }, 0);
-            tl.to(el, {
-              x: slot.x,
-              y: slot.y,
-              z: slot.z,
-              duration: 0.25,
-              ease: 'power2.out',
-            }, 0.04 * i);
-          });
-
-          if (total > 2) {
-            const nextVisibleCardIdx = rest[1];
-            if (nextVisibleCardIdx !== undefined) {
-              const nextVisibleEl = refs[nextVisibleCardIdx].current;
-              const nextVisibleWrap = nextVisibleEl?.querySelector('.card-content-wrap');
-              if (nextVisibleWrap) {
-                tl.to(nextVisibleWrap, { opacity: 1, duration: 0.2 }, 0.1);
-              }
-            }
-          }
-
-          // Teleport back
-          const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
-          tl.call(() => {
-            gsap.set(elFront, {
-              x: backSlot.x,
-              y: backSlot.y,
-              z: backSlot.z,
-              zIndex: backSlot.zIndex,
-            });
-          });
-          tl.to(elFront, {
-            opacity: 1,
-            duration: 0.15,
-            ease: 'power1.out',
-          });
-        }
-
-        else if (rapidAnimation === 'shuffle') {
-          // 3. Shuffle: dealer shuffle to the right and insert back
-          tl.to(elFront, {
-            x: '+=200',
-            y: '-=30',
-            rotation: 12,
-            duration: 0.22,
-            ease: 'power2.out',
-          });
-
-          if (total > 2) {
-            const frontWrap = elFront.querySelector('.card-content-wrap');
-            if (frontWrap) {
-              tl.to(frontWrap, { opacity: 0, duration: 0.1 }, 0);
-            }
-          }
-
-          // Shift rest forward
-          rest.forEach((idx, i) => {
-            const el = refs[idx].current;
-            if (!el) return;
-            const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
-            tl.set(el, { zIndex: slot.zIndex }, 0);
-            tl.to(el, {
-              x: slot.x,
-              y: slot.y,
-              z: slot.z,
-              duration: 0.25,
-              ease: 'power2.out',
-            }, 0.04 * i);
-          });
-
-          if (total > 2) {
-            const nextVisibleCardIdx = rest[1];
-            if (nextVisibleCardIdx !== undefined) {
-              const nextVisibleEl = refs[nextVisibleCardIdx].current;
-              const nextVisibleWrap = nextVisibleEl?.querySelector('.card-content-wrap');
-              if (nextVisibleWrap) {
-                tl.to(nextVisibleWrap, { opacity: 1, duration: 0.25 }, 0.15);
-              }
-            }
-          }
-
-          // Return to back slot
-          const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
-          tl.to(elFront, {
-            x: backSlot.x,
-            y: backSlot.y,
-            z: backSlot.z,
-            rotation: 0,
-            zIndex: backSlot.zIndex,
-            duration: 0.25,
-            ease: 'power2.in',
-          }, 0.18);
-        }
-
-      } else {
-        // --- Standard Swap Animation (Option: default) ---
-        if (targetCardRef.current !== null) {
-          tl.timeScale(8); // Speed up transition by 8x during rapid swaps
-        }
-
-        tl.to(elFront, {
+        // Drop animation
+        tl.to(el, {
           y: '+=500',
-          duration: config.durDrop,
-          ease: config.ease,
-        });
+          duration: config.durDrop * 0.7,
+          ease: 'power2.inOut',
+        }, dropStart);
 
-        // Fade out front card text wrapper if there are more than 2 cards
-        if (total > 2) {
-          const frontWrap = elFront.querySelector('.card-content-wrap');
-          if (frontWrap) {
-            tl.to(frontWrap, {
-              opacity: 0,
-              duration: config.durDrop * 0.4,
-              ease: 'power1.out',
-            }, 0);
+        // Return to back slot
+        const returnTime = dropStart + config.durDrop * 0.7 + 0.05;
+        tl.call(() => {
+          gsap.set(el, { zIndex: targetSlot.zIndex });
+        }, undefined, returnTime);
+
+        tl.to(el, {
+          x: targetSlot.x,
+          y: targetSlot.y,
+          z: targetSlot.z,
+          duration: config.durReturn * 0.8,
+          ease: 'power2.out',
+        }, returnTime);
+      }
+
+      // 2. Promoting/shifting cards (old slots K to total-1)
+      for (let i = K; i < total; i++) {
+        const idx = oldOrder[i];
+        const el = refs[idx].current;
+        if (!el) continue;
+
+        const newSlotIdx = i - K;
+        const targetSlot = makeSlot(newSlotIdx, cardDistance, verticalDistance, total);
+
+        // Start slide forward staggered
+        const slideStart = 0.15 + (i - K) * 0.08;
+
+        // Fade in text wrap if it is moving to the visible slot (index < 2)
+        if (newSlotIdx < 2) {
+          const wrap = el.querySelector('.card-content-wrap');
+          if (wrap) {
+            tl.to(wrap, { opacity: 1, duration: 0.35 }, slideStart + 0.05);
           }
         }
 
-        tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
-        rest.forEach((idx, i) => {
-          const el = refs[idx].current;
-          if (!el) return;
-          const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
-          tl.set(el, { zIndex: slot.zIndex }, 'promote');
-          tl.to(
-            el,
-            {
-              x: slot.x,
-              y: slot.y,
-              z: slot.z,
-              duration: config.durMove,
-              ease: config.ease,
-            },
-            `promote+=${i * 0.15}`,
-          );
-        });
-
-        // Fade in the text wrap of the card moving to slot 1 (idx at rest[1], which was slot 2)
-        if (total > 2) {
-          const nextVisibleCardIdx = rest[1];
-          if (nextVisibleCardIdx !== undefined) {
-            const nextVisibleEl = refs[nextVisibleCardIdx].current;
-            const nextVisibleWrap = nextVisibleEl?.querySelector('.card-content-wrap');
-            if (nextVisibleWrap) {
-              tl.to(nextVisibleWrap, {
-                opacity: 1,
-                duration: config.durMove * 0.7,
-                ease: 'power1.inOut',
-              }, 'promote');
-            }
-          }
-        }
-
-        const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
-        tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
-        tl.call(
-          () => {
-            gsap.set(elFront, { zIndex: backSlot.zIndex });
-          },
-          undefined,
-          'return',
-        );
-        tl.to(
-          elFront,
-          {
-            x: backSlot.x,
-            y: backSlot.y,
-            z: backSlot.z,
-            duration: config.durReturn,
-            ease: config.ease,
-          },
-          'return',
-        );
+        tl.set(el, { zIndex: targetSlot.zIndex }, slideStart);
+        tl.to(el, {
+          x: targetSlot.x,
+          y: targetSlot.y,
+          z: targetSlot.z,
+          duration: config.durMove * 0.85,
+          ease: 'power2.out',
+        }, slideStart);
       }
 
       // Decides the next transition sequence once the current swap finishes and settles
       tl.call(() => {
-        if (targetCardRef.current !== null) {
-          if (order.current[0] === targetCardRef.current) {
-            targetCardRef.current = null;
-            // Target reached! If currently hovered, we pause (do not schedule next swap)
-            if (!isHoveredRef.current) {
-              scheduleNext(false);
-            }
-          } else {
-            // Target not reached, trigger next rapid swap immediately (ignoring hover)
-            scheduleNext(true);
-          }
-        } else {
-          // Normal auto-swap: schedule if not hovered
-          if (!isHoveredRef.current) {
-            scheduleNext(false);
-          }
+        if (!isHoveredRef.current) {
+          scheduleNext();
         }
       });
     };
 
-    const scheduleNext = (isRapid: boolean) => {
+    const scheduleNext = () => {
       clearInterval(intervalRef.current);
-      const currentDelay = isRapid ? 0 : delay;
-      intervalRef.current = window.setTimeout(swap, currentDelay);
+      intervalRef.current = window.setTimeout(() => swap(1), delay);
     };
 
-    scheduleNext(false);
+    scheduleNext();
 
     if (pauseOnHover && container.current) {
       const node = container.current;
       const pause = () => {
         isHoveredRef.current = true;
-        // Pause normal swap, but let rapid swaps run until completion
-        if (targetCardRef.current === null) {
-          clearInterval(intervalRef.current);
-        }
+        clearInterval(intervalRef.current);
       };
       const resume = () => {
         isHoveredRef.current = false;
-        // Resume normal swap if we are not rapid-swapping
-        if (targetCardRef.current === null) {
-          scheduleNext(false);
-        }
+        scheduleNext();
       };
       node.addEventListener('mouseenter', pause);
       node.addEventListener('mouseleave', resume);
