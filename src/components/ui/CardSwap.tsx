@@ -362,7 +362,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       cardCleanups.forEach((c) => c());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height, onCardClick, onIndexChange, rapidAnimation]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height, onCardClick, onIndexChange]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
