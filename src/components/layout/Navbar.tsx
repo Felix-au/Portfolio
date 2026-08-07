@@ -20,7 +20,7 @@ export const Navbar: React.FC = () => {
 
   // Active section scroll tracking with getBoundingClientRect for 100% reliability
   useEffect(() => {
-    const sectionIds = ['intro', 'projects', 'resume', 'credentials', 'contact'];
+    const sectionIds = ['intro', 'projects', 'credentials', 'contact', 'resume'];
     const handleScroll = () => {
       const triggerLine = window.innerHeight / 3;
       for (const id of sectionIds) {

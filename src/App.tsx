@@ -55,9 +55,9 @@ export const App: React.FC = () => {
           <>
             <HeroIntro />
             <ProjectsSection />
-            <ResumeSection />
             <SkillsSection />
             <ContactSection />
+            <ResumeSection />
           </>
         )}
       </div>
