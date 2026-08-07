@@ -220,14 +220,15 @@ const CardSwap: React.FC<CardSwapProps> = ({
       });
     });
 
-    refs.forEach((r, i) => {
+    refs.forEach((r, idx) => {
       if (r.current) {
-        placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount);
+        const slotIndex = order.current.indexOf(idx);
+        placeNow(r.current, makeSlot(slotIndex, cardDistance, verticalDistance, total), skewAmount);
 
         // Hide text content (opacity 0) for cards deeper than slot 1
         const wrap = r.current.querySelector('.card-content-wrap');
         if (wrap) {
-          gsap.set(wrap, { opacity: i < 2 ? 1 : 0 });
+          gsap.set(wrap, { opacity: slotIndex < 2 ? 1 : 0 });
         }
       }
     });

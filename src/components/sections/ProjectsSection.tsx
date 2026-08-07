@@ -197,7 +197,7 @@ export const ProjectsSection: React.FC = () => {
               <CardSwap
                 cardDistance={62}
                 verticalDistance={68}
-                delay={5000}
+                delay={3000}
                 pauseOnHover
                 width={525}
                 height={400}
