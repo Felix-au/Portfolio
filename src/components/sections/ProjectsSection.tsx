@@ -254,7 +254,7 @@ export const ProjectsSection: React.FC = () => {
                                   maxWidth: '65%',
                                   maxHeight: '65%',
                                   objectFit: 'contain',
-                                  opacity: theme === 'dark' ? 0.16 : 0.09,
+                                  opacity: 1,
                                 }}
                               />
                             </div>
