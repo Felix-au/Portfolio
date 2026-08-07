@@ -101,7 +101,6 @@ interface CardSwapProps {
   onIndexChange?: (idx: number) => void;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
-  transitionStyle?: 'cascade' | 'shuffle' | '3d-flip' | 'rolodex';
   children: React.ReactNode;
 }
 
@@ -116,7 +115,6 @@ const CardSwap: React.FC<CardSwapProps> = ({
   onIndexChange,
   skewAmount = 6,
   easing = 'elastic',
-  transitionStyle = 'cascade',
   children,
 }) => {
   const config =
@@ -265,33 +263,18 @@ const CardSwap: React.FC<CardSwapProps> = ({
         });
       }
 
-      // 2. Animate front cards away based on the selected transition style
+      // 2. Animate front cards away based on transition style (shuffle for click/rapid, cascade for auto)
       dropCards.forEach((idx, i) => {
         const el = refs[idx].current;
         if (!el) return;
 
-        if (transitionStyle === 'shuffle') {
+        if (isRapid) {
+          // Shuffle slide outwards to the left
           tl.to(el, {
             x: `-=${180 + i * 40}`,
             y: `+=${40 + i * 20}`,
             rotationY: -45,
             scale: 0.9,
-            duration: config.durDrop,
-            ease: config.ease,
-          }, i * 0.08);
-        } else if (transitionStyle === '3d-flip') {
-          tl.to(el, {
-            rotationY: 90,
-            y: '-=150',
-            scale: 0.7,
-            duration: config.durDrop,
-            ease: config.ease,
-          }, i * 0.08);
-        } else if (transitionStyle === 'rolodex') {
-          tl.to(el, {
-            y: '-=300',
-            z: -400,
-            rotationX: -45,
             duration: config.durDrop,
             ease: config.ease,
           }, i * 0.08);
@@ -351,7 +334,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
           'return',
         );
 
-        if (transitionStyle === 'shuffle') {
+        if (isRapid) {
           tl.to(
             el,
             {
@@ -360,33 +343,6 @@ const CardSwap: React.FC<CardSwapProps> = ({
               z: slot.z,
               rotationY: 0,
               scale: 1,
-              duration: config.durReturn,
-              ease: config.ease,
-            },
-            'return',
-          );
-        } else if (transitionStyle === '3d-flip') {
-          tl.to(
-            el,
-            {
-              x: slot.x,
-              y: slot.y,
-              z: slot.z,
-              rotationY: 0,
-              scale: 1,
-              duration: config.durReturn,
-              ease: config.ease,
-            },
-            'return',
-          );
-        } else if (transitionStyle === 'rolodex') {
-          tl.to(
-            el,
-            {
-              x: slot.x,
-              y: slot.y,
-              z: slot.z,
-              rotationX: 0,
               duration: config.durReturn,
               ease: config.ease,
             },
@@ -455,7 +411,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       cardCleanups.forEach((c) => c());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height, onCardClick, onIndexChange, transitionStyle]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height, onCardClick, onIndexChange]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
