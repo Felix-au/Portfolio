@@ -148,6 +148,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const intervalRef = useRef<number>();
   const container = useRef<HTMLDivElement>(null);
 
+  const targetCardRef = useRef<number | null>(null);
+  const isHoveredRef = useRef(false);
+
   useEffect(() => {
     const total = refs.length;
     // Reset order to match the current refs length (important when tab changes)
@@ -198,12 +201,22 @@ const CardSwap: React.FC<CardSwapProps> = ({
         }
       };
 
+      const onClick = () => {
+        const pos = order.current.indexOf(idx);
+        if (pos > 0 && targetCardRef.current === null) {
+          targetCardRef.current = idx;
+          swap();
+        }
+      };
+
       el.addEventListener('mouseenter', onEnter);
       el.addEventListener('mouseleave', onLeave);
+      el.addEventListener('click', onClick);
 
       cardCleanups.push(() => {
         el.removeEventListener('mouseenter', onEnter);
         el.removeEventListener('mouseleave', onLeave);
+        el.removeEventListener('click', onClick);
       });
     });
 
@@ -309,19 +322,52 @@ const CardSwap: React.FC<CardSwapProps> = ({
         },
         'return',
       );
+
+      // Decides the next transition sequence once the current swap finishes and settles
+      tl.call(() => {
+        if (targetCardRef.current !== null) {
+          if (order.current[0] === targetCardRef.current) {
+            targetCardRef.current = null;
+            // Target reached! If currently hovered, we pause (do not schedule next swap)
+            if (!isHoveredRef.current) {
+              scheduleNext(false);
+            }
+          } else {
+            // Target not reached, trigger next rapid swap after 250ms (ignoring hover)
+            scheduleNext(true);
+          }
+        } else {
+          // Normal auto-swap: schedule if not hovered
+          if (!isHoveredRef.current) {
+            scheduleNext(false);
+          }
+        }
+      });
     };
 
-    intervalRef.current = window.setInterval(swap, delay);
+    const scheduleNext = (isRapid: boolean) => {
+      clearInterval(intervalRef.current);
+      const currentDelay = isRapid ? 250 : delay;
+      intervalRef.current = window.setTimeout(swap, currentDelay);
+    };
+
+    scheduleNext(false);
 
     if (pauseOnHover && container.current) {
       const node = container.current;
       const pause = () => {
-        // Clear interval so no NEW transitions are scheduled, but let active transitions run to completion
-        clearInterval(intervalRef.current);
+        isHoveredRef.current = true;
+        // Pause normal swap, but let rapid swaps run until completion
+        if (targetCardRef.current === null) {
+          clearInterval(intervalRef.current);
+        }
       };
       const resume = () => {
-        clearInterval(intervalRef.current);
-        intervalRef.current = window.setInterval(swap, delay);
+        isHoveredRef.current = false;
+        // Resume normal swap if we are not rapid-swapping
+        if (targetCardRef.current === null) {
+          scheduleNext(false);
+        }
       };
       node.addEventListener('mouseenter', pause);
       node.addEventListener('mouseleave', resume);
@@ -337,7 +383,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       cardCleanups.forEach((c) => c());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height, onCardClick, onIndexChange]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)

@@ -56,12 +56,10 @@ export const ProjectsSection: React.FC = () => {
   }, []);
 
   const handleCardClick = useCallback(
-    (idx: number) => {
-      if (idx >= 0 && idx < projects.length) {
-        setActiveProjectIdx(idx);
-      }
+    (_idx: number) => {
+      // Direct details jump is removed. Card rotation will update the details panel automatically.
     },
-    [projects.length],
+    [],
   );
 
   const getTabIcon = (tabId: ProjectCategory) => {
