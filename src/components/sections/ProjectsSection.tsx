@@ -28,7 +28,7 @@ const getProjectAccent = (index: number, theme: 'light' | 'dark'): string => {
 const LOGO_SCALE_OVERRIDES: Record<string, number> = {
   '3d-constructs': 1.25,
   'email-workspace': 1.25,
-  'prashnasetu': 1.25,
+  'prashnasetu': 1.125,
   'omnikey': 1.25,
   'arenax': 1.5,
 };
