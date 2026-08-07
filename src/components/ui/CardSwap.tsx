@@ -153,6 +153,58 @@ const CardSwap: React.FC<CardSwapProps> = ({
     // Reset order to match the current refs length (important when tab changes)
     order.current = Array.from({ length: total }, (_, i) => i);
 
+    const cardCleanups: (() => void)[] = [];
+    const cardHoverStates = new Map<number, boolean>();
+
+    refs.forEach((r, idx) => {
+      const el = r.current;
+      if (!el) return;
+
+      const onEnter = () => {
+        if (order.current[0] === idx) {
+          cardHoverStates.set(idx, true);
+          const w = typeof width === 'number' ? width : parseFloat(width as string) || 525;
+          const h = typeof height === 'number' ? height : parseFloat(height as string) || 400;
+          
+          // Animate card to absolute center of the right half by offsetting the container's translation bias
+          gsap.to(el, {
+            x: 0.05 * w,
+            y: -0.1 * h,
+            skewY: 0,
+            scale: 1.04,
+            duration: 0.45,
+            ease: 'power2.out',
+            overwrite: 'auto',
+          });
+        }
+      };
+
+      const onLeave = () => {
+        if (cardHoverStates.get(idx)) {
+          cardHoverStates.set(idx, false);
+          
+          // Animate card back to original Slot 0 stack position
+          gsap.to(el, {
+            x: 0,
+            y: 0,
+            skewY: skewAmount,
+            scale: 1,
+            duration: 0.45,
+            ease: 'power2.out',
+            overwrite: 'auto',
+          });
+        }
+      };
+
+      el.addEventListener('mouseenter', onEnter);
+      el.addEventListener('mouseleave', onLeave);
+
+      cardCleanups.push(() => {
+        el.removeEventListener('mouseenter', onEnter);
+        el.removeEventListener('mouseleave', onLeave);
+      });
+    });
+
     refs.forEach((r, i) => {
       if (r.current) {
         placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount);
@@ -276,11 +328,15 @@ const CardSwap: React.FC<CardSwapProps> = ({
         node.removeEventListener('mouseenter', pause);
         node.removeEventListener('mouseleave', resume);
         clearInterval(intervalRef.current);
+        cardCleanups.forEach((c) => c());
       };
     }
-    return () => clearInterval(intervalRef.current);
+    return () => {
+      clearInterval(intervalRef.current);
+      cardCleanups.forEach((c) => c());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, width, height]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
