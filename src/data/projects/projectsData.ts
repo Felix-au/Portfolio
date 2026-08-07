@@ -90,7 +90,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: '3d-constructs',
-    title: '3D Constructs',
+    title: '3D Constructs Library',
     tagline: 'Build. Visualize. Interact.',
     description:
       'A developer library and resource vault for getting pre-compiled 3D particle coordinate distributions to implement interactive 3D particle meshes (like brains, lightbulbs, helixes, and spheres) on their websites.',
@@ -209,7 +209,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'email-workspace',
-    title: 'Email',
+    title: 'Email Workspace',
     tagline: 'Your Email. your Rules.',
     description:
       'A lightweight, self-hosted custom domain email workspace template built on Next.js, NextAuth, and MongoDB, utilizing the Resend API to provide a cost-effective, multi-user alternative to enterprise business email hosting.',
@@ -269,7 +269,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'synczen',
-    title: 'SyncZen',
+    title: 'SyncZen Cloud',
     tagline: 'Property Management Dashboard',
     description:
       'A property management system (PMS) and hotel check-in dashboard built on Next.js 15, NextAuth v5, MongoDB, and Cloudinary. Features a 4-step check-in wizard, in-browser guest guest photo cropping, employee RBAC, and system-wide activity logs.',
