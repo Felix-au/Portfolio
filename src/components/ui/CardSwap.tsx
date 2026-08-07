@@ -99,6 +99,9 @@ interface CardSwapProps {
   pauseOnHover?: boolean;
   onCardClick?: (idx: number) => void;
   onIndexChange?: (idx: number) => void;
+  onGlideStart?: (idx: number) => void;
+  onGlideComplete?: (idx: number) => void;
+  onGlideEnd?: (idx: number) => void;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
   children: React.ReactNode;
@@ -113,6 +116,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
   pauseOnHover = false,
   onCardClick,
   onIndexChange,
+  onGlideStart,
+  onGlideComplete,
+  onGlideEnd,
   skewAmount = 6,
   easing = 'elastic',
   children,
@@ -172,6 +178,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
           if (glideTimeout) clearTimeout(glideTimeout);
 
+          // Trigger glide start callback
+          onGlideStart?.(idx);
+
           // 1. Initial Hover Pop (0.45s to scale 1.2x, biased center)
           gsap.to(el, {
             x: (0.05 - 0.10) * w,
@@ -201,6 +210,11 @@ const CardSwap: React.FC<CardSwapProps> = ({
                 duration: 3.0,
                 ease: 'power1.inOut',
                 overwrite: 'auto',
+                onComplete: () => {
+                  if (cardHoverStates.get(idx)) {
+                    onGlideComplete?.(idx);
+                  }
+                },
               });
             }
           }, 450);
@@ -215,6 +229,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
         if (cardHoverStates.get(idx)) {
           cardHoverStates.set(idx, false);
+          onGlideEnd?.(idx);
 
           // Animate card back to original Slot 0 stack position
           gsap.to(el, {

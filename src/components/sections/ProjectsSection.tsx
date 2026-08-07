@@ -41,6 +41,8 @@ export const ProjectsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const { theme } = useTheme();
   const [gitHubStats, setGitHubStats] = useState<GitHubStatsData | null>(null);
+  const [activeHoverIdx, setActiveHoverIdx] = useState<number | null>(null);
+  const [isGlideComplete, setIsGlideComplete] = useState<boolean>(false);
 
   const projects = getProjectsByCategory(activeTab);
   const activeProject: Project | undefined = projects[activeProjectIdx];
@@ -205,6 +207,18 @@ export const ProjectsSection: React.FC = () => {
                 easing="elastic"
                 onIndexChange={setActiveProjectIdx}
                 onCardClick={handleCardClick}
+                onGlideStart={(idx) => {
+                  setActiveHoverIdx(idx);
+                  setIsGlideComplete(false);
+                }}
+                onGlideComplete={(idx) => {
+                  setActiveHoverIdx(idx);
+                  setIsGlideComplete(true);
+                }}
+                onGlideEnd={(idx) => {
+                  setActiveHoverIdx(null);
+                  setIsGlideComplete(false);
+                }}
               >
                 {projects.map((project, i) => {
                   const cardAccentColor = getProjectAccent(i, theme);
@@ -218,6 +232,44 @@ export const ProjectsSection: React.FC = () => {
                       }}
                     >
                       <div className={styles.projectCard}>
+                        {/* Live Website Preview iframe (loaded during 3s glide, visible on complete) */}
+                        {project.liveUrl && activeHoverIdx === i && (
+                          <iframe
+                            src={project.liveUrl}
+                            title={`${project.title} Preview`}
+                            style={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              width: '100%',
+                              height: '100%',
+                              border: 'none',
+                              opacity: isGlideComplete ? 1 : 0,
+                              transition: 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                              zIndex: 5,
+                              backgroundColor: theme === 'dark' ? '#0c0c0e' : '#ffffff',
+                              borderRadius: '16px',
+                              pointerEvents: isGlideComplete ? 'auto' : 'none',
+                            }}
+                          />
+                        )}
+
+                        {/* Scanner progress bar for the 3.0s cinematic glide countdown */}
+                        {activeHoverIdx === i && !isGlideComplete && (
+                          <div
+                            style={{
+                              position: 'absolute',
+                              bottom: 0,
+                              left: 0,
+                              height: '4px',
+                              background: 'linear-gradient(90deg, transparent, var(--accent, #00e5ff), transparent)',
+                              boxShadow: '0 0 12px var(--accent, #00e5ff)',
+                              animation: 'glideProgress 3.0s linear forwards',
+                              zIndex: 6,
+                            }}
+                          />
+                        )}
+
                         {/* Accent bar at card top */}
                         <div
                           className={styles.cardAccent}
