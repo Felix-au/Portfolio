@@ -377,7 +377,10 @@
 
 @media (max-width: 600px) {
   .contactCard {
-    padding: 1.75rem;
+    padding: 1.25rem;
+  }
+  .textarea {
+    min-height: 95px;
   }
 }
 
@@ -469,7 +472,18 @@
 
 @media (max-width: 600px) {
   .quickContactButtons {
-    flex-direction: column;
-    gap: 0.75rem;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  .quickContactBtn {
+    font-size: 0.8rem;
+    padding: 0 4px;
+    gap: 5px;
+    height: 44px;
+    border-radius: 10px;
+  }
+  .quickContactIcon {
+    width: 15px;
+    height: 15px;
   }
 }
