@@ -126,20 +126,6 @@ export const ProjectsSection: React.FC = () => {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.35, ease: 'easeOut' }}
                   >
-                    {activeProject.logoLight && activeProject.logoDark && (
-                      <img
-                        src={theme === 'dark' ? activeProject.logoDark : activeProject.logoLight}
-                        alt={`${activeProject.title} logo`}
-                        style={{
-                          height: '40px',
-                          width: 'auto',
-                          objectFit: 'contain',
-                          alignSelf: 'flex-start',
-                          marginBottom: '4px',
-                        }}
-                      />
-                    )}
-
                     <span
                       className={styles.projectTagline}
                       style={{ color: getProjectAccent(activeProjectIdx, theme) }}
@@ -230,28 +216,52 @@ export const ProjectsSection: React.FC = () => {
                         </span>
 
                         {/* Card content (bottom-aligned) */}
-                        <div className="card-content-wrap">
+                        <div
+                          className="card-content-wrap"
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            padding: '2rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                            boxSizing: 'border-box',
+                          }}
+                        >
+                          {/* Centered background logo watermark (fit not fill) */}
                           {project.logoLight && project.logoDark && (
                             <img
                               src={theme === 'dark' ? project.logoDark : project.logoLight}
-                              alt={`${project.title} logo`}
+                              alt=""
                               style={{
-                                height: '32px',
-                                width: 'auto',
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                maxWidth: '65%',
+                                maxHeight: '65%',
                                 objectFit: 'contain',
-                                marginBottom: '12px',
-                                display: 'block',
+                                opacity: theme === 'dark' ? 0.15 : 0.1,
+                                pointerEvents: 'none',
+                                zIndex: 0,
                               }}
                             />
                           )}
-                          <h3 className={styles.cardTitle}>{project.title}</h3>
-                          <p className={styles.cardTagline}>{project.tagline}</p>
-                          <div className={styles.cardTechRow}>
-                            {project.techStack.map((tech) => (
-                              <span key={tech} className={styles.cardTechBadge}>
-                                {tech}
-                              </span>
-                            ))}
+
+                          {/* Relative wrapper for text content to stack on top of the logo */}
+                          <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
+                            <h3 className={styles.cardTitle}>{project.title}</h3>
+                            <p className={styles.cardTagline}>{project.tagline}</p>
+                            <div className={styles.cardTechRow}>
+                              {project.techStack.map((tech) => (
+                                <span key={tech} className={styles.cardTechBadge}>
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
