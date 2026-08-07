@@ -25,6 +25,14 @@ const getProjectAccent = (index: number, theme: 'light' | 'dark'): string => {
   return theme === 'dark' ? palette.dark : palette.light;
 };
 
+const LOGO_SCALE_OVERRIDES: Record<string, number> = {
+  '3d-constructs': 1.25,
+  'email-workspace': 1.25,
+  'prashnasetu': 1.25,
+  'omnikey': 1.25,
+  'arenax': 1.5,
+};
+
 export const ProjectsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ProjectCategory>('websites');
   const [activeProjectIdx, setActiveProjectIdx] = useState(0);
@@ -240,6 +248,7 @@ export const ProjectsSection: React.FC = () => {
                                 maxHeight: '85%',
                                 objectFit: 'contain',
                                 opacity: 1,
+                                transform: `scale(${LOGO_SCALE_OVERRIDES[project.id] ?? 1})`,
                               }}
                             />
                           )}
