@@ -184,7 +184,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
             overwrite: 'auto',
           });
 
-          // 2. Cinematic Center Glide: slowly glides to true horizontal center of the screen, zooming to 1.5x over 4 seconds
+          // 2. Cinematic Center Glide: slowly glides to true horizontal center of the screen, zooming to 1.35x over 3 seconds
           glideTimeout = setTimeout(() => {
             if (!cardHoverStates.get(idx)) return;
             const parent = el.parentElement;
@@ -197,8 +197,8 @@ const CardSwap: React.FC<CardSwapProps> = ({
               gsap.to(el, {
                 x: targetX,
                 y: -0.15 * h,
-                scale: 1.5,
-                duration: 4.0,
+                scale: 1.35,
+                duration: 3.0,
                 ease: 'power1.inOut',
                 overwrite: 'auto',
               });
