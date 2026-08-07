@@ -18,6 +18,7 @@ export interface GitHubStatsData {
   totalReviews: number;
   followers?: number;
   topLanguages: LanguageStat[];
+  repoStars?: Record<string, number>;
   isFallback?: boolean;
   error?: string;
 }

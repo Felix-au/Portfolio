@@ -114,6 +114,13 @@ async function main() {
       .sort((a, b) => b.percentage - a.percentage)
       .slice(0, 5);
 
+    const repoStars = {};
+    repos.forEach((repo) => {
+      if (repo.name) {
+        repoStars[repo.name.toLowerCase()] = repo.stargazerCount || 0;
+      }
+    });
+
     const statsData = {
       username: USERNAME,
       totalStars: totalStars || 669,
@@ -126,6 +133,7 @@ async function main() {
       totalReviews: contribs.totalPullRequestReviewContributions || 176,
       followers: userData.followers?.totalCount || 73,
       topLanguages,
+      repoStars,
       lastUpdated: new Date().toISOString(),
     };
 

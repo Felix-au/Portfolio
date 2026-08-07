@@ -1,19 +1,19 @@
 {
   "username": "Felix-au",
-  "totalStars": 669,
-  "totalForks": 235,
-  "totalWatchers": 124,
-  "totalRepos": 33,
-  "totalCommits": 5799,
-  "totalPRs": 219,
-  "totalIssues": 243,
-  "totalReviews": 176,
-  "followers": 73,
+  "totalStars": 891,
+  "totalForks": 287,
+  "totalWatchers": 139,
+  "totalRepos": 34,
+  "totalCommits": 3439,
+  "totalPRs": 1,
+  "totalIssues": 1,
+  "totalReviews": 1,
+  "followers": 128,
   "topLanguages": [
     {
       "name": "TypeScript",
       "color": "#3178c6",
-      "percentage": 34
+      "percentage": 38
     },
     {
       "name": "JavaScript",
@@ -36,5 +36,41 @@
       "percentage": 6
     }
   ],
-  "lastUpdated": "2026-08-01T21:29:05.965Z"
+  "repoStars": {
+    "quantx-stock-analysis-and-forecast": 18,
+    "mousex-absolute-mouse-control": 43,
+    "prashnasetu-webportal": 0,
+    "prashnasetu-public": 4,
+    "algobuddy": 55,
+    "arenax": 2,
+    "samvidya-ii": 0,
+    "university-class-scheduler": 5,
+    "nfa-to-dfa-visualizer": 3,
+    "sonixx-audio-routing-and-soundbaord": 62,
+    "smart-hub-home-automation": 2,
+    "codemate-your-coding-companion": 9,
+    "deskx-wallpaper-engine": 72,
+    "janginti-counting-the-pulse-of-the-crowd": 20,
+    "sahara-homestay": 0,
+    "griffinx-your-local-ai-assistant": 4,
+    "felix-au": 19,
+    "omnikey-ai-unified-key-manager": 97,
+    "synczen-local": 51,
+    "corvusx-intelligence-in-the-shadows": 74,
+    "cognitox-unified-intelligence": 50,
+    "synczen-cloud": 43,
+    "be-internships-may-26": 0,
+    "3d-constructs-library": 89,
+    "corvusx-website-intelligence-in-the-shadows": 35,
+    "fragmented-firewall": 17,
+    "transitops": 3,
+    "email-workspace": 10,
+    "sonixx-website-audio-routing-and-soundbaord": 20,
+    "cursorx-interactive-cursor-effects": 84,
+    "github": 0,
+    "frame-scrolling": 0,
+    "certifications-and-badges": 0,
+    "portfolio": 0
+  },
+  "lastUpdated": "2026-08-07T16:22:11.359Z"
 }

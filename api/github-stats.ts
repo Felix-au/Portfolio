@@ -142,6 +142,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .sort((a, b) => b.percentage - a.percentage)
       .slice(0, 5);
 
+    const repoStars: Record<string, number> = {};
+    repos.forEach((repo) => {
+      if (repo.name) {
+        repoStars[repo.name.toLowerCase()] = repo.stargazerCount || 0;
+      }
+    });
+
     return res.status(200).json({
       username,
       totalStars: totalStars || 669,
@@ -153,6 +160,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       totalIssues: contribs.totalIssueContributions || 243,
       totalReviews: contribs.totalPullRequestReviewContributions || 176,
       topLanguages,
+      repoStars,
     });
   } catch (error) {
     return res.status(500).json({

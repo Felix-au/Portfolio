@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Globe, Monitor, Brain } from 'lucide-react';
+import { ExternalLink, Globe, Monitor, Brain, Star } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import CardSwap, { Card } from '../ui/CardSwap';
 import {
@@ -10,6 +10,7 @@ import {
   type Project,
 } from '../../data/projects/projectsData';
 import { useTheme } from '../../context/ThemeContext';
+import { fetchGitHubStats, type GitHubStatsData } from '../../services/githubStats';
 import styles from './ProjectsSection.module.css';
 
 const ACCENT_PALETTES = [
@@ -39,9 +40,22 @@ export const ProjectsSection: React.FC = () => {
   const [sectionVisible, setSectionVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const { theme } = useTheme();
+  const [gitHubStats, setGitHubStats] = useState<GitHubStatsData | null>(null);
 
   const projects = getProjectsByCategory(activeTab);
   const activeProject: Project | undefined = projects[activeProjectIdx];
+
+  // Fetch GitHub stats for stars tracking
+  useEffect(() => {
+    fetchGitHubStats().then(setGitHubStats).catch(() => {});
+  }, []);
+
+  const getProjectStars = (githubUrl?: string): number | undefined => {
+    if (!githubUrl || !gitHubStats || !gitHubStats.repoStars) return undefined;
+    const parts = githubUrl.split('/');
+    const repoName = parts[parts.length - 1]?.toLowerCase();
+    return gitHubStats.repoStars[repoName];
+  };
 
   // Reset active project when switching tabs
   useEffect(() => {
@@ -170,6 +184,14 @@ export const ProjectsSection: React.FC = () => {
                         >
                           <SiGithub size={14} />
                           Source Code
+                          {(() => {
+                            const stars = getProjectStars(activeProject.githubUrl);
+                            return stars !== undefined ? (
+                              <span style={{ marginLeft: '6px', fontSize: '0.8rem', opacity: 0.8, display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
+                                • <Star size={10} fill="currentColor" /> {stars}
+                              </span>
+                            ) : null;
+                          })()}
                         </a>
                       )}
                     </div>
