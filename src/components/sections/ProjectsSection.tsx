@@ -127,15 +127,7 @@ export const ProjectsSection: React.FC = () => {
           ))}
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className={styles.splitLayout}
-          >
+        <div className={styles.splitLayout}>
             {/* ─── Left Column: Project Detail Panel ─── */}
             <div className={styles.detailPanel}>
               <AnimatePresence mode="wait">
@@ -295,8 +287,7 @@ export const ProjectsSection: React.FC = () => {
                 })}
               </CardSwap>
             </div>
-          </motion.div>
-        </AnimatePresence>
+        </div>
       </div>
     </section>
   );
