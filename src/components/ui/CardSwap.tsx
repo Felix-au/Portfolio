@@ -98,6 +98,7 @@ interface CardSwapProps {
   delay?: number;
   pauseOnHover?: boolean;
   onCardClick?: (idx: number) => void;
+  onIndexChange?: (idx: number) => void;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
   children: React.ReactNode;
@@ -111,6 +112,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   delay = 5000,
   pauseOnHover = false,
   onCardClick,
+  onIndexChange,
   skewAmount = 6,
   easing = 'elastic',
   children,
@@ -148,6 +150,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
   useEffect(() => {
     const total = refs.length;
+    // Reset order to match the current refs length (important when tab changes)
+    order.current = Array.from({ length: total }, (_, i) => i);
+
     refs.forEach((r, i) => {
       if (r.current) {
         placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount);
@@ -164,6 +169,10 @@ const CardSwap: React.FC<CardSwapProps> = ({
       if (order.current.length < 2) return;
 
       const [front, ...rest] = order.current;
+      
+      // Notify parent about the new front card index (which is rest[0])
+      onIndexChange?.(rest[0]);
+
       const elFront = refs[front].current;
       if (!elFront) return;
 
@@ -194,44 +203,17 @@ const CardSwap: React.FC<CardSwapProps> = ({
         if (!el) return;
         const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
         tl.set(el, { zIndex: slot.zIndex }, 'promote');
-        
-        if (i === 0) {
-          // Swoop the card coming to the front (Slot 0) upward and right first, then curve down to center
-          tl.to(
-            el,
-            {
-              keyframes: [
-                {
-                  x: cardDistance * 1.5,
-                  y: -verticalDistance * 1.5,
-                  z: -cardDistance * 1.2,
-                  duration: config.durMove * 0.4,
-                  ease: 'power1.out',
-                },
-                {
-                  x: slot.x,
-                  y: slot.y,
-                  z: slot.z,
-                  duration: config.durMove * 0.6,
-                  ease: config.ease,
-                }
-              ],
-            },
-            'promote'
-          );
-        } else {
-          tl.to(
-            el,
-            {
-              x: slot.x,
-              y: slot.y,
-              z: slot.z,
-              duration: config.durMove,
-              ease: config.ease,
-            },
-            `promote+=${i * 0.15}`,
-          );
-        }
+        tl.to(
+          el,
+          {
+            x: slot.x,
+            y: slot.y,
+            z: slot.z,
+            duration: config.durMove,
+            ease: config.ease,
+          },
+          `promote+=${i * 0.15}`,
+        );
       });
 
       // Fade in the text wrap of the card moving to slot 1 (idx at rest[1], which was slot 2)
@@ -262,21 +244,11 @@ const CardSwap: React.FC<CardSwapProps> = ({
       tl.to(
         elFront,
         {
-          keyframes: [
-            {
-              x: backSlot.x + 60,
-              y: backSlot.y - 60,
-              duration: config.durReturn * 0.5,
-              ease: 'power1.out',
-            },
-            {
-              x: backSlot.x,
-              y: backSlot.y,
-              z: backSlot.z,
-              duration: config.durReturn * 0.5,
-              ease: config.ease,
-            }
-          ],
+          x: backSlot.x,
+          y: backSlot.y,
+          z: backSlot.z,
+          duration: config.durReturn,
+          ease: config.ease,
         },
         'return',
       );
@@ -287,57 +259,6 @@ const CardSwap: React.FC<CardSwapProps> = ({
     };
 
     intervalRef.current = window.setInterval(swap, delay);
-
-    const cleanups: (() => void)[] = [];
-
-    // Attach hover listeners to each card to float the active front card
-    refs.forEach((ref, idx) => {
-      const el = ref.current;
-      if (!el) return;
-
-      const onEnter = () => {
-        // Bring up the project details on the left side of the screen immediately on hover
-        onCardClick?.(idx);
-
-        const isDesktop = window.innerWidth > 768;
-        gsap.to(el, {
-          x: isDesktop ? '-10%' : '0%',
-          y: isDesktop ? 0 : -30,
-          z: 150,
-          scale: 1.1,
-          skewY: 0,
-          boxShadow: '0 30px 60px rgba(0, 0, 0, 0.4)',
-          duration: 0.6,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-      };
-
-      const onLeave = () => {
-        // Find the card's current position index in the deck
-        const currentSlotIdx = order.current.indexOf(idx);
-        const slot = makeSlot(currentSlotIdx !== -1 ? currentSlotIdx : 0, cardDistance, verticalDistance, refs.length);
-        
-        gsap.to(el, {
-          x: slot.x,
-          y: slot.y,
-          z: slot.z,
-          scale: 1,
-          skewY: skewAmount,
-          boxShadow: 'none',
-          duration: 0.6,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-      };
-
-      el.addEventListener('mouseenter', onEnter);
-      el.addEventListener('mouseleave', onLeave);
-      cleanups.push(() => {
-        el.removeEventListener('mouseenter', onEnter);
-        el.removeEventListener('mouseleave', onLeave);
-      });
-    });
 
     if (pauseOnHover && container.current) {
       const node = container.current;
@@ -351,16 +272,13 @@ const CardSwap: React.FC<CardSwapProps> = ({
       };
       node.addEventListener('mouseenter', pause);
       node.addEventListener('mouseleave', resume);
-      cleanups.push(() => {
+      return () => {
         node.removeEventListener('mouseenter', pause);
         node.removeEventListener('mouseleave', resume);
-      });
+        clearInterval(intervalRef.current);
+      };
     }
-
-    return () => {
-      clearInterval(intervalRef.current);
-      cleanups.forEach((c) => c());
-    };
+    return () => clearInterval(intervalRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
 

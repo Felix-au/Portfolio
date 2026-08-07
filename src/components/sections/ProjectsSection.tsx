@@ -189,6 +189,7 @@ export const ProjectsSection: React.FC = () => {
                 height={400}
                 skewAmount={5}
                 easing="elastic"
+                onIndexChange={setActiveProjectIdx}
                 onCardClick={handleCardClick}
               >
                 {projects.map((project, i) => (
