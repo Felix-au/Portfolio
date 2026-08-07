@@ -514,8 +514,3 @@
     min-height: 240px;
   }
 }
-
-@keyframes glideProgress {
-  from { width: 0%; }
-  to { width: 100%; }
-}
