@@ -126,19 +126,26 @@ export const ProjectsSection: React.FC = () => {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.35, ease: 'easeOut' }}
                   >
-                     {/* Details Panel Logo */}
-                     {theme === 'dark' && activeProject.logoDark ? (
-                       <img src={activeProject.logoDark} alt="" className={styles.projectLogo} />
-                     ) : theme === 'light' && activeProject.logoLight ? (
-                       <img src={activeProject.logoLight} alt="" className={styles.projectLogo} />
-                     ) : null}
+                    {activeProject.logoLight && activeProject.logoDark && (
+                      <img
+                        src={theme === 'dark' ? activeProject.logoDark : activeProject.logoLight}
+                        alt={`${activeProject.title} logo`}
+                        style={{
+                          height: '40px',
+                          width: 'auto',
+                          objectFit: 'contain',
+                          alignSelf: 'flex-start',
+                          marginBottom: '4px',
+                        }}
+                      />
+                    )}
 
-                     <span
-                       className={styles.projectTagline}
-                       style={{ color: getProjectAccent(activeProjectIdx, theme) }}
-                     >
-                       {activeProject.tagline}
-                     </span>
+                    <span
+                      className={styles.projectTagline}
+                      style={{ color: getProjectAccent(activeProjectIdx, theme) }}
+                    >
+                      {activeProject.tagline}
+                    </span>
 
                     <h2 className={styles.projectTitle}>{activeProject.title}</h2>
 
@@ -217,13 +224,6 @@ export const ProjectsSection: React.FC = () => {
                           }}
                         />
 
-                        {/* Card Logo (top-left) */}
-                        {theme === 'dark' && project.logoDark ? (
-                          <img src={project.logoDark} alt="" className={styles.cardLogo} />
-                        ) : theme === 'light' && project.logoLight ? (
-                          <img src={project.logoLight} alt="" className={styles.cardLogo} />
-                        ) : null}
-
                         {/* Large index watermark */}
                         <span className={styles.cardIndex}>
                           {String(i + 1).padStart(2, '0')}
@@ -231,6 +231,19 @@ export const ProjectsSection: React.FC = () => {
 
                         {/* Card content (bottom-aligned) */}
                         <div className="card-content-wrap">
+                          {project.logoLight && project.logoDark && (
+                            <img
+                              src={theme === 'dark' ? project.logoDark : project.logoLight}
+                              alt={`${project.title} logo`}
+                              style={{
+                                height: '32px',
+                                width: 'auto',
+                                objectFit: 'contain',
+                                marginBottom: '12px',
+                                display: 'block',
+                              }}
+                            />
+                          )}
                           <h3 className={styles.cardTitle}>{project.title}</h3>
                           <p className={styles.cardTagline}>{project.tagline}</p>
                           <div className={styles.cardTechRow}>
