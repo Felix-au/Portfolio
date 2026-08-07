@@ -249,7 +249,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       const tl = gsap.timeline();
       tlRef.current = tl;
       if (targetCardRef.current !== null) {
-        tl.timeScale(4); // Speed up transition by 4x during rapid swaps
+        tl.timeScale(8); // Speed up transition by 8x during rapid swaps
       }
 
       tl.to(elFront, {
