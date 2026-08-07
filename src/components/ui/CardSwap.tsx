@@ -46,14 +46,21 @@ const makeSlot = (
   total: number,
   approach: 'linear' | 'smooshed' | 'capped' | 'damped' | 'arc'
 ): Slot => {
-  // Option 1: Smooshed (First two cards separate, middle cards overlapping, back cards separate)
+  // Option 1: Smooshed (First two cards separate, middle cards slightly offset to show outlines, back cards separate)
   if (approach === 'smooshed') {
+    const microFactor = 0.15;
     let effectiveIndex = i;
+    
     if (i >= 2 && i < total - 2) {
-      effectiveIndex = 2; // Stack middle cards directly in slot 2
+      // Middle cards are slightly offset to show card outlines
+      effectiveIndex = 2 + (i - 2) * microFactor;
     } else if (i >= total - 2) {
-      effectiveIndex = i - (total - 5); // Shift back cards to start right after slot 2
+      // Last two cards take into account the accumulated height/width of middle cards to avoid overshadowing
+      const lastMiddleOffset = 2 + (total - 3 - 2) * microFactor;
+      const stepIndex = i - (total - 2); // 0 for last-to-last, 1 for last
+      effectiveIndex = lastMiddleOffset + 1 + stepIndex;
     }
+    
     return {
       x: effectiveIndex * distX,
       y: -effectiveIndex * distY,
