@@ -149,12 +149,23 @@ export const ProjectsSection: React.FC = () => {
                     transition={{ duration: 0.35, ease: 'easeOut' }}
                   >
 
-                    <span
-                      className={styles.projectTagline}
-                      style={{ color: getProjectAccent(activeProjectIdx, theme) }}
-                    >
-                      {activeProject.tagline}
-                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                      <span
+                        className={styles.projectTagline}
+                        style={{ color: getProjectAccent(activeProjectIdx, theme) }}
+                      >
+                        {activeProject.tagline}
+                      </span>
+                      {(() => {
+                        const stars = getProjectStars(activeProject.githubUrl);
+                        return stars !== undefined ? (
+                          <span className={styles.starsBadge}>
+                            <Star size={11} fill="currentColor" style={{ marginRight: '4px' }} />
+                            {stars} stars
+                          </span>
+                        ) : null;
+                      })()}
+                    </div>
 
                     <h2 className={styles.projectTitle}>{activeProject.title}</h2>
 
@@ -231,6 +242,7 @@ export const ProjectsSection: React.FC = () => {
                           {String(i + 1).padStart(2, '0')}
                         </span>
 
+                        {/* Card content (bottom-aligned) */}
                         <div
                           className="card-content-wrap"
                           style={{
@@ -258,33 +270,6 @@ export const ProjectsSection: React.FC = () => {
                               }}
                             />
                           )}
-
-                          {/* Stars count watermark badge in bottom right (like the index watermark but smaller) */}
-                          {(() => {
-                            const stars = getProjectStars(project.githubUrl);
-                            return stars !== undefined ? (
-                              <div
-                                style={{
-                                  position: 'absolute',
-                                  bottom: '1.5rem',
-                                  right: '1.5rem',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  gap: '12px',
-                                  fontSize: '2.5rem',
-                                  fontWeight: 900,
-                                  lineHeight: 1,
-                                  color: 'var(--text-color, #ffffff)',
-                                  opacity: theme === 'dark' ? 0.18 : 0.32,
-                                  pointerEvents: 'none',
-                                  userSelect: 'none',
-                                }}
-                              >
-                                <Star size={36} fill="currentColor" />
-                                <span>{stars}</span>
-                              </div>
-                            ) : null;
-                          })()}
                         </div>
                       </div>
                     </Card>
