@@ -221,7 +221,6 @@ const CardSwap: React.FC<CardSwapProps> = ({
       });
     };
 
-    swap();
     intervalRef.current = window.setInterval(swap, delay);
 
     if (pauseOnHover && container.current) {
