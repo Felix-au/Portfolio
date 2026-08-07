@@ -57,10 +57,10 @@ export const ProjectsSection: React.FC = () => {
     return gitHubStats.repoStars[repoName];
   };
 
-  // Reset active project when switching tabs
-  useEffect(() => {
+  const handleTabChange = (tabId: ProjectCategory) => {
+    setActiveTab(tabId);
     setActiveProjectIdx(0);
-  }, [activeTab]);
+  };
 
   // IntersectionObserver for rail visibility
   useEffect(() => {
@@ -103,7 +103,7 @@ export const ProjectsSection: React.FC = () => {
           <button
             key={tab.id}
             className={`${styles.railBtn} ${activeTab === tab.id ? styles.railActive : ''}`}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => handleTabChange(tab.id)}
             title={tab.label}
           >
             {getTabIcon(tab.id)}
@@ -119,7 +119,7 @@ export const ProjectsSection: React.FC = () => {
             <button
               key={tab.id}
               className={`${styles.mobileTabBtn} ${activeTab === tab.id ? styles.mobileTabActive : ''}`}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => handleTabChange(tab.id)}
             >
               <span>{tab.emoji}</span>
               {tab.label}
