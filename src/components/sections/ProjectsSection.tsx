@@ -29,6 +29,7 @@ export const ProjectsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ProjectCategory>('websites');
   const [activeProjectIdx, setActiveProjectIdx] = useState(0);
   const [sectionVisible, setSectionVisible] = useState(false);
+  const [transitionStyle, setTransitionStyle] = useState<'cascade' | 'shuffle' | '3d-flip' | 'rolodex'>('cascade');
   const sectionRef = useRef<HTMLElement>(null);
   const { theme } = useTheme();
 
@@ -178,6 +179,32 @@ export const ProjectsSection: React.FC = () => {
 
             {/* ─── Right Column: CardSwap Stack ─── */}
             <div className={styles.cardSwapCol}>
+              {/* Temporary Style Selector Row */}
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                {(['cascade', 'shuffle', '3d-flip', 'rolodex'] as const).map((style) => (
+                  <button
+                    key={style}
+                    onClick={() => setTransitionStyle(style)}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: '20px',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      border: transitionStyle === style ? '1px solid var(--accent, #00e5ff)' : '1px solid rgba(255,255,255,0.1)',
+                      background: transitionStyle === style ? 'rgba(0,229,255,0.15)' : 'rgba(255,255,255,0.03)',
+                      color: transitionStyle === style ? 'var(--accent, #00e5ff)' : 'rgba(255,255,255,0.5)',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      outline: 'none',
+                    }}
+                  >
+                    {style}
+                  </button>
+                ))}
+              </div>
+
               <CardSwap
                 cardDistance={62}
                 verticalDistance={68}
@@ -187,6 +214,7 @@ export const ProjectsSection: React.FC = () => {
                 height={400}
                 skewAmount={5}
                 easing="elastic"
+                transitionStyle={transitionStyle}
                 onIndexChange={setActiveProjectIdx}
                 onCardClick={handleCardClick}
               >

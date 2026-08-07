@@ -101,6 +101,7 @@ interface CardSwapProps {
   onIndexChange?: (idx: number) => void;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
+  transitionStyle?: 'cascade' | 'shuffle' | '3d-flip' | 'rolodex';
   children: React.ReactNode;
 }
 
@@ -115,6 +116,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   onIndexChange,
   skewAmount = 6,
   easing = 'elastic',
+  transitionStyle = 'cascade',
   children,
 }) => {
   const config =
@@ -263,15 +265,43 @@ const CardSwap: React.FC<CardSwapProps> = ({
         });
       }
 
-      // 2. Drop the cards in front of the target card together (staggered slightly for cascading effect)
+      // 2. Animate front cards away based on the selected transition style
       dropCards.forEach((idx, i) => {
         const el = refs[idx].current;
-        if (el) {
+        if (!el) return;
+
+        if (transitionStyle === 'shuffle') {
+          tl.to(el, {
+            x: `-=${180 + i * 40}`,
+            y: `+=${40 + i * 20}`,
+            rotationY: -45,
+            scale: 0.9,
+            duration: config.durDrop,
+            ease: config.ease,
+          }, i * 0.08);
+        } else if (transitionStyle === '3d-flip') {
+          tl.to(el, {
+            rotationY: 90,
+            y: '-=150',
+            scale: 0.7,
+            duration: config.durDrop,
+            ease: config.ease,
+          }, i * 0.08);
+        } else if (transitionStyle === 'rolodex') {
+          tl.to(el, {
+            y: '-=300',
+            z: -400,
+            rotationX: -45,
+            duration: config.durDrop,
+            ease: config.ease,
+          }, i * 0.08);
+        } else {
+          // Default: cascade (drop down)
           tl.to(el, {
             y: '+=500',
             duration: config.durDrop,
             ease: config.ease,
-          }, i * 0.08); // Cascading overlap drop
+          }, i * 0.08);
         }
       });
 
@@ -320,17 +350,62 @@ const CardSwap: React.FC<CardSwapProps> = ({
           undefined,
           'return',
         );
-        tl.to(
-          el,
-          {
-            x: slot.x,
-            y: slot.y,
-            z: slot.z,
-            duration: config.durReturn,
-            ease: config.ease,
-          },
-          'return',
-        );
+
+        if (transitionStyle === 'shuffle') {
+          tl.to(
+            el,
+            {
+              x: slot.x,
+              y: slot.y,
+              z: slot.z,
+              rotationY: 0,
+              scale: 1,
+              duration: config.durReturn,
+              ease: config.ease,
+            },
+            'return',
+          );
+        } else if (transitionStyle === '3d-flip') {
+          tl.to(
+            el,
+            {
+              x: slot.x,
+              y: slot.y,
+              z: slot.z,
+              rotationY: 0,
+              scale: 1,
+              duration: config.durReturn,
+              ease: config.ease,
+            },
+            'return',
+          );
+        } else if (transitionStyle === 'rolodex') {
+          tl.to(
+            el,
+            {
+              x: slot.x,
+              y: slot.y,
+              z: slot.z,
+              rotationX: 0,
+              duration: config.durReturn,
+              ease: config.ease,
+            },
+            'return',
+          );
+        } else {
+          // Default: cascade (drop down)
+          tl.to(
+            el,
+            {
+              x: slot.x,
+              y: slot.y,
+              z: slot.z,
+              duration: config.durReturn,
+              ease: config.ease,
+            },
+            'return',
+          );
+        }
       });
 
       // 5. Schedule next normal auto-rotation when timeline finishes, if not hovered
