@@ -162,27 +162,57 @@ const CardSwap: React.FC<CardSwapProps> = ({
       const el = r.current;
       if (!el) return;
 
+      let glideTimeout: any = null;
+
       const onEnter = () => {
         if (order.current[0] === idx) {
           cardHoverStates.set(idx, true);
           const w = typeof width === 'number' ? width : parseFloat(width as string) || 525;
           const h = typeof height === 'number' ? height : parseFloat(height as string) || 400;
 
-          // Animate card to absolute center with a 10% leftward bias
+          if (glideTimeout) clearTimeout(glideTimeout);
+
+          // 1. Initial Hover Pop (0.45s to scale 1.2x, biased center)
           gsap.to(el, {
-            x: (0.05 - 0.10) * w, // -5% of container width (unbiased center minus 10% left shift)
+            x: (0.05 - 0.10) * w,
             y: -0.1 * h,
             skewY: 0,
-            scale: 1.2, // 1.2x zoom as requested
-            zIndex: 999, // Ensure it floats on top of other elements
+            scale: 1.2,
+            zIndex: 999,
             duration: 0.45,
             ease: 'power2.out',
             overwrite: 'auto',
           });
+
+          // 2. Cinematic Center Glide: slowly glides to true horizontal center of the screen, zooming to 1.5x over 4 seconds
+          glideTimeout = setTimeout(() => {
+            if (!cardHoverStates.get(idx)) return;
+            const parent = el.parentElement;
+            if (parent) {
+              const parentRect = parent.getBoundingClientRect();
+              const parentCenterX = parentRect.left + parentRect.width / 2;
+              const viewportCenterX = window.innerWidth / 2;
+              const targetX = viewportCenterX - parentCenterX;
+
+              gsap.to(el, {
+                x: targetX,
+                y: -0.15 * h,
+                scale: 1.5,
+                duration: 4.0,
+                ease: 'power1.inOut',
+                overwrite: 'auto',
+              });
+            }
+          }, 450);
         }
       };
 
       const onLeave = () => {
+        if (glideTimeout) {
+          clearTimeout(glideTimeout);
+          glideTimeout = null;
+        }
+
         if (cardHoverStates.get(idx)) {
           cardHoverStates.set(idx, false);
 
@@ -212,6 +242,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       el.addEventListener('click', onClick);
 
       cardCleanups.push(() => {
+        if (glideTimeout) clearTimeout(glideTimeout);
         el.removeEventListener('mouseenter', onEnter);
         el.removeEventListener('mouseleave', onLeave);
         el.removeEventListener('click', onClick);
