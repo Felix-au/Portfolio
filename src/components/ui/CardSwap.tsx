@@ -120,21 +120,21 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const config =
     easing === 'elastic'
       ? {
-          ease: 'elastic.out(0.6,0.9)',
-          durDrop: 2,
-          durMove: 2,
-          durReturn: 2,
-          promoteOverlap: 0.9,
-          returnDelay: 0.05,
-        }
+        ease: 'elastic.out(0.6,0.9)',
+        durDrop: 2,
+        durMove: 2,
+        durReturn: 2,
+        promoteOverlap: 0.9,
+        returnDelay: 0.05,
+      }
       : {
-          ease: 'power1.inOut',
-          durDrop: 0.8,
-          durMove: 0.8,
-          durReturn: 0.8,
-          promoteOverlap: 0.45,
-          returnDelay: 0.2,
-        };
+        ease: 'power1.inOut',
+        durDrop: 0.8,
+        durMove: 0.8,
+        durReturn: 0.8,
+        promoteOverlap: 0.45,
+        returnDelay: 0.2,
+      };
 
   const childArr = useMemo(() => Children.toArray(children), [children]);
   const refs = useMemo(
@@ -167,7 +167,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
           cardHoverStates.set(idx, true);
           const w = typeof width === 'number' ? width : parseFloat(width as string) || 525;
           const h = typeof height === 'number' ? height : parseFloat(height as string) || 400;
-          
+
           // Animate card to absolute center with a 10% leftward bias
           gsap.to(el, {
             x: (0.05 - 0.10) * w, // -5% of container width (unbiased center minus 10% left shift)
@@ -185,7 +185,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       const onLeave = () => {
         if (cardHoverStates.get(idx)) {
           cardHoverStates.set(idx, false);
-          
+
           // Animate card back to original Slot 0 stack position
           gsap.to(el, {
             x: 0,
@@ -203,7 +203,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       const onClick = () => {
         const pos = order.current.indexOf(idx);
         if (pos > 0) {
-          swap(pos);
+          performSwap(idx, true);
         }
       };
 
@@ -221,7 +221,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
     refs.forEach((r, i) => {
       if (r.current) {
         placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount);
-        
+
         // Hide text content (opacity 0) for cards deeper than slot 1
         const wrap = r.current.querySelector('.card-content-wrap');
         if (wrap) {
@@ -230,100 +230,110 @@ const CardSwap: React.FC<CardSwapProps> = ({
       }
     });
 
-    const swap = (K: number = 1) => {
+    const performSwap = (targetIdx: number, isRapid: boolean = false) => {
       if (order.current.length < 2) return;
+      if (tlRef.current && tlRef.current.isActive()) return; // Block trigger if transition is active
 
-      const oldOrder = [...order.current];
-      const newOrder = [...oldOrder.slice(K), ...oldOrder.slice(0, K)];
-      
-      // Update order immediately so hover checks pass instantly for the new front card
+      const pos = order.current.indexOf(targetIdx);
+      if (pos <= 0) return;
+
+      const dropCards = order.current.slice(0, pos);
+      const slideCards = order.current.slice(pos);
+      const newOrder = [...slideCards, ...dropCards];
+
+      // Update logical order and notify parent immediately to sync details panel
       order.current = newOrder;
-      
-      // Notify parent about the new front card index (which is newOrder[0])
-      onIndexChange?.(newOrder[0]);
-
-      const elFront = refs[oldOrder[0]].current;
-      if (!elFront) return;
+      onIndexChange?.(targetIdx);
 
       const tl = gsap.timeline();
       tlRef.current = tl;
 
-      // If rotating multiple cards, speed up timeline by 1.6x for a snappy cascade
-      if (K > 1) {
-        tl.timeScale(1.6);
+      if (isRapid) {
+        tl.timeScale(3); // Snappy but extremely smooth multi-card cascade
       }
 
-      // 1. Dropping cards (old slots 0 to K-1)
-      for (let i = 0; i < K; i++) {
-        const idx = oldOrder[i];
+      // 1. Fade out text wrapper of all cards dropping to the back
+      if (total > 2) {
+        dropCards.forEach((idx) => {
+          const el = refs[idx].current;
+          const wrap = el?.querySelector('.card-content-wrap');
+          if (wrap) {
+            tl.to(wrap, { opacity: 0, duration: config.durDrop * 0.4, ease: 'power1.out' }, 0);
+          }
+        });
+      }
+
+      // 2. Drop the cards in front of the target card together (staggered slightly for cascading effect)
+      dropCards.forEach((idx, i) => {
         const el = refs[idx].current;
-        if (!el) continue;
-
-        const newSlotIdx = (i - K + total) % total;
-        const targetSlot = makeSlot(newSlotIdx, cardDistance, verticalDistance, total);
-
-        // Staggered drop start time
-        const dropStart = i * 0.12;
-
-        // Fade out text wrap
-        const wrap = el.querySelector('.card-content-wrap');
-        if (wrap) {
-          tl.to(wrap, { opacity: 0, duration: 0.25 }, dropStart);
+        if (el) {
+          tl.to(el, {
+            y: '+=500',
+            duration: config.durDrop,
+            ease: config.ease,
+          }, i * 0.08); // Cascading overlap drop
         }
+      });
 
-        // Drop animation
-        tl.to(el, {
-          y: '+=500',
-          duration: config.durDrop * 0.7,
-          ease: 'power2.inOut',
-        }, dropStart);
-
-        // Return to back slot
-        const returnTime = dropStart + config.durDrop * 0.7 + 0.05;
-        tl.call(() => {
-          gsap.set(el, { zIndex: targetSlot.zIndex });
-        }, undefined, returnTime);
-
-        tl.to(el, {
-          x: targetSlot.x,
-          y: targetSlot.y,
-          z: targetSlot.z,
-          duration: config.durReturn * 0.8,
-          ease: 'power2.out',
-        }, returnTime);
-      }
-
-      // 2. Promoting/shifting cards (old slots K to total-1)
-      for (let i = K; i < total; i++) {
-        const idx = oldOrder[i];
+      // 3. Promote the clicked card and any cards behind it to their new slots
+      tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
+      slideCards.forEach((idx, i) => {
         const el = refs[idx].current;
-        if (!el) continue;
+        if (!el) return;
+        const targetSlotIndex = i;
+        const slot = makeSlot(targetSlotIndex, cardDistance, verticalDistance, refs.length);
 
-        const newSlotIdx = i - K;
-        const targetSlot = makeSlot(newSlotIdx, cardDistance, verticalDistance, total);
+        tl.set(el, { zIndex: slot.zIndex }, 'promote');
+        tl.to(
+          el,
+          {
+            x: slot.x,
+            y: slot.y,
+            z: slot.z,
+            duration: config.durMove,
+            ease: config.ease,
+          },
+          `promote+=${i * 0.12}`,
+        );
 
-        // Start slide forward staggered
-        const slideStart = 0.15 + (i - K) * 0.08;
-
-        // Fade in text wrap if it is moving to the visible slot (index < 2)
-        if (newSlotIdx < 2) {
+        // Fade in text wrapper if card moves to Slot 0 or Slot 1
+        if (total > 2 && targetSlotIndex < 2) {
           const wrap = el.querySelector('.card-content-wrap');
           if (wrap) {
-            tl.to(wrap, { opacity: 1, duration: 0.35 }, slideStart + 0.05);
+            tl.to(wrap, { opacity: 1, duration: config.durMove * 0.7, ease: 'power1.inOut' }, `promote+=${i * 0.12}`);
           }
         }
+      });
 
-        tl.set(el, { zIndex: targetSlot.zIndex }, slideStart);
-        tl.to(el, {
-          x: targetSlot.x,
-          y: targetSlot.y,
-          z: targetSlot.z,
-          duration: config.durMove * 0.85,
-          ease: 'power2.out',
-        }, slideStart);
-      }
+      // 4. Return all dropped cards to their new back slots
+      tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
+      dropCards.forEach((idx, i) => {
+        const el = refs[idx].current;
+        if (!el) return;
+        const targetSlotIndex = slideCards.length + i;
+        const slot = makeSlot(targetSlotIndex, cardDistance, verticalDistance, refs.length);
 
-      // Decides the next transition sequence once the current swap finishes and settles
+        tl.call(
+          () => {
+            gsap.set(el, { zIndex: slot.zIndex });
+          },
+          undefined,
+          'return',
+        );
+        tl.to(
+          el,
+          {
+            x: slot.x,
+            y: slot.y,
+            z: slot.z,
+            duration: config.durReturn,
+            ease: config.ease,
+          },
+          'return',
+        );
+      });
+
+      // 5. Schedule next normal auto-rotation when timeline finishes, if not hovered
       tl.call(() => {
         if (!isHoveredRef.current) {
           scheduleNext();
@@ -331,9 +341,15 @@ const CardSwap: React.FC<CardSwapProps> = ({
       });
     };
 
+    const swap = () => {
+      if (order.current.length > 1) {
+        performSwap(order.current[1], false);
+      }
+    };
+
     const scheduleNext = () => {
       clearInterval(intervalRef.current);
-      intervalRef.current = window.setTimeout(() => swap(1), delay);
+      intervalRef.current = window.setTimeout(swap, delay);
     };
 
     scheduleNext();
@@ -346,7 +362,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
       };
       const resume = () => {
         isHoveredRef.current = false;
-        scheduleNext();
+        if (!tlRef.current || !tlRef.current.isActive()) {
+          scheduleNext();
+        }
       };
       node.addEventListener('mouseenter', pause);
       node.addEventListener('mouseleave', resume);
@@ -367,14 +385,14 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
       ? cloneElement(child as React.ReactElement<CardProps & { style?: React.CSSProperties; onClick?: React.MouseEventHandler }>, {
-          key: i,
-          ref: refs[i],
-          style: { width, height, ...((child as React.ReactElement<{ style?: React.CSSProperties }>).props.style ?? {}) },
-          onClick: (e: React.MouseEvent) => {
-            (child as React.ReactElement<{ onClick?: React.MouseEventHandler }>).props.onClick?.(e);
-            onCardClick?.(i);
-          },
-        })
+        key: i,
+        ref: refs[i],
+        style: { width, height, ...((child as React.ReactElement<{ style?: React.CSSProperties }>).props.style ?? {}) },
+        onClick: (e: React.MouseEvent) => {
+          (child as React.ReactElement<{ onClick?: React.MouseEventHandler }>).props.onClick?.(e);
+          onCardClick?.(i);
+        },
+      })
       : child,
   );
 
