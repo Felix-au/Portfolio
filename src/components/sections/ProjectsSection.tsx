@@ -30,6 +30,7 @@ const LOGO_SCALE_OVERRIDES: Record<string, number> = {
   '3d-constructs': 1.25,
   'email-workspace': 1.25,
   'prashnasetu': 1.125,
+  'prashnasetu-app': 1.125,
   'omnikey': 1.25,
   'arenax': 1.5,
 };
@@ -164,7 +165,7 @@ export const ProjectsSection: React.FC = () => {
                           className={`${styles.actionBtn} ${styles.actionBtnPrimary}`}
                         >
                           <ExternalLink size={14} />
-                          Website
+                          {activeProject.category === 'applications' ? 'Download' : 'Website'}
                         </a>
                       )}
                       {activeProject.githubUrl && (
