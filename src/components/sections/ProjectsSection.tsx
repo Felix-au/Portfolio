@@ -148,13 +148,6 @@ export const ProjectsSection: React.FC = () => {
                       {activeProject.description}
                     </p>
 
-                    <div className={styles.techRow}>
-                      {activeProject.techStack.map((tech) => (
-                        <span key={tech} className={styles.techPill}>
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
 
                     <div className={styles.actionRow}>
                       {activeProject.liveUrl && (
