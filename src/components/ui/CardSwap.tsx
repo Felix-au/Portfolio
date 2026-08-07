@@ -171,7 +171,8 @@ const CardSwap: React.FC<CardSwapProps> = ({
             x: 0.05 * w,
             y: -0.1 * h,
             skewY: 0,
-            scale: 1.04,
+            scale: 1.2, // 1.2x zoom as requested
+            zIndex: 999, // Ensure it floats on top of other elements
             duration: 0.45,
             ease: 'power2.out',
             overwrite: 'auto',
@@ -189,6 +190,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
             y: 0,
             skewY: skewAmount,
             scale: 1,
+            zIndex: total, // Reset to standard front slot zIndex
             duration: 0.45,
             ease: 'power2.out',
             overwrite: 'auto',
@@ -221,6 +223,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
       if (order.current.length < 2) return;
 
       const [front, ...rest] = order.current;
+      
+      // Update order immediately so hover checks pass instantly for the new front card
+      order.current = [...rest, front];
       
       // Notify parent about the new front card index (which is rest[0])
       onIndexChange?.(rest[0]);
@@ -304,10 +309,6 @@ const CardSwap: React.FC<CardSwapProps> = ({
         },
         'return',
       );
-
-      tl.call(() => {
-        order.current = [...rest, front];
-      });
     };
 
     intervalRef.current = window.setInterval(swap, delay);
