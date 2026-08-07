@@ -174,7 +174,6 @@ export const ProjectsSection: React.FC = () => {
                 height={400}
                 skewAmount={5}
                 easing="elastic"
-                layoutApproach={layoutApproach}
                 onCardClick={handleCardClick}
               >
                 {projects.map((project, i) => (
