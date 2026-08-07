@@ -260,20 +260,30 @@ export const ProjectsSection: React.FC = () => {
                             />
                           )}
 
-                          {/* Large stars watermark (bottom-right, animated with wrapper) */}
+                          {/* Watermark Stars count at bottom right */}
                           {(() => {
                             const stars = getProjectStars(project.githubUrl);
                             return stars !== undefined ? (
-                              <span
-                                className={styles.cardStars}
+                              <div
                                 style={{
                                   position: 'absolute',
-                                  bottom: '1rem',
+                                  bottom: '1.25rem',
                                   right: '1.5rem',
+                                  fontSize: '1.1rem',
+                                  fontWeight: 800,
+                                  opacity: theme === 'dark' ? 0.35 : 0.45,
+                                  color: 'var(--text-color, #ffffff)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '4px',
+                                  pointerEvents: 'none',
+                                  userSelect: 'none',
+                                  zIndex: 2,
                                 }}
                               >
-                                ★{stars}
-                              </span>
+                                <Star size={14} fill="currentColor" />
+                                <span>{stars}</span>
+                              </div>
                             ) : null;
                           })()}
                         </div>
