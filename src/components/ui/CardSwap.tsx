@@ -155,7 +155,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
   useEffect(() => {
     const total = refs.length;
     // Reset order to match the current refs length (important when tab changes)
-    order.current = Array.from({ length: total }, (_, i) => i);
+    if (order.current.length !== total) {
+      order.current = Array.from({ length: total }, (_, i) => i);
+    }
 
     const cardCleanups: (() => void)[] = [];
     const cardHoverStates = new Map<number, boolean>();
