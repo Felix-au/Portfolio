@@ -14,6 +14,7 @@ import styles from './ProjectsSection.module.css';
 export const ProjectsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ProjectCategory>('websites');
   const [activeProjectIdx, setActiveProjectIdx] = useState(0);
+  const [layoutApproach, setLayoutApproach] = useState<'linear' | 'smooshed' | 'capped' | 'damped' | 'arc'>('linear');
   const [sectionVisible, setSectionVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -78,6 +79,41 @@ export const ProjectsSection: React.FC = () => {
       </nav>
 
       <div className={styles.container}>
+        {/* Temporary Layout Selector Button */}
+        <div style={{
+          display: 'flex',
+          gap: '8px',
+          marginBottom: '10px',
+          justifyContent: 'flex-start',
+          flexWrap: 'wrap',
+          zIndex: 100,
+          position: 'relative'
+        }}>
+          <span style={{ fontSize: '0.8rem', opacity: 0.6, alignSelf: 'center', marginRight: '10px' }}>
+            Layout Debugger:
+          </span>
+          {(['linear', 'smooshed', 'capped', 'damped', 'arc'] as const).map((approach) => (
+            <button
+              key={approach}
+              onClick={() => setLayoutApproach(approach)}
+              style={{
+                padding: '6px 14px',
+                borderRadius: '8px',
+                background: layoutApproach === approach ? 'var(--accent, #00e5ff)' : 'rgba(255,255,255,0.06)',
+                color: layoutApproach === approach ? '#000' : 'var(--text-color)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                cursor: 'pointer',
+                fontSize: '0.8rem',
+                fontWeight: 600,
+                textTransform: 'capitalize',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              {approach}
+            </button>
+          ))}
+        </div>
+
         {/* Mobile Tab Bar (shown on small screens) */}
         <div className={styles.mobileTabBar}>
           {PROJECT_TABS.map((tab) => (
@@ -174,6 +210,7 @@ export const ProjectsSection: React.FC = () => {
                 height={400}
                 skewAmount={5}
                 easing="elastic"
+                layoutApproach={layoutApproach}
                 onCardClick={handleCardClick}
               >
                 {projects.map((project, i) => (

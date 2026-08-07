@@ -39,12 +39,70 @@ interface Slot {
   zIndex: number;
 }
 
-const makeSlot = (i: number, distX: number, distY: number, total: number): Slot => ({
-  x: i * distX,
-  y: -i * distY,
-  z: -i * distX * 1.5,
-  zIndex: total - i,
-});
+const makeSlot = (
+  i: number,
+  distX: number,
+  distY: number,
+  total: number,
+  approach: 'linear' | 'smooshed' | 'capped' | 'damped' | 'arc'
+): Slot => {
+  // Option 1: Smooshed (First two cards separate, middle cards overlapping, back cards separate)
+  if (approach === 'smooshed') {
+    let effectiveIndex = i;
+    if (i >= 2 && i < total - 2) {
+      effectiveIndex = 2; // Stack middle cards directly in slot 2
+    } else if (i >= total - 2) {
+      effectiveIndex = i - (total - 5); // Shift back cards to start right after slot 2
+    }
+    return {
+      x: effectiveIndex * distX,
+      y: -effectiveIndex * distY,
+      z: -effectiveIndex * distX * 1.5,
+      zIndex: total - i,
+    };
+  }
+
+  // Option 2: Capped (Keep cards at slot >= 3 stacked on top of slot 3, capping the stack depth at 4)
+  if (approach === 'capped') {
+    const effectiveIndex = Math.min(i, 3);
+    return {
+      x: effectiveIndex * distX,
+      y: -effectiveIndex * distY,
+      z: -effectiveIndex * distX * 1.5,
+      zIndex: total - i,
+    };
+  }
+
+  // Option 3: Damped (Logarithmic compression of visual offsets)
+  if (approach === 'damped') {
+    const factor = Math.log2(i + 1); // slot 0->0, slot 1->1, slot 2->1.58, slot 9->3.32
+    return {
+      x: factor * distX,
+      y: -factor * distY,
+      z: -factor * distX * 1.5,
+      zIndex: total - i,
+    };
+  }
+
+  // Option 4: Horizontal Stack Arc (Curve along Z-depth with slight height arc)
+  if (approach === 'arc') {
+    const curveY = -Math.pow(i - 2.5, 2) * 4; // slight vertical curve
+    return {
+      x: i * distX * 0.85,
+      y: curveY,
+      z: -i * distX * 1.5,
+      zIndex: total - i,
+    };
+  }
+
+  // Default (Linear)
+  return {
+    x: i * distX,
+    y: -i * distY,
+    z: -i * distX * 1.5,
+    zIndex: total - i,
+  };
+};
 
 const placeNow = (el: HTMLElement, slot: Slot, skew: number) =>
   gsap.set(el, {
@@ -72,6 +130,7 @@ interface CardSwapProps {
   onCardClick?: (idx: number) => void;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
+  layoutApproach?: 'linear' | 'smooshed' | 'capped' | 'damped' | 'arc';
   children: React.ReactNode;
 }
 
@@ -85,6 +144,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   onCardClick,
   skewAmount = 6,
   easing = 'elastic',
+  layoutApproach = 'linear',
   children,
 }) => {
   const config =
@@ -122,7 +182,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
     const total = refs.length;
     refs.forEach((r, i) => {
       if (r.current) {
-        placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount);
+        placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total, layoutApproach), skewAmount);
         
         // Hide text content (opacity 0) for cards deeper than slot 1
         const wrap = r.current.querySelector('.card-content-wrap');
@@ -164,7 +224,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       rest.forEach((idx, i) => {
         const el = refs[idx].current;
         if (!el) return;
-        const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
+        const slot = makeSlot(i, cardDistance, verticalDistance, refs.length, layoutApproach);
         tl.set(el, { zIndex: slot.zIndex }, 'promote');
         tl.to(
           el,
@@ -195,7 +255,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
         }
       }
 
-      const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
+      const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length, layoutApproach);
       tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
       tl.call(
         () => {
@@ -243,7 +303,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
     }
     return () => clearInterval(intervalRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, layoutApproach]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
