@@ -251,6 +251,57 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
     intervalRef.current = window.setInterval(swap, delay);
 
+    const cleanups: (() => void)[] = [];
+
+    // Attach hover listeners to each card to float the active front card
+    refs.forEach((ref, idx) => {
+      const el = ref.current;
+      if (!el) return;
+
+      const onEnter = () => {
+        // Only animate the card if it is currently at the front
+        if (order.current[0] !== idx) return;
+
+        const isDesktop = window.innerWidth > 768;
+        gsap.to(el, {
+          x: isDesktop ? -280 : 0,
+          y: isDesktop ? 0 : -30,
+          z: 150,
+          scale: 1.1,
+          skewY: 0,
+          boxShadow: '0 30px 60px rgba(0, 0, 0, 0.4)',
+          duration: 0.6,
+          ease: 'power2.out',
+          overwrite: 'auto',
+        });
+      };
+
+      const onLeave = () => {
+        // Reset only if it is the front card returning to slot 0
+        if (order.current[0] !== idx) return;
+
+        const slot = makeSlot(0, cardDistance, verticalDistance, refs.length);
+        gsap.to(el, {
+          x: slot.x,
+          y: slot.y,
+          z: slot.z,
+          scale: 1,
+          skewY: skewAmount,
+          boxShadow: 'none',
+          duration: 0.6,
+          ease: 'power2.out',
+          overwrite: 'auto',
+        });
+      };
+
+      el.addEventListener('mouseenter', onEnter);
+      el.addEventListener('mouseleave', onLeave);
+      cleanups.push(() => {
+        el.removeEventListener('mouseenter', onEnter);
+        el.removeEventListener('mouseleave', onLeave);
+      });
+    });
+
     if (pauseOnHover && container.current) {
       const node = container.current;
       const pause = () => {
@@ -263,13 +314,16 @@ const CardSwap: React.FC<CardSwapProps> = ({
       };
       node.addEventListener('mouseenter', pause);
       node.addEventListener('mouseleave', resume);
-      return () => {
+      cleanups.push(() => {
         node.removeEventListener('mouseenter', pause);
         node.removeEventListener('mouseleave', resume);
-        clearInterval(intervalRef.current);
-      };
+      });
     }
-    return () => clearInterval(intervalRef.current);
+
+    return () => {
+      clearInterval(intervalRef.current);
+      cleanups.forEach((c) => c());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
 
