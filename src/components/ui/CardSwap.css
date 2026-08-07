@@ -11,13 +11,15 @@
   left: 50%;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(16, 18, 30, 0.75);
+  background: rgba(13, 15, 26, 0.05);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   overflow: hidden;
   cursor: pointer;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card-swap-card:hover {
@@ -26,7 +28,7 @@
 }
 
 [data-theme='light'] .card-swap-card {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
