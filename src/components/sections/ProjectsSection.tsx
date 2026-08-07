@@ -226,16 +226,6 @@ export const ProjectsSection: React.FC = () => {
                           }}
                         />
 
-                        {/* Large stars watermark (top-left) */}
-                        {(() => {
-                          const stars = getProjectStars(project.githubUrl);
-                          return stars !== undefined ? (
-                            <span className={styles.cardStars}>
-                              ★{stars}
-                            </span>
-                          ) : null;
-                        })()}
-
                         {/* Large index watermark */}
                         <span className={styles.cardIndex}>
                           {String(i + 1).padStart(2, '0')}
@@ -269,6 +259,23 @@ export const ProjectsSection: React.FC = () => {
                               }}
                             />
                           )}
+
+                          {/* Large stars watermark (bottom-right, animated with wrapper) */}
+                          {(() => {
+                            const stars = getProjectStars(project.githubUrl);
+                            return stars !== undefined ? (
+                              <span
+                                className={styles.cardStars}
+                                style={{
+                                  position: 'absolute',
+                                  bottom: '1rem',
+                                  right: '1.5rem',
+                                }}
+                              >
+                                ★{stars}
+                              </span>
+                            ) : null;
+                          })()}
                         </div>
                       </div>
                     </Card>
