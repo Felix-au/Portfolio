@@ -194,17 +194,44 @@ const CardSwap: React.FC<CardSwapProps> = ({
         if (!el) return;
         const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
         tl.set(el, { zIndex: slot.zIndex }, 'promote');
-        tl.to(
-          el,
-          {
-            x: slot.x,
-            y: slot.y,
-            z: slot.z,
-            duration: config.durMove,
-            ease: config.ease,
-          },
-          `promote+=${i * 0.15}`,
-        );
+        
+        if (i === 0) {
+          // Swoop the card coming to the front (Slot 0) upward and right first, then curve down to center
+          tl.to(
+            el,
+            {
+              keyframes: [
+                {
+                  x: cardDistance * 1.5,
+                  y: -verticalDistance * 1.5,
+                  z: -cardDistance * 1.2,
+                  duration: config.durMove * 0.4,
+                  ease: 'power1.out',
+                },
+                {
+                  x: slot.x,
+                  y: slot.y,
+                  z: slot.z,
+                  duration: config.durMove * 0.6,
+                  ease: config.ease,
+                }
+              ],
+            },
+            'promote'
+          );
+        } else {
+          tl.to(
+            el,
+            {
+              x: slot.x,
+              y: slot.y,
+              z: slot.z,
+              duration: config.durMove,
+              ease: config.ease,
+            },
+            `promote+=${i * 0.15}`,
+          );
+        }
       });
 
       // Fade in the text wrap of the card moving to slot 1 (idx at rest[1], which was slot 2)
@@ -235,11 +262,21 @@ const CardSwap: React.FC<CardSwapProps> = ({
       tl.to(
         elFront,
         {
-          x: backSlot.x,
-          y: backSlot.y,
-          z: backSlot.z,
-          duration: config.durReturn,
-          ease: config.ease,
+          keyframes: [
+            {
+              x: backSlot.x + 60,
+              y: backSlot.y - 60,
+              duration: config.durReturn * 0.5,
+              ease: 'power1.out',
+            },
+            {
+              x: backSlot.x,
+              y: backSlot.y,
+              z: backSlot.z,
+              duration: config.durReturn * 0.5,
+              ease: config.ease,
+            }
+          ],
         },
         'return',
       );
