@@ -267,21 +267,21 @@ export const ProjectsSection: React.FC = () => {
                               <div
                                 style={{
                                   position: 'absolute',
-                                  bottom: '1.25rem',
-                                  right: '1.5rem',
-                                  fontSize: '1.1rem',
+                                  bottom: '1.5rem',
+                                  right: '1.75rem',
+                                  fontSize: '2.2rem',
                                   fontWeight: 800,
-                                  opacity: theme === 'dark' ? 0.35 : 0.45,
+                                  opacity: theme === 'dark' ? 0.22 : 0.32,
                                   color: 'var(--text-color, #ffffff)',
                                   display: 'flex',
                                   alignItems: 'center',
-                                  gap: '4px',
+                                  gap: '8px',
                                   pointerEvents: 'none',
                                   userSelect: 'none',
                                   zIndex: 2,
                                 }}
                               >
-                                <Star size={14} fill="currentColor" />
+                                <Star size={28} fill="currentColor" />
                                 <span>{stars}</span>
                               </div>
                             ) : null;
