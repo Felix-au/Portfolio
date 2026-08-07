@@ -264,7 +264,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
         const isDesktop = window.innerWidth > 768;
         gsap.to(el, {
-          x: isDesktop ? '-20%' : '0%',
+          x: isDesktop ? '-10%' : '0%',
           y: isDesktop ? 0 : -30,
           z: 150,
           scale: 1.1,
