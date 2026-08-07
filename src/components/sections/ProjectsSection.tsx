@@ -198,7 +198,7 @@ export const ProjectsSection: React.FC = () => {
                 key={activeTab}
                 cardDistance={62}
                 verticalDistance={68}
-                delay={3000}
+                delay={2000}
                 pauseOnHover
                 width={525}
                 height={400}
