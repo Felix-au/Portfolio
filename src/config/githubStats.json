@@ -3,11 +3,11 @@
   "totalStars": 895,
   "totalForks": 287,
   "totalWatchers": 139,
-  "totalRepos": 34,
-  "totalCommits": 3543,
+  "totalRepos": 31,
+  "totalCommits": 3046,
   "totalPRs": 1,
   "totalIssues": 1,
-  "totalReviews": 1,
+  "totalReviews": 176,
   "followers": 128,
   "topLanguages": [
     {
@@ -18,32 +18,30 @@
     {
       "name": "JavaScript",
       "color": "#f1e05a",
-      "percentage": 31
+      "percentage": 34
     },
     {
       "name": "Python",
       "color": "#3572A5",
-      "percentage": 13
+      "percentage": 10
     },
     {
       "name": "Java",
       "color": "#b07219",
-      "percentage": 9
+      "percentage": 7
     },
     {
       "name": "Jupyter Notebook",
       "color": "#DA5B0B",
-      "percentage": 6
+      "percentage": 7
     }
   ],
   "repoStars": {
     "quantx-stock-analysis-and-forecast": 18,
     "mousex-absolute-mouse-control": 43,
-    "prashnasetu-webportal": 0,
     "prashnasetu-public": 4,
     "algobuddy": 55,
     "arenax": 2,
-    "samvidya-ii": 0,
     "university-class-scheduler": 5,
     "nfa-to-dfa-visualizer": 3,
     "sonixx-audio-routing-and-soundbaord": 62,
@@ -67,10 +65,9 @@
     "email-workspace": 10,
     "sonixx-website-audio-routing-and-soundbaord": 20,
     "cursorx-interactive-cursor-effects": 85,
-    "github": 0,
     "frame-scrolling": 0,
     "certifications-and-badges": 0,
     "portfolio": 0
   },
-  "lastUpdated": "2026-08-07T21:27:14.190Z"
+  "lastUpdated": "2026-08-08T01:46:40.908Z"
 }
