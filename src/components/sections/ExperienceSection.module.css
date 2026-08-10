@@ -60,17 +60,6 @@
   gap: 0 1.5rem;
   align-items: start;
   position: relative;
-  opacity: 0;
-  animation: expFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes expFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 /* ─── Left index column ─────────────────────────────────────────────── */
@@ -122,12 +111,13 @@
   margin-bottom: 2rem;
   padding: 1.75rem 1.75rem 1.5rem;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(10, 12, 22, 0.6);
   overflow: hidden;
-  transition: border-color 0.35s ease, background-color 0.35s ease, box-shadow 0.35s ease;
+  transition: border-color 0.35s ease, background 0.35s ease, transform 0.35s ease;
+
+  /* Gradient left border via box-shadow trick */
+  border-left: 3px solid transparent;
 }
 
 /* Left accent border using before pseudo */
@@ -158,8 +148,8 @@
 
 .expCardHovered {
   border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 32px hsl(var(--hue, 185), 70%, 50%, 0.15);
+  background: rgba(10, 12, 22, 0.72);
+  transform: translateX(4px);
 }
 
 [data-theme='light'] .expCard {
@@ -169,7 +159,6 @@
 
 [data-theme='light'] .expCardHovered {
   background: rgba(255, 255, 255, 0.88);
-  box-shadow: 0 8px 32px hsl(var(--hue, 185), 65%, 45%, 0.12);
 }
 
 /* ─── Glow blob ─────────────────────────────────────────────────────── */
