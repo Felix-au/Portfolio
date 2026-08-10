@@ -164,11 +164,18 @@
   align-items: center;
 }
 
-.description {
+.descriptionList {
   margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   color: var(--text-light, rgba(255, 255, 255, 0.7));
+}
+
+.descriptionPoint {
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 @media (max-width: 1200px) {
