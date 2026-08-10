@@ -54,16 +54,79 @@
   gap: 2rem;
 }
 
-.carouselViewport {
-  width: 100%;
-  overflow: hidden;
+.carouselContainer {
   position: relative;
-  min-height: 460px;
+  width: 100%;
+  height: 520px;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.carouselViewport :global(.expRow) {
+.carouselCardWrapper {
+  position: absolute;
+  width: 100%;
+  max-width: 680px;
+  box-sizing: border-box;
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+              left 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+              opacity 0.8s ease,
+              filter 0.8s ease,
+              z-index 0.8s step-end;
+}
+
+.carouselCardWrapper :global(.expRow) {
   width: 100%;
   margin-bottom: 0;
+}
+
+/* 3D Stack States */
+.selected {
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+  z-index: 10;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.prev {
+  left: 18%;
+  transform: translateX(-50%) scale(0.82);
+  z-index: 5;
+  opacity: 0.32;
+  pointer-events: auto;
+  cursor: pointer;
+  filter: blur(1.5px) brightness(0.7);
+}
+
+.prev:hover {
+  opacity: 0.6;
+  filter: blur(0.5px) brightness(0.9);
+}
+
+.next {
+  left: 82%;
+  transform: translateX(-50%) scale(0.82);
+  z-index: 5;
+  opacity: 0.32;
+  pointer-events: auto;
+  cursor: pointer;
+  filter: blur(1.5px) brightness(0.7);
+}
+
+.next:hover {
+  opacity: 0.6;
+  filter: blur(0.5px) brightness(0.9);
+}
+
+.far {
+  left: 50%;
+  transform: translateX(-50%) scale(0.68);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(4px) brightness(0.5);
 }
 
 .controls {
@@ -428,10 +491,42 @@
   .sectionTitle { font-size: 1.8rem; }
   .expRow { grid-template-columns: 52px 1fr; gap: 0 1rem; }
   .indexNumber { font-size: 1.6rem; }
+  .prev {
+    left: 10%;
+    transform: translateX(-50%) scale(0.8);
+    opacity: 0.2;
+  }
+  .next {
+    left: 90%;
+    transform: translateX(-50%) scale(0.8);
+    opacity: 0.2;
+  }
 }
 
 @media (max-width: 900px) {
   .section { padding: 5rem 1.5rem 4rem; }
+}
+
+@media (max-width: 768px) {
+  .carouselContainer {
+    height: 600px;
+  }
+  .carouselCardWrapper {
+    width: calc(100% - 2rem);
+    max-width: 100%;
+  }
+  .prev {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) scale(0.8);
+    left: 50%;
+  }
+  .next {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) scale(0.8);
+    left: 50%;
+  }
 }
 
 @media (max-width: 696px) {
@@ -441,7 +536,6 @@
   .cardTop { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
   .cardRole { font-size: 1.1rem; }
   .typeChip { margin-left: 0; }
-  .carouselViewport { min-height: 520px; }
 }
 
 @media (max-width: 480px) {
@@ -449,5 +543,5 @@
   .expRow { grid-template-columns: 36px 1fr; gap: 0 0.5rem; }
   .indexNumber { font-size: 1.1rem; }
   .cardMeta { gap: 0.3rem; }
-  .carouselViewport { min-height: 580px; }
+  .carouselContainer { height: 680px; }
 }

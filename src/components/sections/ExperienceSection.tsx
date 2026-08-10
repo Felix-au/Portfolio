@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import { DecoderText } from '../ui/DecoderText';
 import { useTheme } from '../../context/ThemeContext';
@@ -80,28 +79,13 @@ const EXPERIENCES: ExperienceItem[] = [
   },
 ];
 
-const slideVariants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? 150 : -150,
-    opacity: 0,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-  },
-  exit: (direction: number) => ({
-    x: direction > 0 ? -150 : 150,
-    opacity: 0,
-  }),
-};
-
 export const ExperienceSection: React.FC = () => {
   const { theme } = useTheme();
   const [sectionVisible, setSectionVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -115,16 +99,38 @@ export const ExperienceSection: React.FC = () => {
   }, []);
 
   const prevSlide = () => {
-    setDirection(-1);
     setActiveIndex((prev) => (prev === 0 ? EXPERIENCES.length - 1 : prev - 1));
   };
 
   const nextSlide = () => {
-    setDirection(1);
     setActiveIndex((prev) => (prev === EXPERIENCES.length - 1 ? 0 : prev + 1));
   };
 
-  const exp = EXPERIENCES[activeIndex];
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diffX = touchStartX.current - touchEndX;
+    const threshold = 50;
+
+    if (diffX > threshold) {
+      nextSlide();
+    } else if (diffX < -threshold) {
+      prevSlide();
+    }
+    touchStartX.current = null;
+  };
+
+  const getClassName = (index: number) => {
+    const relativeIndex = (index - activeIndex + EXPERIENCES.length) % EXPERIENCES.length;
+    if (relativeIndex === 0) return styles.selected;
+    if (relativeIndex === 1) return styles.next;
+    if (relativeIndex === EXPERIENCES.length - 1) return styles.prev;
+    return styles.far;
+  };
 
   return (
     <section id="experience" className={styles.section} ref={sectionRef}>
@@ -136,98 +142,93 @@ export const ExperienceSection: React.FC = () => {
         </h2>
 
         <div className={styles.carouselSection}>
-          <div className={styles.carouselViewport}>
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={activeIndex}
-                custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.2}
-                onDragEnd={(_, info) => {
-                  const swipeThreshold = 50;
-                  if (info.offset.x < -swipeThreshold) {
-                    nextSlide();
-                  } else if (info.offset.x > swipeThreshold) {
-                    prevSlide();
-                  }
-                }}
-                transition={{
-                  x: { type: 'spring', stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.2 }
-                }}
-                className={styles.expRow}
-                onMouseEnter={() => setHovered(activeIndex)}
-                onMouseLeave={() => setHovered(null)}
-              >
-                {/* Index number */}
-                <div className={styles.expIndex}>
-                  <span
-                    className={styles.indexNumber}
-                    style={{ '--hue': exp.accentHue } as React.CSSProperties}
-                  >
-                    {String(activeIndex + 1).padStart(2, '0')}
-                  </span>
-                </div>
-
-                {/* Card */}
+          <div
+            className={styles.carouselContainer}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            {EXPERIENCES.map((exp, idx) => {
+              const cardClass = getClassName(idx);
+              const isSelected = activeIndex === idx;
+              return (
                 <div
-                  className={`${styles.expCard} ${hovered === activeIndex ? styles.expCardHovered : ''}`}
-                  style={{ '--hue': exp.accentHue } as React.CSSProperties}
+                  key={idx}
+                  className={`${styles.carouselCardWrapper} ${cardClass}`}
+                  onClick={() => {
+                    if (!isSelected) {
+                      setActiveIndex(idx);
+                    }
+                  }}
+                  onMouseEnter={() => isSelected && setHovered(idx)}
+                  onMouseLeave={() => isSelected && setHovered(null)}
                 >
-                  {/* Glow blob behind hovered card */}
-                  <div className={styles.cardGlow} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
-
-                  {/* Top row: role + badge */}
-                  <div className={styles.cardTop}>
-                    <h3 className={styles.cardRole}>{exp.role}</h3>
-                    {exp.isCurrent && (
-                      <span className={styles.activeBadge}>
-                        <span className={styles.activeDot} />
-                        Active
+                  <div className={styles.expRow}>
+                    {/* Index number */}
+                    <div className={styles.expIndex}>
+                      <span
+                        className={styles.indexNumber}
+                        style={{ '--hue': exp.accentHue } as React.CSSProperties}
+                      >
+                        {String(idx + 1).padStart(2, '0')}
                       </span>
-                    )}
+                    </div>
+
+                    {/* Card */}
+                    <div
+                      className={`${styles.expCard} ${hovered === idx ? styles.expCardHovered : ''}`}
+                      style={{ '--hue': exp.accentHue } as React.CSSProperties}
+                    >
+                      {/* Glow blob behind hovered card */}
+                      <div className={styles.cardGlow} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
+
+                      {/* Top row: role + badge */}
+                      <div className={styles.cardTop}>
+                        <h3 className={styles.cardRole}>{exp.role}</h3>
+                        {exp.isCurrent && (
+                          <span className={styles.activeBadge}>
+                            <span className={styles.activeDot} />
+                            Active
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Company + meta */}
+                      <div className={styles.cardMeta}>
+                        <span className={styles.cardCompany} style={{ '--hue': exp.accentHue } as React.CSSProperties}>
+                          {exp.company}
+                        </span>
+                        <span className={styles.metaSep}>/</span>
+                        <span className={styles.cardDuration}>
+                          <Calendar size={11} style={{ marginRight: 4 }} />
+                          {exp.duration}
+                        </span>
+                        <span className={styles.metaSep}>/</span>
+                        <span className={styles.cardLocation}>
+                          <MapPin size={11} style={{ marginRight: 4 }} />
+                          {exp.location}
+                        </span>
+                        <span className={styles.typeChip} data-type={exp.type}>
+                          {exp.type === 'onsite' ? 'On-site' : exp.type === 'remote' ? 'Remote' : 'Hybrid'}
+                        </span>
+                      </div>
+
+                      {/* Divider */}
+                      <div className={styles.cardDivider} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
+
+                      {/* Bullets */}
+                      <ul className={styles.bullets}>
+                        {exp.description.map((pt, i) => (
+                          <li key={i} className={styles.bullet}>
+                            <span className={styles.bulletDot} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
+                            {pt}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-
-                  {/* Company + meta */}
-                  <div className={styles.cardMeta}>
-                    <span className={styles.cardCompany} style={{ '--hue': exp.accentHue } as React.CSSProperties}>
-                      {exp.company}
-                    </span>
-                    <span className={styles.metaSep}>/</span>
-                    <span className={styles.cardDuration}>
-                      <Calendar size={11} style={{ marginRight: 4 }} />
-                      {exp.duration}
-                    </span>
-                    <span className={styles.metaSep}>/</span>
-                    <span className={styles.cardLocation}>
-                      <MapPin size={11} style={{ marginRight: 4 }} />
-                      {exp.location}
-                    </span>
-                    <span className={styles.typeChip} data-type={exp.type}>
-                      {exp.type === 'onsite' ? 'On-site' : exp.type === 'remote' ? 'Remote' : 'Hybrid'}
-                    </span>
-                  </div>
-
-                  {/* Divider */}
-                  <div className={styles.cardDivider} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
-
-                  {/* Bullets */}
-                  <ul className={styles.bullets}>
-                    {exp.description.map((pt, i) => (
-                      <li key={i} className={styles.bullet}>
-                        <span className={styles.bulletDot} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
-                        {pt}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+              );
+            })}
           </div>
 
           {/* Controls */}
@@ -241,7 +242,6 @@ export const ExperienceSection: React.FC = () => {
                 <button
                   key={idx}
                   onClick={() => {
-                    setDirection(idx > activeIndex ? 1 : -1);
                     setActiveIndex(idx);
                   }}
                   className={`${styles.dot} ${activeIndex === idx ? styles.activeDotIndicator : ''}`}
