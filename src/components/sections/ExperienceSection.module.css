@@ -1,3 +1,4 @@
+﻿/* ─── Section shell ─────────────────────────────────────── */
 .section {
   min-height: 100vh;
   padding: 5rem 72px;
@@ -21,21 +22,25 @@
 
 .container {
   width: 100%;
-  max-width: 800px;
+  max-width: 860px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 2rem;
   align-items: center;
 }
 
+.layoutArea {
+  width: 100%;
+}
+
+/* ─── Section title ──────────────────────────────────────── */
 .sectionTitle {
   text-transform: uppercase;
   font-size: 2.5rem;
   letter-spacing: 0.28em;
   color: var(--text-light, rgba(255, 255, 255, 0.6));
-  margin-bottom: 0.25rem;
-  margin-top: 0;
+  margin: 0;
   font-weight: 500;
   line-height: 1;
   min-height: 1.25em;
@@ -44,18 +49,117 @@
   text-align: center;
 }
 
-/* Timeline Layout */
+/* ─── Layout switcher pill ───────────────────────────────── */
+.layoutSwitcher {
+  display: flex;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 0.35rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+[data-theme='light'] .layoutSwitcher {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.layoutBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-light, rgba(255, 255, 255, 0.5));
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.layoutBtn:hover {
+  color: var(--text-color, #fff);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.layoutBtnActive {
+  background: var(--accent, #00e5ff) !important;
+  color: #0a0a0a !important;
+  font-weight: 600;
+}
+
+[data-theme='light'] .layoutBtn {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+[data-theme='light'] .layoutBtn:hover {
+  color: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme='light'] .layoutBtnActive {
+  color: #0a0a0a !important;
+}
+
+/* ─── Shared tokens ──────────────────────────────────────── */
+.role {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color, #ffffff);
+  line-height: 1.3;
+}
+
+.company {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent, #00e5ff);
+}
+
+.duration {
+  font-size: 0.78rem;
+  color: var(--text-light, rgba(255, 255, 255, 0.5));
+  display: inline-flex;
+  align-items: center;
+}
+
+.location {
+  font-size: 0.78rem;
+  color: var(--text-light, rgba(255, 255, 255, 0.5));
+  display: inline-flex;
+  align-items: center;
+}
+
+.descriptionList {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  color: var(--text-light, rgba(255, 255, 255, 0.72));
+}
+
+.descriptionPoint {
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+/* ─── LAYOUT 1: Timeline ─────────────────────────────────── */
 .timeline {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.75rem;
   width: 100%;
   padding-left: 2rem;
   box-sizing: border-box;
 }
 
-/* Vertical timeline trace line */
 .timeline::before {
   content: '';
   position: absolute;
@@ -78,10 +182,10 @@
 .timelineBadge {
   position: absolute;
   left: -2rem;
-  top: 1.25rem;
+  top: 1.15rem;
   transform: translateX(-50%);
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--accent, #00e5ff);
   border: 4px solid #111111;
@@ -100,22 +204,22 @@
 .timelineCard {
   background: rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: 1.75rem;
+  border-radius: 18px;
+  padding: 1.5rem 1.75rem;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  transition: all 0.35s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
 [data-theme='light'] .timelineCard {
   background: rgba(255, 255, 255, 0.65);
   border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
 }
 
 .timelineCard:hover {
-  border-color: var(--accent, #00e5ff);
+  border-color: rgba(0, 229, 255, 0.35);
   transform: translateY(-2px);
 }
 
@@ -125,21 +229,7 @@
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 0.25rem;
-}
-
-.role {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-color, #ffffff);
-}
-
-.duration {
-  font-size: 0.8rem;
-  color: var(--text-light, rgba(255, 255, 255, 0.5));
-  display: inline-flex;
-  align-items: center;
+  margin-bottom: 0.2rem;
 }
 
 .cardSubHeader {
@@ -148,76 +238,361 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
 }
 
-.company {
-  font-size: 0.95rem;
-  font-weight: 500;
+/* ─── LAYOUT 2: Accordion ────────────────────────────────── */
+.accordionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.accordionItem {
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+[data-theme='light'] .accordionItem {
+  border-color: rgba(0, 0, 0, 0.07);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.accordionOpen {
+  border-color: rgba(0, 229, 255, 0.3);
+  background: rgba(0, 229, 255, 0.03);
+}
+
+.accordionTrigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+}
+
+.accordionLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.accordionDot {
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent, #00e5ff);
+  opacity: 0.7;
+}
+
+.accordionOpen .accordionDot {
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+}
+
+.accordionRole {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color, #fff);
+  line-height: 1.3;
+}
+
+.accordionMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.15rem;
+}
+
+.accordionSep {
+  color: var(--text-light, rgba(255, 255, 255, 0.3));
+  font-size: 0.75rem;
+}
+
+.accordionRight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.accordionChevron {
+  color: var(--text-light, rgba(255, 255, 255, 0.4));
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.accordionChevronOpen {
+  transform: rotate(180deg);
   color: var(--accent, #00e5ff);
 }
 
-.location {
-  font-size: 0.8rem;
-  color: var(--text-light, rgba(255, 255, 255, 0.5));
-  display: inline-flex;
-  align-items: center;
+.accordionBody {
+  overflow: hidden;
+  padding: 0 1.4rem 1.2rem 3.15rem;
 }
 
-.descriptionList {
-  margin: 0;
-  padding-left: 1.25rem;
+/* ─── LAYOUT 3: Tabs ─────────────────────────────────────── */
+.tabsWrapper {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 0;
+}
+
+.tabsBar {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  scrollbar-width: none;
+  flex-wrap: wrap;
+}
+
+[data-theme='light'] .tabsBar {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+.tabsBar::-webkit-scrollbar { display: none; }
+
+.tabButton {
+  padding: 0.7rem 1.25rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  color: var(--text-light, rgba(255, 255, 255, 0.45));
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tabButton:hover {
+  color: var(--text-color, #fff);
+}
+
+.tabButtonActive {
+  color: var(--accent, #00e5ff) !important;
+  border-bottom-color: var(--accent, #00e5ff);
+}
+
+.tabsPanel {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-top: none;
+  border-radius: 0 0 18px 18px;
+  padding: 1.5rem 1.75rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+[data-theme='light'] .tabsPanel {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+.tabsPanelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.tabsPanelMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+/* ─── LAYOUT 4: Cards ────────────────────────────────────── */
+.cardsTrack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+[data-theme='light'] .card {
+  border-color: rgba(0, 0, 0, 0.07);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.card:hover {
+  border-color: rgba(0, 229, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 229, 255, 0.05);
+}
+
+.cardExpanded {
+  border-color: rgba(0, 229, 255, 0.35) !important;
+  background: rgba(0, 229, 255, 0.03) !important;
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.4rem;
+}
+
+.cardIndex {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: rgba(0, 229, 255, 0.18);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  line-height: 1;
+  min-width: 2.5rem;
+}
+
+.cardExpanded .cardIndex {
+  color: rgba(0, 229, 255, 0.5);
+}
+
+.cardTopMeta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cardTopSub {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+}
+
+.cardDetails {
+  overflow: hidden;
+  padding: 0 1.4rem 1.2rem 5.1rem;
+}
+
+/* ─── LAYOUT 5: Resume ───────────────────────────────────── */
+.resumeList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+[data-theme='light'] .resumeList {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+.resumeRow {
+  padding: 1.25rem 1.75rem;
+}
+
+.resumeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  color: var(--text-light, rgba(255, 255, 255, 0.7));
+  margin-bottom: 0.6rem;
 }
 
-.descriptionPoint {
-  font-size: 0.9rem;
-  line-height: 1.5;
+.resumeLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
+.resumeRole {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color, #fff);
+}
+
+.resumeSep {
+  color: var(--text-light, rgba(255, 255, 255, 0.3));
+  font-size: 0.8rem;
+}
+
+.resumeRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.resumeDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 0 1.75rem;
+}
+
+[data-theme='light'] .resumeDivider {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
 @media (max-width: 1200px) {
-  .sectionTitle {
-    font-size: 2.2rem;
-  }
+  .sectionTitle { font-size: 2.2rem; }
 }
 
 @media (max-width: 1024px) {
-  .sectionTitle {
-    font-size: 1.8rem;
-  }
+  .sectionTitle { font-size: 1.8rem; }
 }
 
 @media (max-width: 900px) {
-  .section {
-    padding: 5rem 1.5rem 4rem;
-  }
+  .section { padding: 5rem 1.5rem 4rem; }
 }
 
 @media (max-width: 696px) {
-  .sectionTitle {
-    letter-spacing: 0.22em;
-    font-size: 1.4rem;
-  }
+  .sectionTitle { letter-spacing: 0.22em; font-size: 1.4rem; }
+  .tabsBar { flex-wrap: nowrap; }
+  .tabButton { padding: 0.6rem 0.9rem; font-size: 0.78rem; }
+  .resumeHeader { flex-direction: column; }
+  .resumeRight { align-items: flex-start; }
+  .tabsPanelMeta { align-items: flex-start; }
+  .accordionRight { flex-direction: column; align-items: flex-end; gap: 0.25rem; }
 }
 
 @media (max-width: 480px) {
-  .timeline {
-    padding-left: 1.5rem;
-  }
-  .timeline::before {
-    left: 8px;
-  }
-  .timelineBadge {
-    left: -1.5rem;
-  }
-  .timelineCard {
-    padding: 1.25rem;
-  }
-  .cardHeader {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
+  .timeline { padding-left: 1.5rem; }
+  .timeline::before { left: 8px; }
+  .timelineBadge { left: -1.5rem; }
+  .timelineCard { padding: 1.1rem; }
+  .cardHeader { flex-direction: column; gap: 0.25rem; }
+  .layoutSwitcher { gap: 0.25rem; }
+  .layoutBtn { padding: 0.4rem 0.65rem; font-size: 0.75rem; }
+  .layoutBtn span { display: none; }
+  .cardDetails { padding-left: 1.1rem; }
+  .accordionBody { padding-left: 1.1rem; }
 }
