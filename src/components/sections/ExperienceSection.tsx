@@ -8,7 +8,6 @@ import styles from './ExperienceSection.module.css';
 interface ExperienceItem {
   role: string;
   company: string;
-  shortCompany?: string;
   duration: string;
   location: string;
   type: 'onsite' | 'remote' | 'hybrid';
@@ -21,7 +20,6 @@ const EXPERIENCES: ExperienceItem[] = [
   {
     role: 'Co-Creator & Full Stack Developer',
     company: 'PrashnaSetu',
-    shortCompany: 'PrashnaSetu',
     duration: '01 August 2025 - Present',
     location: 'Gurgaon, Haryana',
     type: 'onsite',
@@ -38,7 +36,6 @@ const EXPERIENCES: ExperienceItem[] = [
   {
     role: 'Full-Stack Developer Intern',
     company: 'MetaInfoSci',
-    shortCompany: 'MetaInfoSci',
     duration: '01 September 2025 - 31 October 2025',
     location: 'Gurgaon, Haryana (Remote)',
     type: 'remote',
@@ -54,7 +51,6 @@ const EXPERIENCES: ExperienceItem[] = [
   {
     role: 'Software Developer Intern',
     company: 'Center for Advanced Data and Computational Science (CAD-CS)',
-    shortCompany: 'CAD-CS',
     duration: '25 May 2025 - 25 July 2025',
     location: 'Gurgaon, Haryana',
     type: 'onsite',
@@ -70,7 +66,6 @@ const EXPERIENCES: ExperienceItem[] = [
   {
     role: 'Software Developer Intern',
     company: 'BlueStock FinTech',
-    shortCompany: 'BlueStock FinTech',
     duration: '1 Feb 2025 - 28 Mar 2025',
     location: 'Remote',
     type: 'remote',
@@ -144,7 +139,7 @@ export const ExperienceSection: React.FC = () => {
               style={{ '--hue': item.accentHue } as React.CSSProperties}
             >
               <span className={styles.tabIndex}>0{idx + 1}</span>
-              <span className={styles.tabCompany}>{item.shortCompany || item.company}</span>
+              <span className={styles.tabCompany}>{item.company}</span>
             </button>
           ))}
         </div>
