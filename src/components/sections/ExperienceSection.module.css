@@ -150,6 +150,7 @@
   transform-style: preserve-3d;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   will-change: transform, opacity;
+  transition: border-color 0.35s ease, border-left-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
 }
 
 .deckCardActive {
@@ -157,7 +158,31 @@
   box-shadow:
     0 25px 60px rgba(0, 0, 0, 0.65),
     0 0 35px hsl(var(--hue, 185), 80%, 50%, 0.12);
-  cursor: default;
+  cursor: pointer;
+}
+
+.deckCardActive:hover {
+  border-color: hsl(var(--hue, 185), 80%, 55%, 0.4);
+  border-left-color: hsl(var(--hue, 185), 90%, 65%);
+  background: rgba(0, 0, 0, 0.62);
+  box-shadow:
+    0 30px 75px rgba(0, 0, 0, 0.75),
+    0 0 45px hsl(var(--hue, 185), 85%, 55%, 0.28);
+}
+
+.deckCardActive:hover .cardGlow {
+  opacity: 0.35;
+  transform: scale(1.2);
+}
+
+.deckCardActive:hover .bulletDot {
+  opacity: 1;
+  transform: scale(1.35);
+  box-shadow: 0 0 8px hsl(var(--hue, 185), 80%, 60%);
+}
+
+.deckCardActive:hover .cardCompany {
+  color: hsl(var(--hue, 185), 90%, 72%);
 }
 
 .deckCardSide {
@@ -182,6 +207,14 @@
   background: rgba(255, 255, 255, 0.55);
   border-color: rgba(0, 0, 0, 0.08);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .deckCardActive:hover {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: hsl(var(--hue, 185), 80%, 45%, 0.4);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.12),
+    0 0 30px hsl(var(--hue, 185), 80%, 45%, 0.2);
 }
 
 [data-theme='light'] .sideCardOverlay {
