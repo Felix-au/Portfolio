@@ -85,13 +85,66 @@ export const ExperienceSection: React.FC = () => {
   const [sectionVisible, setSectionVisible] = useState(false);
   const [hovered, setHovered] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const lastScrollY = useRef(0);
+  const isScrollingUp = useRef(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      isScrollingUp.current = currentScroll < lastScrollY.current;
+      lastScrollY.current = currentScroll <= 0 ? 0 : currentScroll;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const container = listRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const maxScrollLeft = container.scrollWidth - container.clientWidth;
+      const isScrollingDown = e.deltaY > 0;
+
+      if (isScrollingDown) {
+        if (container.scrollLeft < maxScrollLeft - 2) {
+          e.preventDefault();
+          container.scrollLeft += e.deltaY;
+        }
+      } else {
+        if (container.scrollLeft > 2) {
+          e.preventDefault();
+          container.scrollLeft += e.deltaY;
+        }
+      }
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setSectionVisible(entry.isIntersecting),
-      { threshold: 0.1 }
+      ([entry]) => {
+        setSectionVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          const container = listRef.current;
+          if (container) {
+            if (isScrollingUp.current) {
+              container.scrollLeft = container.scrollWidth - container.clientWidth;
+            } else {
+              container.scrollLeft = 0;
+            }
+          }
+        }
+      },
+      { threshold: 0.15 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -106,7 +159,7 @@ export const ExperienceSection: React.FC = () => {
           )}
         </h2>
 
-        <div className={styles.expList}>
+        <div className={styles.expList} ref={listRef}>
           {EXPERIENCES.map((exp, idx) => (
             <motion.div
               key={idx}

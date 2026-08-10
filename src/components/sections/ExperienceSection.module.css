@@ -22,11 +22,11 @@
 
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2.5rem;
   align-items: center;
 }
 
@@ -48,26 +48,39 @@
 /* ─── Experience list ───────────────────────────────────────────────── */
 .expList {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
-  gap: 0;
+  gap: 2rem;
+  overflow-x: auto;
+  scroll-behavior: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  padding: 1.5rem 1rem;
+  box-sizing: border-box;
+}
+
+.expList::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 /* ─── Each row: number + card ───────────────────────────────────────── */
 .expRow {
-  display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: 0 1.5rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: stretch;
   position: relative;
+  min-width: 520px;
+  flex-shrink: 0;
 }
 
 /* ─── Left index column ─────────────────────────────────────────────── */
 .expIndex {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  padding-top: 1.5rem;
+  gap: 1.25rem;
+  width: 100%;
 }
 
 .indexNumber {
@@ -93,11 +106,12 @@
 
 .indexLine {
   flex: 1;
-  width: 2px;
-  min-height: 2rem;
-  margin: 0.5rem 0;
+  height: 2px;
+  width: auto;
+  min-width: 2rem;
+  margin: 0;
   background: linear-gradient(
-    to bottom,
+    to right,
     hsl(var(--hue, 185), 70%, 50%) 0%,
     hsl(calc(var(--hue, 185) + 40), 70%, 50%) 100%
   );
@@ -108,7 +122,7 @@
 /* ─── Card ──────────────────────────────────────────────────────────── */
 .expCard {
   position: relative;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
   padding: 1.75rem 1.75rem 1.5rem;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -152,7 +166,7 @@
 .expCardHovered {
   border-color: rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
-  transform: translateX(4px);
+  transform: translateY(-6px);
 }
 
 [data-theme='light'] .expCard {
@@ -344,7 +358,6 @@
 
 @media (max-width: 1024px) {
   .sectionTitle { font-size: 1.8rem; }
-  .expRow { grid-template-columns: 52px 1fr; gap: 0 1rem; }
   .indexNumber { font-size: 1.6rem; }
 }
 
@@ -354,16 +367,18 @@
 
 @media (max-width: 696px) {
   .sectionTitle { letter-spacing: 0.22em; font-size: 1.4rem; }
-  .expRow { grid-template-columns: 40px 1fr; gap: 0 0.75rem; }
   .indexNumber { font-size: 1.3rem; }
   .cardTop { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
   .cardRole { font-size: 1.1rem; }
   .typeChip { margin-left: 0; }
 }
 
+@media (max-width: 600px) {
+  .expRow { min-width: 85vw; }
+}
+
 @media (max-width: 480px) {
   .expCard { padding: 1.25rem; }
-  .expRow { grid-template-columns: 36px 1fr; gap: 0 0.5rem; }
   .indexNumber { font-size: 1.1rem; }
   .cardMeta { gap: 0.3rem; }
 }
