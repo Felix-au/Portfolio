@@ -3,7 +3,7 @@
   padding: 5rem 72px;
   position: relative;
   zIndex: 10;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: none;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   color: var(--text-color);
@@ -16,7 +16,7 @@
 }
 
 [data-theme='light'] .section {
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: none;
 }
 
 .container {
