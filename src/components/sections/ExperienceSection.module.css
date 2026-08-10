@@ -45,157 +45,12 @@
   text-align: center;
 }
 
-/* ─── Carousel Layout ─────────────────────────────────────────────────── */
-.carouselSection {
-  width: 100%;
+/* ─── Experience list ───────────────────────────────────────────────── */
+.expList {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.carouselContainer {
-  position: relative;
   width: 100%;
-  height: 520px;
-  overflow: visible;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.carouselCardWrapper {
-  position: absolute;
-  width: 100%;
-  max-width: 680px;
-  box-sizing: border-box;
-  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1),
-              left 0.8s cubic-bezier(0.25, 1, 0.5, 1),
-              opacity 0.8s ease,
-              filter 0.8s ease,
-              z-index 0.8s step-end;
-}
-
-.carouselCardWrapper :global(.expRow) {
-  width: 100%;
-  margin-bottom: 0;
-}
-
-/* 3D Stack States */
-.selected {
-  left: 50%;
-  transform: translateX(-50%) scale(1);
-  z-index: 10;
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.prev {
-  left: 18%;
-  transform: translateX(-50%) scale(0.82);
-  z-index: 5;
-  opacity: 0.32;
-  pointer-events: auto;
-  cursor: pointer;
-  filter: blur(1.5px) brightness(0.7);
-}
-
-.prev:hover {
-  opacity: 0.6;
-  filter: blur(0.5px) brightness(0.9);
-}
-
-.next {
-  left: 82%;
-  transform: translateX(-50%) scale(0.82);
-  z-index: 5;
-  opacity: 0.32;
-  pointer-events: auto;
-  cursor: pointer;
-  filter: blur(1.5px) brightness(0.7);
-}
-
-.next:hover {
-  opacity: 0.6;
-  filter: blur(0.5px) brightness(0.9);
-}
-
-.far {
-  left: 50%;
-  transform: translateX(-50%) scale(0.68);
-  z-index: 1;
-  opacity: 0;
-  pointer-events: none;
-  filter: blur(4px) brightness(0.5);
-}
-
-.controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 0.5rem;
-  width: 100%;
-}
-
-.navButton {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-color);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 0;
-  backdrop-filter: blur(8px);
-}
-
-.navButton:hover {
-  border-color: var(--accent, #00e5ff);
-  background: rgba(0, 229, 255, 0.05);
-  color: var(--accent, #00e5ff);
-  box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
-}
-
-[data-theme='light'] .navButton {
-  background: rgba(0, 0, 0, 0.02);
-  border-color: rgba(0, 0, 0, 0.08);
-}
-
-[data-theme='light'] .navButton:hover {
-  background: rgba(0, 229, 255, 0.04);
-}
-
-.dots {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-[data-theme='light'] .dot {
-  background: rgba(0, 0, 0, 0.12);
-}
-
-.activeDotIndicator {
-  background: var(--accent, #00e5ff);
-  width: 24px;
-  border-radius: 4px;
-  box-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+  gap: 0;
 }
 
 /* ─── Each row: number + card ───────────────────────────────────────── */
@@ -205,6 +60,17 @@
   gap: 0 1.5rem;
   align-items: start;
   position: relative;
+  opacity: 0;
+  animation: expFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes expFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ─── Left index column ─────────────────────────────────────────────── */
@@ -253,7 +119,7 @@
 /* ─── Card ──────────────────────────────────────────────────────────── */
 .expCard {
   position: relative;
-  margin-bottom: 0;
+  margin-bottom: 2rem;
   padding: 1.75rem 1.75rem 1.5rem;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -261,7 +127,7 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   overflow: hidden;
-  transition: border-color 0.35s ease, background 0.35s ease, transform 0.35s ease;
+  transition: border-color 0.35s ease, background-color 0.35s ease, box-shadow 0.35s ease;
 
   /* Gradient left border via box-shadow trick */
   border-left: 3px solid transparent;
@@ -297,7 +163,7 @@
 .expCardHovered {
   border-color: rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
-  transform: translateX(4px);
+  box-shadow: 0 8px 32px hsl(var(--hue, 185), 70%, 50%, 0.15);
 }
 
 [data-theme='light'] .expCard {
@@ -307,6 +173,7 @@
 
 [data-theme='light'] .expCardHovered {
   background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 8px 32px hsl(var(--hue, 185), 65%, 45%, 0.12);
 }
 
 /* ─── Glow blob ─────────────────────────────────────────────────────── */
@@ -491,42 +358,10 @@
   .sectionTitle { font-size: 1.8rem; }
   .expRow { grid-template-columns: 52px 1fr; gap: 0 1rem; }
   .indexNumber { font-size: 1.6rem; }
-  .prev {
-    left: 10%;
-    transform: translateX(-50%) scale(0.8);
-    opacity: 0.2;
-  }
-  .next {
-    left: 90%;
-    transform: translateX(-50%) scale(0.8);
-    opacity: 0.2;
-  }
 }
 
 @media (max-width: 900px) {
   .section { padding: 5rem 1.5rem 4rem; }
-}
-
-@media (max-width: 768px) {
-  .carouselContainer {
-    height: 600px;
-  }
-  .carouselCardWrapper {
-    width: calc(100% - 2rem);
-    max-width: 100%;
-  }
-  .prev {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(-50%) scale(0.8);
-    left: 50%;
-  }
-  .next {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(-50%) scale(0.8);
-    left: 50%;
-  }
 }
 
 @media (max-width: 696px) {
@@ -543,5 +378,4 @@
   .expRow { grid-template-columns: 36px 1fr; gap: 0 0.5rem; }
   .indexNumber { font-size: 1.1rem; }
   .cardMeta { gap: 0.3rem; }
-  .carouselContainer { height: 680px; }
 }
