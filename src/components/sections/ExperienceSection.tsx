@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Calendar, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import { DecoderText } from '../ui/DecoderText';
 import { useTheme } from '../../context/ThemeContext';
@@ -84,6 +84,7 @@ export const ExperienceSection: React.FC = () => {
   const { theme } = useTheme();
   const [sectionVisible, setSectionVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -108,6 +109,15 @@ export const ExperienceSection: React.FC = () => {
   const handleSelect = (index: number) => {
     setActiveIndex(index);
   };
+
+  // Auto scroll timer (2.5 seconds hold)
+  useEffect(() => {
+    if (isPaused || !sectionVisible) return;
+    const timer = setInterval(() => {
+      handleNext();
+    }, 2500);
+    return () => clearInterval(timer);
+  }, [handleNext, isPaused, sectionVisible]);
 
   return (
     <section id="experience" className={styles.section} ref={sectionRef}>
@@ -134,7 +144,11 @@ export const ExperienceSection: React.FC = () => {
         </div>
 
         {/* 3D Cover Flow Stage */}
-        <div className={styles.deckStage}>
+        <div
+          className={styles.deckStage}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
           <button
             className={`${styles.stageArrow} ${styles.stageArrowLeft}`}
             onClick={handlePrev}
@@ -145,10 +159,15 @@ export const ExperienceSection: React.FC = () => {
 
           <div className={styles.deckTrack}>
             {EXPERIENCES.map((exp, idx) => {
-              const diff = idx - activeIndex;
+              // Circular diff for infinite wrapping deck
+              const numItems = EXPERIENCES.length;
+              let diff = (idx - activeIndex) % numItems;
+              if (diff > numItems / 2) diff -= numItems;
+              if (diff < -numItems / 2) diff += numItems;
+
               const isActive = diff === 0;
 
-              // Calculate 3D layout offset properties based on distance from active card
+              // Calculate 3D layout offset properties based on circular distance
               let xOffset = 0;
               let zOffset = 0;
               let rotateY = 0;
@@ -258,7 +277,7 @@ export const ExperienceSection: React.FC = () => {
                   {/* Divider */}
                   <div className={styles.cardDivider} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
 
-                  {/* Bullets (Shown fully on active card, compact preview on side cards) */}
+                  {/* Bullets */}
                   <div className={styles.bulletsWrapper}>
                     <ul className={styles.bullets}>
                       {exp.description.map((pt, i) => (
@@ -300,5 +319,6 @@ export const ExperienceSection: React.FC = () => {
     </section>
   );
 };
+
 
 
