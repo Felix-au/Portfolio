@@ -111,7 +111,7 @@
   padding: 1.75rem 1.75rem 1.5rem;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(10, 12, 22, 0.45);
+  background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   overflow: hidden;
@@ -149,7 +149,7 @@
 
 .expCardHovered {
   border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(10, 12, 22, 0.55);
+  background: rgba(0, 0, 0, 0.55);
   transform: translateX(4px);
 }
 
