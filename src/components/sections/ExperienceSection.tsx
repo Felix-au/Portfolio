@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, ExternalLink } from 'lucide-react';
+import { Calendar, MapPin } from 'lucide-react';
 import { DecoderText } from '../ui/DecoderText';
 import { useTheme } from '../../context/ThemeContext';
 import styles from './ExperienceSection.module.css';
@@ -141,7 +141,7 @@ export const ExperienceSection: React.FC = () => {
 
               {/* Card */}
               <div
-                className={${styles.expCard} }
+                className={`${styles.expCard} ${hovered === idx ? styles.expCardHovered : ''}`}
                 style={{ '--hue': exp.accentHue } as React.CSSProperties}
               >
                 {/* Glow blob behind hovered card */}
