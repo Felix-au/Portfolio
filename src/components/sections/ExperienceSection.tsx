@@ -12,7 +12,6 @@ interface ExperienceItem {
   location: string;
   type: 'onsite' | 'remote' | 'hybrid';
   isCurrent?: boolean;
-  tags: string[];
   description: string[];
   accentHue: number; // hsl hue for this card's color theme
 }
@@ -25,7 +24,6 @@ const EXPERIENCES: ExperienceItem[] = [
     location: 'Gurgaon, Haryana',
     type: 'onsite',
     isCurrent: true,
-    tags: ['JavaFX', 'Spring Boot', 'React', 'mDNS', 'Java', 'SQLite'],
     description: [
       'Designed & developed PrashnaSetu from concept to deployment & production support.',
       'Engineered a secure quiz management system featuring a proctored JavaFX desktop client, a mDNS Spring Boot server and a React-based companion and results web portal.',
@@ -41,7 +39,6 @@ const EXPERIENCES: ExperienceItem[] = [
     duration: 'Sep 2025 - Oct 2025',
     location: 'Gurgaon, Haryana',
     type: 'remote',
-    tags: ['Django', 'Node.js', 'Express', 'PostgreSQL', 'SMTP', 'WoS/Scopus'],
     description: [
       'Designed & implemented full-stack Django modules to extend core analytical features and data visualizations.',
       'Scaled platform responsiveness to support 500+ active researchers analyzing over 297K+ publications.',
@@ -57,7 +54,6 @@ const EXPERIENCES: ExperienceItem[] = [
     duration: 'May 2025 - Jul 2025',
     location: 'Gurgaon, Haryana',
     type: 'onsite',
-    tags: ['Java', 'JavaFX', 'SQLite', 'RBAC', 'Encryption', 'SDLC'],
     description: [
       'Developed SmartQuiz, a Java/JavaFX desktop quiz application designed for secure assessments and institutional use.',
       'Implemented role-based authentication, secure local data storage with SQLite and encrypted data handling.',
@@ -73,7 +69,6 @@ const EXPERIENCES: ExperienceItem[] = [
     duration: 'Feb 2025 - Mar 2025',
     location: 'Remote',
     type: 'remote',
-    tags: ['Node.js', 'Express', 'MongoDB', 'JWT', 'REST API', 'Render'],
     description: [
       'Collaborated in a team to develop an IPO Web App with a secure backend using Node.js, Express.js, and MongoDB.',
       'Built RESTful APIs for authentication, IPO data, and investor management secured with JWT-based authentication.',
@@ -178,14 +173,6 @@ export const ExperienceSection: React.FC = () => {
                   </span>
                 </div>
 
-                {/* Tech tags */}
-                <div className={styles.tagRow}>
-                  {exp.tags.map((tag) => (
-                    <span key={tag} className={styles.tag} style={{ '--hue': exp.accentHue } as React.CSSProperties}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
 
                 {/* Divider */}
                 <div className={styles.cardDivider} style={{ '--hue': exp.accentHue } as React.CSSProperties} />

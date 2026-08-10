@@ -1,4 +1,4 @@
-﻿/* ─── Section shell ─────────────────────────────────────────────────── */
+/* ─── Section shell ─────────────────────────────────────────────────── */
 .section {
   min-height: 100vh;
   padding: 5rem 72px;
@@ -289,31 +289,6 @@
   background: rgba(167, 139, 250, 0.1);
   color: rgb(167, 139, 250);
   border: 1px solid rgba(167, 139, 250, 0.25);
-}
-
-/* ─── Tech tags ─────────────────────────────────────────────────────── */
-.tagRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 1.1rem;
-}
-
-.tag {
-  font-size: 0.72rem;
-  font-weight: 500;
-  padding: 0.25rem 0.65rem;
-  border-radius: 8px;
-  background: hsl(var(--hue, 185), 80%, 50%, 0.08);
-  border: 1px solid hsl(var(--hue, 185), 70%, 50%, 0.2);
-  color: hsl(var(--hue, 185), 75%, 72%);
-  letter-spacing: 0.02em;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.expCardHovered .tag {
-  background: hsl(var(--hue, 185), 80%, 50%, 0.13);
-  border-color: hsl(var(--hue, 185), 70%, 50%, 0.35);
 }
 
 /* ─── Divider ───────────────────────────────────────────────────────── */
