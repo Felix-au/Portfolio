@@ -22,11 +22,11 @@
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 3rem;
   align-items: center;
 }
 
@@ -45,42 +45,111 @@
   text-align: center;
 }
 
-/* ─── Experience list ───────────────────────────────────────────────── */
-.expList {
-  display: flex;
-  flex-direction: row;
+/* ─── Carousel Layout ─────────────────────────────────────────────────── */
+.carouselSection {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 2rem;
-  overflow-x: auto;
-  scroll-behavior: auto;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-  padding: 1.5rem 1rem;
-  box-sizing: border-box;
 }
 
-.expList::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+.carouselViewport {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  min-height: 460px;
+}
+
+.carouselViewport :global(.expRow) {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.navButton {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  backdrop-filter: blur(8px);
+}
+
+.navButton:hover {
+  border-color: var(--accent, #00e5ff);
+  background: rgba(0, 229, 255, 0.05);
+  color: var(--accent, #00e5ff);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+}
+
+[data-theme='light'] .navButton {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .navButton:hover {
+  background: rgba(0, 229, 255, 0.04);
+}
+
+.dots {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme='light'] .dot {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.activeDotIndicator {
+  background: var(--accent, #00e5ff);
+  width: 24px;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
 }
 
 /* ─── Each row: number + card ───────────────────────────────────────── */
 .expRow {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 0 1.5rem;
+  align-items: start;
   position: relative;
-  min-width: 520px;
-  flex-shrink: 0;
 }
 
 /* ─── Left index column ─────────────────────────────────────────────── */
 .expIndex {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
-  width: 100%;
+  padding-top: 1.5rem;
 }
 
 .indexNumber {
@@ -106,12 +175,11 @@
 
 .indexLine {
   flex: 1;
-  height: 2px;
-  width: auto;
-  min-width: 2rem;
-  margin: 0;
+  width: 2px;
+  min-height: 2rem;
+  margin: 0.5rem 0;
   background: linear-gradient(
-    to right,
+    to bottom,
     hsl(var(--hue, 185), 70%, 50%) 0%,
     hsl(calc(var(--hue, 185) + 40), 70%, 50%) 100%
   );
@@ -166,7 +234,7 @@
 .expCardHovered {
   border-color: rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
-  transform: translateY(-6px);
+  transform: translateX(4px);
 }
 
 [data-theme='light'] .expCard {
@@ -358,6 +426,7 @@
 
 @media (max-width: 1024px) {
   .sectionTitle { font-size: 1.8rem; }
+  .expRow { grid-template-columns: 52px 1fr; gap: 0 1rem; }
   .indexNumber { font-size: 1.6rem; }
 }
 
@@ -367,18 +436,18 @@
 
 @media (max-width: 696px) {
   .sectionTitle { letter-spacing: 0.22em; font-size: 1.4rem; }
+  .expRow { grid-template-columns: 40px 1fr; gap: 0 0.75rem; }
   .indexNumber { font-size: 1.3rem; }
   .cardTop { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
   .cardRole { font-size: 1.1rem; }
   .typeChip { margin-left: 0; }
-}
-
-@media (max-width: 600px) {
-  .expRow { min-width: 85vw; }
+  .carouselViewport { min-height: 520px; }
 }
 
 @media (max-width: 480px) {
   .expCard { padding: 1.25rem; }
+  .expRow { grid-template-columns: 36px 1fr; gap: 0 0.5rem; }
   .indexNumber { font-size: 1.1rem; }
   .cardMeta { gap: 0.3rem; }
+  .carouselViewport { min-height: 580px; }
 }
