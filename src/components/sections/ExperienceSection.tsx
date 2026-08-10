@@ -50,7 +50,7 @@ const EXPERIENCES: ExperienceItem[] = [
   },
   {
     role: 'Software Developer Intern',
-    company: 'Center for Advanced Data and Computational Science (CAD-CS)',
+    company: 'CAD-CS',
     duration: '25 May 2025 - 25 July 2025',
     location: 'Gurgaon, Haryana',
     type: 'onsite',
@@ -138,7 +138,6 @@ export const ExperienceSection: React.FC = () => {
               onClick={() => handleSelect(idx)}
               style={{ '--hue': item.accentHue } as React.CSSProperties}
             >
-              <span className={styles.tabIndex}>0{idx + 1}</span>
               <span className={styles.tabCompany}>{item.company}</span>
             </button>
           ))}
@@ -239,14 +238,9 @@ export const ExperienceSection: React.FC = () => {
                   {/* Glow Blob */}
                   <div className={styles.cardGlow} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
 
-                  {/* Header Row: Index number, Role, Active Badge */}
+                  {/* Header Row: Role, Active Badge */}
                   <div className={styles.cardHeaderRow}>
-                    <div className={styles.cardHeaderLeft}>
-                      <span className={styles.indexNumber} style={{ '--hue': exp.accentHue } as React.CSSProperties}>
-                        0{idx + 1}
-                      </span>
-                      <h3 className={styles.cardRole}>{exp.role}</h3>
-                    </div>
+                    <h3 className={styles.cardRole}>{exp.role}</h3>
                     {exp.isCurrent && (
                       <span className={styles.activeBadge}>
                         <span className={styles.activeDot} />
