@@ -1,13 +1,13 @@
 {
   "username": "Felix-au",
-  "totalStars": 895,
+  "totalStars": 962,
   "totalForks": 287,
   "totalWatchers": 139,
-  "totalRepos": 34,
-  "totalCommits": 3543,
+  "totalRepos": 31,
+  "totalCommits": 3057,
   "totalPRs": 1,
   "totalIssues": 1,
-  "totalReviews": 1,
+  "totalReviews": 176,
   "followers": 128,
   "topLanguages": [
     {
@@ -18,59 +18,56 @@
     {
       "name": "JavaScript",
       "color": "#f1e05a",
-      "percentage": 31
+      "percentage": 34
     },
     {
       "name": "Python",
       "color": "#3572A5",
-      "percentage": 13
+      "percentage": 10
     },
     {
       "name": "Java",
       "color": "#b07219",
-      "percentage": 9
+      "percentage": 7
     },
     {
       "name": "Jupyter Notebook",
       "color": "#DA5B0B",
-      "percentage": 6
+      "percentage": 7
     }
   ],
   "repoStars": {
     "quantx-stock-analysis-and-forecast": 18,
     "mousex-absolute-mouse-control": 43,
-    "prashnasetu-webportal": 0,
     "prashnasetu-public": 4,
-    "algobuddy": 55,
+    "algobuddy": 63,
     "arenax": 2,
-    "samvidya-ii": 0,
     "university-class-scheduler": 5,
     "nfa-to-dfa-visualizer": 3,
-    "sonixx-audio-routing-and-soundbaord": 62,
+    "sonixx-audio-routing-and-soundbaord": 70,
     "smart-hub-home-automation": 2,
     "codemate-your-coding-companion": 9,
-    "deskx-wallpaper-engine": 72,
+    "deskx-wallpaper-engine": 80,
     "janginti-counting-the-pulse-of-the-crowd": 20,
     "sahara-homestay": 0,
     "griffinx-your-local-ai-assistant": 4,
     "felix-au": 19,
-    "omnikey-ai-unified-key-manager": 97,
-    "synczen-local": 51,
-    "corvusx-intelligence-in-the-shadows": 74,
+    "omnikey-ai-unified-key-manager": 106,
+    "synczen-local": 58,
+    "corvusx-intelligence-in-the-shadows": 82,
     "cognitox-unified-intelligence": 50,
     "synczen-cloud": 43,
     "be-internships-may-26": 0,
-    "3d-constructs-library": 92,
+    "3d-constructs-library": 103,
     "corvusx-website-intelligence-in-the-shadows": 35,
     "fragmented-firewall": 17,
     "transitops": 3,
     "email-workspace": 10,
     "sonixx-website-audio-routing-and-soundbaord": 20,
-    "cursorx-interactive-cursor-effects": 85,
-    "github": 0,
+    "cursorx-interactive-cursor-effects": 93,
     "frame-scrolling": 0,
     "certifications-and-badges": 0,
     "portfolio": 0
   },
-  "lastUpdated": "2026-08-07T21:27:14.190Z"
+  "lastUpdated": "2026-08-10T07:45:36.229Z"
 }
