@@ -112,7 +112,7 @@
   padding: 1.75rem 1.75rem 1.5rem;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(10, 12, 22, 0.6);
+  background: rgba(13, 15, 26, 0.05);
   overflow: hidden;
   transition: border-color 0.35s ease, background 0.35s ease, transform 0.35s ease;
 
@@ -148,17 +148,17 @@
 
 .expCardHovered {
   border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(10, 12, 22, 0.72);
+  background: rgba(13, 15, 26, 0.1);
   transform: translateX(4px);
 }
 
 [data-theme='light'] .expCard {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.05);
   border-color: rgba(0, 0, 0, 0.06);
 }
 
 [data-theme='light'] .expCardHovered {
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* ─── Glow blob ─────────────────────────────────────────────────────── */
