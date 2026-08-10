@@ -129,20 +129,6 @@ export const ExperienceSection: React.FC = () => {
           )}
         </h2>
 
-        {/* Top Company Selection Tabs */}
-        <div className={styles.deckTabs}>
-          {EXPERIENCES.map((item, idx) => (
-            <button
-              key={idx}
-              className={`${styles.tabBtn} ${activeIndex === idx ? styles.tabBtnActive : ''}`}
-              onClick={() => handleSelect(idx)}
-              style={{ '--hue': item.accentHue } as React.CSSProperties}
-            >
-              <span className={styles.tabCompany}>{item.company}</span>
-            </button>
-          ))}
-        </div>
-
         {/* 3D Cover Flow Stage */}
         <div
           className={styles.deckStage}

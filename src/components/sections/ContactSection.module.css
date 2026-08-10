@@ -3,7 +3,7 @@
   padding: 5rem 72px;
   position: relative;
   zIndex: 10;
-  border-top: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   scroll-snap-align: start;
   scroll-snap-stop: always;
   color: var(--text-color);
@@ -16,7 +16,7 @@
 }
 
 [data-theme='light'] .section {
-  border-top: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .container {
@@ -151,8 +151,8 @@
   box-shadow: 0 0 14px rgba(0, 150, 214, 0.12);
 }
 
-.input:focus + .inputIcon,
-.textarea:focus + .inputIcon {
+.input:focus+.inputIcon,
+.textarea:focus+.inputIcon {
   color: var(--accent, #00e5ff);
 }
 
@@ -332,6 +332,7 @@
     transform: scale(0.6);
     opacity: 0;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -343,6 +344,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -379,6 +381,7 @@
   .contactCard {
     padding: 1.25rem;
   }
+
   .textarea {
     min-height: 95px;
   }
@@ -475,6 +478,7 @@
     flex-direction: row;
     gap: 0.5rem;
   }
+
   .quickContactBtn {
     font-size: 0.8rem;
     padding: 0 4px;
@@ -482,6 +486,7 @@
     height: 44px;
     border-radius: 10px;
   }
+
   .quickContactIcon {
     width: 15px;
     height: 15px;
