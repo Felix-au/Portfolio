@@ -238,13 +238,17 @@ export const ExperienceSection: React.FC = () => {
                   {/* Glow Blob */}
                   <div className={styles.cardGlow} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
 
-                  {/* Header Row: Role, Active Badge */}
+                  {/* Header Row: Role, Active Badge or Type Chip */}
                   <div className={styles.cardHeaderRow}>
                     <h3 className={styles.cardRole}>{exp.role}</h3>
-                    {exp.isCurrent && (
+                    {exp.isCurrent ? (
                       <span className={styles.activeBadge}>
                         <span className={styles.activeDot} />
                         Active
+                      </span>
+                    ) : (
+                      <span className={styles.typeChip} data-type={exp.type}>
+                        {exp.type === 'onsite' ? 'On-site' : exp.type === 'remote' ? 'Remote' : 'Hybrid'}
                       </span>
                     )}
                   </div>
@@ -264,9 +268,11 @@ export const ExperienceSection: React.FC = () => {
                       <MapPin size={12} style={{ marginRight: 4 }} />
                       {exp.location}
                     </span>
-                    <span className={styles.typeChip} data-type={exp.type}>
-                      {exp.type === 'onsite' ? 'On-site' : exp.type === 'remote' ? 'Remote' : 'Hybrid'}
-                    </span>
+                    {exp.isCurrent && (
+                      <span className={styles.typeChip} data-type={exp.type}>
+                        {exp.type === 'onsite' ? 'On-site' : exp.type === 'remote' ? 'Remote' : 'Hybrid'}
+                      </span>
+                    )}
                   </div>
 
                   {/* Divider */}
