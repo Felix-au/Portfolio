@@ -1,7 +1,41 @@
+/* ─── Section shell ─────────────────────────────────────────────────── */
+.section {
+  min-height: 100vh;
+  height: 100vh;
+  padding: 2rem 72px;
+  position: relative;
+  z-index: 10;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  color: var(--text-color);
+  transition: background-color 0.4s ease, color 0.4s ease, padding 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+[data-theme='light'] .section {
+  background-color: transparent;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ─── Title ─────────────────────────────────────────────────────────── */
 .sectionTitle {
   text-transform: uppercase;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   letter-spacing: 0.28em;
   color: var(--text-light, rgba(255, 255, 255, 0.6));
   margin: 0;
@@ -89,15 +123,15 @@
   justify-content: center;
   perspective: 1200px;
   perspective-origin: 50% 50%;
-  padding: 1.5rem 0;
-  min-height: 440px;
+  padding: 0.25rem 0;
+  min-height: 390px;
 }
 
 .deckTrack {
   position: relative;
   width: 100%;
   max-width: 680px;
-  min-height: 420px;
+  min-height: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -109,7 +143,7 @@
   position: absolute;
   width: 100%;
   max-width: 680px;
-  padding: 2.2rem 2.5rem 2rem;
+  padding: 1.6rem 2.2rem 1.5rem;
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 0, 0, 0.5);
