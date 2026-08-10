@@ -1,202 +1,251 @@
-/* ─── Section shell ─────────────────────────────────────────────────── */
-.section {
-  min-height: 100vh;
-  padding: 5rem 72px;
-  position: relative;
-  z-index: 10;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  color: var(--text-color);
-  transition: background-color 0.4s ease, color 0.4s ease, padding 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-}
-
-[data-theme='light'] .section {
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
-
+/* ─── 3D Deck Container ─────────────────────────────────────────────── */
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 1050px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2.25rem;
   align-items: center;
 }
 
-/* ─── Title ─────────────────────────────────────────────────────────── */
-.sectionTitle {
-  text-transform: uppercase;
-  font-size: 2.5rem;
-  letter-spacing: 0.28em;
-  color: var(--text-light, rgba(255, 255, 255, 0.6));
-  margin: 0;
-  font-weight: 500;
-  line-height: 1;
-  min-height: 1.25em;
-  display: block;
-  transition: color 0.4s ease;
-  text-align: center;
-}
-
-/* ─── Experience list ───────────────────────────────────────────────── */
-.expList {
+/* ─── Top Company Selection Tabs ───────────────────────────────────── */
+.deckTabs {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
   width: 100%;
-  gap: 0;
+  flex-wrap: wrap;
 }
 
-/* ─── Each row: number + card ───────────────────────────────────────── */
-.expRow {
-  display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: 0 1.5rem;
-  align-items: start;
-  position: relative;
-}
-
-/* ─── Left index column ─────────────────────────────────────────────── */
-.expIndex {
-  display: flex;
-  flex-direction: column;
+.tabBtn {
+  display: inline-flex;
   align-items: center;
-  padding-top: 1.5rem;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-light, rgba(255, 255, 255, 0.5));
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.indexNumber {
-  font-size: 2rem;
-  font-weight: 800;
-  line-height: 1;
-  background: linear-gradient(
-    135deg,
-    hsl(var(--hue, 185), 90%, 65%) 0%,
-    hsl(var(--hue, 185), 60%, 35%) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.tabBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-color, #ffffff);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+.tabBtnActive {
+  background: hsl(var(--hue, 185), 80%, 50%, 0.14) !important;
+  border-color: hsl(var(--hue, 185), 80%, 50%, 0.45) !important;
+  color: hsl(var(--hue, 185), 90%, 75%) !important;
+  font-weight: 600;
+  box-shadow: 0 6px 20px hsl(var(--hue, 185), 80%, 50%, 0.18);
+}
+
+.tabIndex {
+  font-size: 0.75rem;
+  font-weight: 700;
+  opacity: 0.65;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.03em;
+}
+
+.tabCompany {
+  font-size: 0.85rem;
+}
+
+[data-theme='light'] .tabBtn {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme='light'] .tabBtnActive {
+  background: hsl(var(--hue, 185), 80%, 45%, 0.14) !important;
+  border-color: hsl(var(--hue, 185), 80%, 45%, 0.45) !important;
+  color: hsl(var(--hue, 185), 90%, 30%) !important;
+}
+
+/* ─── 3D Cover Flow Stage ───────────────────────────────────────────── */
+.deckStage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  padding: 1.5rem 0;
+  min-height: 440px;
+}
+
+.deckTrack {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+}
+
+/* ─── 3D Deck Card ─────────────────────────────────────────────────── */
+.deckCard {
+  position: absolute;
+  width: 100%;
+  max-width: 680px;
+  padding: 2.2rem 2.5rem 2rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  overflow: hidden;
+  box-sizing: border-box;
+  border-left: 4px solid hsl(var(--hue, 185), 80%, 60%);
+  transform-style: preserve-3d;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  will-change: transform, opacity;
+}
+
+.deckCardActive {
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.65),
+    0 0 35px hsl(var(--hue, 185), 80%, 50%, 0.12);
+  cursor: default;
+}
+
+.deckCardSide {
+  cursor: pointer;
+  filter: brightness(0.85);
   transition: filter 0.3s ease;
 }
 
-.expRow:hover .indexNumber {
-  filter: brightness(1.4);
+.deckCardSide:hover {
+  filter: brightness(1.1);
 }
 
-.indexLine {
-  flex: 1;
-  width: 2px;
-  min-height: 2rem;
-  margin: 0.5rem 0;
-  background: linear-gradient(
-    to bottom,
-    hsl(var(--hue, 185), 70%, 50%) 0%,
-    hsl(calc(var(--hue, 185) + 40), 70%, 50%) 100%
-  );
-  opacity: 0.2;
-  border-radius: 2px;
-}
-
-.expCard {
-  position: relative;
-  margin-bottom: 2rem;
-  padding: 1.75rem 1.75rem 1.5rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  overflow: hidden;
-  transition: border-color 0.35s ease, background 0.35s ease, transform 0.35s ease;
-
-  /* Gradient left border */
-  border-left: 3px solid transparent;
-}
-
-/* Left accent border using before pseudo */
-.expCard::before {
-  content: '';
+.sideCardOverlay {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  padding: 0 0 0 3px;
-  background: linear-gradient(
-    160deg,
-    hsl(var(--hue, 185), 80%, 60%) 0%,
-    hsl(calc(var(--hue, 185) + 50), 70%, 45%) 100%
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+  background: rgba(0, 0, 0, 0.25);
   pointer-events: none;
-  opacity: 0.4;
-  transition: opacity 0.35s ease;
+  border-radius: inherit;
 }
 
-.expCardHovered::before {
-  opacity: 1;
+[data-theme='light'] .deckCard {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
 }
 
-.expCardHovered {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.55);
-  transform: translateX(4px);
+[data-theme='light'] .sideCardOverlay {
+  background: rgba(255, 255, 255, 0.2);
 }
 
-[data-theme='light'] .expCard {
-  background: rgba(255, 255, 255, 0.45);
-  border-color: rgba(0, 0, 0, 0.06);
+/* ─── Stage Navigation Arrow Buttons ──────────────────────────────── */
+.stageArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-color, #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 20;
 }
 
-[data-theme='light'] .expCardHovered {
-  background: rgba(255, 255, 255, 0.6);
+.stageArrowLeft {
+  left: 0px;
 }
 
-/* ─── Glow blob ─────────────────────────────────────────────────────── */
+.stageArrowRight {
+  right: 0px;
+}
+
+.stageArrow:hover {
+  background: var(--accent, #00e5ff);
+  color: #000000;
+  border-color: var(--accent, #00e5ff);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.45);
+}
+
+[data-theme='light'] .stageArrow {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #000000;
+}
+
+/* ─── Card Glow Blob ───────────────────────────────────────────────── */
 .cardGlow {
   position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 180px;
-  height: 180px;
+  top: -60px;
+  right: -60px;
+  width: 240px;
+  height: 240px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
     hsl(var(--hue, 185), 80%, 55%) 0%,
     transparent 70%
   );
-  opacity: 0;
+  opacity: 0.16;
   pointer-events: none;
-  transition: opacity 0.5s ease;
-  filter: blur(30px);
+  filter: blur(40px);
 }
 
-.expCardHovered .cardGlow {
-  opacity: 0.12;
-}
-
-/* ─── Top row: role + badge ─────────────────────────────────────────── */
-.cardTop {
+/* ─── Header row inside card ───────────────────────────────────────── */
+.cardHeaderRow {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.indexNumber {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--hue, 185), 90%, 65%) 0%,
+    hsl(var(--hue, 185), 60%, 40%) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
 }
 
 .cardRole {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: var(--text-color, #fff);
   line-height: 1.25;
@@ -208,7 +257,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.3rem 0.7rem;
+  padding: 0.35rem 0.75rem;
   border-radius: 100px;
   background: rgba(74, 222, 128, 0.1);
   border: 1px solid rgba(74, 222, 128, 0.3);
@@ -240,19 +289,19 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
 }
 
 .cardCompany {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: hsl(var(--hue, 185), 80%, 65%);
+  color: hsl(var(--hue, 185), 85%, 65%);
 }
 
 .metaSep {
   color: rgba(255, 255, 255, 0.2);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
 }
 
 [data-theme='light'] .metaSep {
@@ -263,30 +312,30 @@
 .cardLocation {
   display: inline-flex;
   align-items: center;
-  font-size: 0.78rem;
-  color: var(--text-light, rgba(255, 255, 255, 0.45));
+  font-size: 0.82rem;
+  color: var(--text-light, rgba(255, 255, 255, 0.5));
 }
 
 .typeChip {
   margin-left: auto;
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.2rem 0.55rem;
+  padding: 0.22rem 0.6rem;
   border-radius: 100px;
 }
 
 .typeChip[data-type='onsite'] {
-  background: rgba(251, 191, 36, 0.1);
+  background: rgba(251, 191, 36, 0.12);
   color: rgb(251, 191, 36);
-  border: 1px solid rgba(251, 191, 36, 0.25);
+  border: 1px solid rgba(251, 191, 36, 0.3);
 }
 
 .typeChip[data-type='remote'] {
-  background: rgba(167, 139, 250, 0.1);
+  background: rgba(167, 139, 250, 0.12);
   color: rgb(167, 139, 250);
-  border: 1px solid rgba(167, 139, 250, 0.25);
+  border: 1px solid rgba(167, 139, 250, 0.3);
 }
 
 /* ─── Divider ───────────────────────────────────────────────────────── */
@@ -297,42 +346,76 @@
     hsl(var(--hue, 185), 70%, 50%, 0.4) 0%,
     transparent 100%
   );
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.25rem;
 }
 
 /* ─── Bullets ───────────────────────────────────────────────────────── */
+.bulletsWrapper {
+  width: 100%;
+}
+
 .bullets {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: 0.65rem;
 }
 
 .bullet {
   display: flex;
   align-items: baseline;
-  gap: 0.65rem;
-  font-size: 0.875rem;
+  gap: 0.7rem;
+  font-size: 0.9rem;
   line-height: 1.6;
-  color: var(--text-light, rgba(255, 255, 255, 0.68));
+  color: var(--text-light, rgba(255, 255, 255, 0.78));
 }
 
 .bulletDot {
   flex-shrink: 0;
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: hsl(var(--hue, 185), 80%, 60%);
-  opacity: 0.7;
+  opacity: 0.85;
   margin-top: 0.45em;
-  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.expCardHovered .bulletDot {
-  opacity: 1;
-  transform: scale(1.3);
+/* ─── Deck Pagination Indicators ───────────────────────────────────── */
+.deckPagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.2);
+}
+
+.dotActive {
+  width: 28px;
+  border-radius: 100px;
+  background: var(--accent, #00e5ff) !important;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.55);
+}
+
+[data-theme='light'] .dot {
+  background: rgba(0, 0, 0, 0.15);
 }
 
 /* ─── Responsive ─────────────────────────────────────────────────────── */
@@ -342,26 +425,32 @@
 
 @media (max-width: 1024px) {
   .sectionTitle { font-size: 1.8rem; }
-  .expRow { grid-template-columns: 52px 1fr; gap: 0 1rem; }
-  .indexNumber { font-size: 1.6rem; }
 }
 
 @media (max-width: 900px) {
   .section { padding: 5rem 1.5rem 4rem; }
+  .deckTrack { max-width: 580px; }
+  .deckCard { padding: 1.8rem; }
 }
 
 @media (max-width: 696px) {
   .sectionTitle { letter-spacing: 0.22em; font-size: 1.4rem; }
-  .expRow { grid-template-columns: 40px 1fr; gap: 0 0.75rem; }
-  .indexNumber { font-size: 1.3rem; }
-  .cardTop { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-  .cardRole { font-size: 1.1rem; }
+  .stageArrow { display: none; }
+  .deckTrack { max-width: 100%; min-height: 460px; }
+  .cardHeaderRow { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .cardHeaderLeft { align-items: flex-start; flex-direction: column; gap: 0.25rem; }
+  .cardRole { font-size: 1.15rem; }
+  .indexNumber { font-size: 1.6rem; }
   .typeChip { margin-left: 0; }
+  .deckCard { padding: 1.35rem; }
 }
 
 @media (max-width: 480px) {
-  .expCard { padding: 1.25rem; }
-  .expRow { grid-template-columns: 36px 1fr; gap: 0 0.5rem; }
-  .indexNumber { font-size: 1.1rem; }
-  .cardMeta { gap: 0.3rem; }
+  .deckCard { padding: 1.1rem; }
+  .tabCompany { display: none; }
+  .tabBtn { padding: 0.4rem 0.75rem; }
+  .cardMeta { gap: 0.35rem; }
+  .bullet { font-size: 0.85rem; }
 }
+
+

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-
-import { Calendar, MapPin } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calendar, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import { DecoderText } from '../ui/DecoderText';
 import { useTheme } from '../../context/ThemeContext';
 import styles from './ExperienceSection.module.css';
@@ -83,7 +83,7 @@ const EXPERIENCES: ExperienceItem[] = [
 export const ExperienceSection: React.FC = () => {
   const { theme } = useTheme();
   const [sectionVisible, setSectionVisible] = useState(false);
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -97,6 +97,18 @@ export const ExperienceSection: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
+  const handleNext = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % EXPERIENCES.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + EXPERIENCES.length) % EXPERIENCES.length);
+  }, []);
+
+  const handleSelect = (index: number) => {
+    setActiveIndex(index);
+  };
+
   return (
     <section id="experience" className={styles.section} ref={sectionRef}>
       <div className={styles.container}>
@@ -106,88 +118,187 @@ export const ExperienceSection: React.FC = () => {
           )}
         </h2>
 
-        <div className={styles.expList}>
-          {EXPERIENCES.map((exp, idx) => (
-            <div
+        {/* Top Company Selection Tabs */}
+        <div className={styles.deckTabs}>
+          {EXPERIENCES.map((item, idx) => (
+            <button
               key={idx}
-              className={styles.expRow}
-              style={{ animationDelay: `${idx * 0.13}s` } as React.CSSProperties}
-              onMouseEnter={() => setHovered(idx)}
-              onMouseLeave={() => setHovered(null)}
+              className={`${styles.tabBtn} ${activeIndex === idx ? styles.tabBtnActive : ''}`}
+              onClick={() => handleSelect(idx)}
+              style={{ '--hue': item.accentHue } as React.CSSProperties}
             >
-              {/* Index number */}
-              <div className={styles.expIndex}>
-                <span
-                  className={styles.indexNumber}
-                  style={{ '--hue': exp.accentHue } as React.CSSProperties}
+              <span className={styles.tabIndex}>0{idx + 1}</span>
+              <span className={styles.tabCompany}>{item.company}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* 3D Cover Flow Stage */}
+        <div className={styles.deckStage}>
+          <button
+            className={`${styles.stageArrow} ${styles.stageArrowLeft}`}
+            onClick={handlePrev}
+            aria-label="Previous card"
+          >
+            <ChevronLeft size={22} />
+          </button>
+
+          <div className={styles.deckTrack}>
+            {EXPERIENCES.map((exp, idx) => {
+              const diff = idx - activeIndex;
+              const isActive = diff === 0;
+
+              // Calculate 3D layout offset properties based on distance from active card
+              let xOffset = 0;
+              let zOffset = 0;
+              let rotateY = 0;
+              let scale = 1;
+              let opacity = 1;
+              let zIndex = 10;
+
+              if (diff === 0) {
+                xOffset = 0;
+                zOffset = 0;
+                rotateY = 0;
+                scale = 1;
+                opacity = 1;
+                zIndex = 10;
+              } else if (diff === -1) {
+                xOffset = -260;
+                zOffset = -140;
+                rotateY = 22;
+                scale = 0.85;
+                opacity = 0.55;
+                zIndex = 5;
+              } else if (diff === 1) {
+                xOffset = 260;
+                zOffset = -140;
+                rotateY = -22;
+                scale = 0.85;
+                opacity = 0.55;
+                zIndex = 5;
+              } else if (diff < -1) {
+                xOffset = -420;
+                zOffset = -260;
+                rotateY = 35;
+                scale = 0.72;
+                opacity = 0.2;
+                zIndex = 1;
+              } else if (diff > 1) {
+                xOffset = 420;
+                zOffset = -260;
+                rotateY = -35;
+                scale = 0.72;
+                opacity = 0.2;
+                zIndex = 1;
+              }
+
+              return (
+                <motion.div
+                  key={idx}
+                  className={`${styles.deckCard} ${isActive ? styles.deckCardActive : styles.deckCardSide}`}
+                  onClick={() => handleSelect(idx)}
+                  animate={{
+                    x: xOffset,
+                    z: zOffset,
+                    rotateY: rotateY,
+                    scale: scale,
+                    opacity: opacity,
+                  }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 240,
+                    damping: 25,
+                    mass: 0.9,
+                  }}
+                  style={{
+                    zIndex,
+                    '--hue': exp.accentHue,
+                  } as React.CSSProperties}
                 >
-                  {String(idx + 1).padStart(2, '0')}
-                </span>
-                {idx < EXPERIENCES.length - 1 && (
-                  <div
-                    className={styles.indexLine}
-                    style={{ '--hue': exp.accentHue } as React.CSSProperties}
-                  />
-                )}
-              </div>
+                  {/* Glow Blob */}
+                  <div className={styles.cardGlow} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
 
-              {/* Card */}
-              <div
-                className={`${styles.expCard} ${hovered === idx ? styles.expCardHovered : ''}`}
-                style={{ '--hue': exp.accentHue } as React.CSSProperties}
-              >
-                {/* Glow blob behind hovered card */}
-                <div className={styles.cardGlow} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
+                  {/* Header Row: Index number, Role, Active Badge */}
+                  <div className={styles.cardHeaderRow}>
+                    <div className={styles.cardHeaderLeft}>
+                      <span className={styles.indexNumber} style={{ '--hue': exp.accentHue } as React.CSSProperties}>
+                        0{idx + 1}
+                      </span>
+                      <h3 className={styles.cardRole}>{exp.role}</h3>
+                    </div>
+                    {exp.isCurrent && (
+                      <span className={styles.activeBadge}>
+                        <span className={styles.activeDot} />
+                        Active
+                      </span>
+                    )}
+                  </div>
 
-                {/* Top row: role + badge */}
-                <div className={styles.cardTop}>
-                  <h3 className={styles.cardRole}>{exp.role}</h3>
-                  {exp.isCurrent && (
-                    <span className={styles.activeBadge}>
-                      <span className={styles.activeDot} />
-                      Active
+                  {/* Company & Meta info */}
+                  <div className={styles.cardMeta}>
+                    <span className={styles.cardCompany} style={{ '--hue': exp.accentHue } as React.CSSProperties}>
+                      {exp.company}
                     </span>
-                  )}
-                </div>
+                    <span className={styles.metaSep}>/</span>
+                    <span className={styles.cardDuration}>
+                      <Calendar size={12} style={{ marginRight: 4 }} />
+                      {exp.duration}
+                    </span>
+                    <span className={styles.metaSep}>/</span>
+                    <span className={styles.cardLocation}>
+                      <MapPin size={12} style={{ marginRight: 4 }} />
+                      {exp.location}
+                    </span>
+                    <span className={styles.typeChip} data-type={exp.type}>
+                      {exp.type === 'onsite' ? 'On-site' : exp.type === 'remote' ? 'Remote' : 'Hybrid'}
+                    </span>
+                  </div>
 
-                {/* Company + meta */}
-                <div className={styles.cardMeta}>
-                  <span className={styles.cardCompany} style={{ '--hue': exp.accentHue } as React.CSSProperties}>
-                    {exp.company}
-                  </span>
-                  <span className={styles.metaSep}>/</span>
-                  <span className={styles.cardDuration}>
-                    <Calendar size={11} style={{ marginRight: 4 }} />
-                    {exp.duration}
-                  </span>
-                  <span className={styles.metaSep}>/</span>
-                  <span className={styles.cardLocation}>
-                    <MapPin size={11} style={{ marginRight: 4 }} />
-                    {exp.location}
-                  </span>
-                  <span className={styles.typeChip} data-type={exp.type}>
-                    {exp.type === 'onsite' ? 'On-site' : exp.type === 'remote' ? 'Remote' : 'Hybrid'}
-                  </span>
-                </div>
+                  {/* Divider */}
+                  <div className={styles.cardDivider} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
 
+                  {/* Bullets (Shown fully on active card, compact preview on side cards) */}
+                  <div className={styles.bulletsWrapper}>
+                    <ul className={styles.bullets}>
+                      {exp.description.map((pt, i) => (
+                        <li key={i} className={styles.bullet}>
+                          <span className={styles.bulletDot} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
+                          {pt}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                {/* Divider */}
-                <div className={styles.cardDivider} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
+                  {!isActive && <div className={styles.sideCardOverlay} />}
+                </motion.div>
+              );
+            })}
+          </div>
 
-                {/* Bullets */}
-                <ul className={styles.bullets}>
-                  {exp.description.map((pt, i) => (
-                    <li key={i} className={styles.bullet}>
-                      <span className={styles.bulletDot} style={{ '--hue': exp.accentHue } as React.CSSProperties} />
-                      {pt}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+          <button
+            className={`${styles.stageArrow} ${styles.stageArrowRight}`}
+            onClick={handleNext}
+            aria-label="Next card"
+          >
+            <ChevronRight size={22} />
+          </button>
+        </div>
+
+        {/* Indicator dots */}
+        <div className={styles.deckPagination}>
+          {EXPERIENCES.map((_, idx) => (
+            <button
+              key={idx}
+              className={`${styles.dot} ${activeIndex === idx ? styles.dotActive : ''}`}
+              onClick={() => handleSelect(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
           ))}
         </div>
       </div>
     </section>
   );
 };
+
+
