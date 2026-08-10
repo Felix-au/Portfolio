@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, ExternalLink } from 'lucide-react';
 import { DecoderText } from '../ui/DecoderText';
@@ -107,7 +107,7 @@ export const ExperienceSection: React.FC = () => {
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>
           {sectionVisible && (
-            <DecoderText key={${theme}-} text="Experience" delay={300} />
+            <DecoderText key={`${theme}-${sectionVisible}`} text="Experience" delay={300} />
           )}
         </h2>
 
