@@ -3,8 +3,8 @@
   "totalStars": 1085,
   "totalForks": 287,
   "totalWatchers": 139,
-  "totalRepos": 32,
-  "totalCommits": 3182,
+  "totalRepos": 33,
+  "totalCommits": 3185,
   "totalPRs": 1,
   "totalIssues": 1,
   "totalReviews": 176,
@@ -13,12 +13,12 @@
     {
       "name": "TypeScript",
       "color": "#3178c6",
-      "percentage": 38
+      "percentage": 37
     },
     {
       "name": "JavaScript",
       "color": "#f1e05a",
-      "percentage": 34
+      "percentage": 33
     },
     {
       "name": "Python",
@@ -31,8 +31,8 @@
       "percentage": 7
     },
     {
-      "name": "Jupyter Notebook",
-      "color": "#DA5B0B",
+      "name": "HTML",
+      "color": "#e34c26",
       "percentage": 7
     }
   ],
@@ -68,7 +68,8 @@
     "frame-scrolling": 0,
     "certifications-and-badges": 0,
     "portfolio": 0,
-    "samvidyaa-public": 0
+    "samvidyaa-public": 0,
+    "devops-practice": 0
   },
-  "lastUpdated": "2026-09-02T20:41:51.404Z"
+  "lastUpdated": "2026-09-03T03:30:30.915Z"
 }
