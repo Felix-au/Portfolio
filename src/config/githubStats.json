@@ -3,22 +3,22 @@
   "totalStars": 1114,
   "totalForks": 290,
   "totalWatchers": 139,
-  "totalRepos": 36,
-  "totalCommits": 3689,
+  "totalRepos": 37,
+  "totalCommits": 3755,
   "totalPRs": 1,
   "totalIssues": 1,
   "totalReviews": 176,
   "followers": 130,
   "topLanguages": [
     {
-      "name": "JavaScript",
-      "color": "#f1e05a",
-      "percentage": 36
-    },
-    {
       "name": "TypeScript",
       "color": "#3178c6",
-      "percentage": 36
+      "percentage": 38
+    },
+    {
+      "name": "JavaScript",
+      "color": "#f1e05a",
+      "percentage": 35
     },
     {
       "name": "Python",
@@ -72,7 +72,8 @@
     "devops-practice": 0,
     "odoo-hackathon-final-round-2026": 0,
     "devops-app": 0,
-    "swastika-inn": 0
+    "swastika-inn": 0,
+    "keploy-assignment": 0
   },
-  "lastUpdated": "2026-10-03T11:16:22.891Z"
+  "lastUpdated": "2026-10-03T15:54:00.294Z"
 }
